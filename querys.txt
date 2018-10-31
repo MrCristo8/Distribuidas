@@ -1,0 +1,18 @@
+/*Compleja inventario*/
+
+select art.ARTICLE_NAME, art.ARTICLE_PRICE, art.ARTICLE_STOCK, mov.MOVEMENT_NAME, 
+mov.MOVEMENT_ID, mov.MOVEMENT_DATE, mov.MOVEMENT_AMMOUNT, mov.MOVEMENT_DIRECTION
+from CR_WB_ARTICLE art, CR_WB_MOVEMENT mov where art.ARTICLE_ID=mov.ARTICLE_ID;
+
+
+/*Reporte 1 inventario*/
+
+select art.ARTICLE_NAME, art.ARTICLE_STOCK from CR_WB_ARTICLE art;
+
+/*Reporte 2 inventario*/
+
+select art.ARTICLE_NAME, mov.MOVEMENT_NAME,
+sum(mov.MOVEMENT_AMMOUNT)
+from CR_WB_ARTICLE art, CR_WB_MOVEMENT mov where art.ARTICLE_ID=mov.ARTICLE_ID 
+GROUP BY mov.MOVEMENT_NAME, art.ARTICLE_NAME;
+
