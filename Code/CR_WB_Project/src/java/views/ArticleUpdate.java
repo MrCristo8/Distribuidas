@@ -7,27 +7,21 @@ package views;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.CR_WB_Article;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "ArtilceServlet", urlPatterns =
+@WebServlet(name = "ArticleUpdate", urlPatterns =
 {
-    "/ArtilceServlet"
+    "/ArticleUpdate"
 })
-public class ArtilceServlet extends HttpServlet
+public class ArticleUpdate extends HttpServlet
 {
 
     /**
@@ -39,12 +33,8 @@ public class ArtilceServlet extends HttpServlet
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    public ArtilceServlet()
-    {
-        System.out.println(persistance.ArticlePersistance.getInstnace().LoadArticles());
-    }
-
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
+    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException
     {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter())
@@ -53,10 +43,10 @@ public class ArtilceServlet extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ArtilceServlet</title>");
+            out.println("<title>Servlet ArticleUpdate</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ArtilceServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ArticleUpdate at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -75,18 +65,7 @@ public class ArtilceServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/articlejsp.jsp");
-        request.setAttribute("objList",
-                persistance.ArticlePersistance.getInstnace().getArticleList());
-        if (dispatcher != null)
-        {
-
-            dispatcher.forward(request, response);
-
-        }
-
+        processRequest(request, response);
     }
 
     /**
@@ -102,7 +81,6 @@ public class ArtilceServlet extends HttpServlet
             throws ServletException, IOException
     {
         processRequest(request, response);
-         
     }
 
     /**

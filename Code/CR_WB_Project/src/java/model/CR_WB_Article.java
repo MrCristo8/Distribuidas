@@ -15,13 +15,13 @@ public class CR_WB_Article
 {
 
     @RelatedColumn("ARTICLE_ID")
-    private int article_id;
+    private Integer article_id;
     @RelatedColumn("ARTICLE_NAME")
     private String article_name;
     @RelatedColumn("ARTICLE_PRICE")
-    private float article_price;
+    private Float article_price;
     @RelatedColumn("ARTICLE_STOCK")
-    private int article_stock;
+    private Integer article_stock;
     private String state;
 
     public String getState()
@@ -81,5 +81,11 @@ public class CR_WB_Article
                 + article_name + ", article_price=" + article_price + ", article_stock="
                 + article_stock + ", state=" + state + '}';
     }
+
+    public CR_WB_Article()
+    {
+        state = "loaded";
+    }
+    
 
 }
