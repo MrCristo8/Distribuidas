@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package views.article;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -23,11 +23,11 @@ import model.CR_WB_Article;
  *
  * @author wason
  */
-@WebServlet(name = "ArtilceServlet", urlPatterns =
+@WebServlet(name = "ArticleServlet", urlPatterns =
 {
-    "/ArtilceServlet"
+    "/ArticleServlet"
 })
-public class ArtilceServlet extends HttpServlet
+public class ArticleServlet extends HttpServlet
 {
 
     /**
@@ -39,7 +39,7 @@ public class ArtilceServlet extends HttpServlet
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    public ArtilceServlet()
+    public ArticleServlet()
     {
         System.out.println(persistance.ArticlePersistance.getInstnace().LoadArticles());
     }

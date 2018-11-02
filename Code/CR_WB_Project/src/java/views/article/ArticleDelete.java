@@ -3,25 +3,28 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package views.article;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.CR_WB_Article;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "ArticleUpdate", urlPatterns =
+@WebServlet(name = "ArticleDelete", urlPatterns =
 {
-    "/ArticleUpdate"
+    "/ArticleDelete"
 })
-public class ArticleUpdate extends HttpServlet
+public class ArticleDelete extends HttpServlet
 {
 
     /**
@@ -43,10 +46,10 @@ public class ArticleUpdate extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ArticleUpdate</title>");            
+            out.println("<title>Servlet ArticleDelete</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ArticleUpdate at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ArticleDelete at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -65,7 +68,14 @@ public class ArticleUpdate extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        Integer id = Integer.parseInt(request.getParameter("article_id"));
+        ServletContext sc = getServletContext();
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/articledelete.jsp");
+        request.setAttribute("article_id", id);
+        if (dispatcher != null)
+        {
+            dispatcher.forward(request, response);
+        }
     }
 
     /**
@@ -80,7 +90,10 @@ public class ArticleUpdate extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        Integer id = Integer.parseInt(request.getParameter("article_id"));
+        int pos = persistance.ArticlePersistance.getInstnace().getArticleList().indexOf(new CR_WB_Article(id));
+        persistance.ArticlePersistance.getInstnace().getArticleList().get(pos).setState("DELETED");
+        response.sendRedirect("/CR_WB_Project/ArticleServlet");
     }
 
     /**

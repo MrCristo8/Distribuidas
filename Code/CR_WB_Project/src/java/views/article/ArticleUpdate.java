@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views;
+package views.article;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author wason
  */
-@WebServlet(name = "ArticleDelete", urlPatterns =
+@WebServlet(name = "ArticleUpdate", urlPatterns =
 {
-    "/ArticleDelete"
+    "/ArticleUpdate"
 })
-public class ArticleDelete extends HttpServlet
+public class ArticleUpdate extends HttpServlet
 {
 
     /**
@@ -43,10 +43,10 @@ public class ArticleDelete extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ArticleDelete</title>");            
+            out.println("<title>Servlet ArticleUpdate</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ArticleDelete at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ArticleUpdate at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }

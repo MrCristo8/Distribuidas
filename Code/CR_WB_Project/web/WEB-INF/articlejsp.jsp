@@ -6,8 +6,6 @@
 
 <%@page import="java.util.ArrayList"%>
 <%@page import="model.CR_WB_Article"%>
-<%@page import="java.util.List"%>
-<%@page import="java.util.Iterator"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -58,20 +56,27 @@
                             </thead>   
 
                             <c:forEach items="${objList}" var="x">
+                                <c:if test="${x.state!='DELETED'}">
                                 <tr>      
                                     <td>  ${x.article_id}  </td>
                                     <td>  ${x.article_name}  </td>
                                     <td>  ${x.article_price} </td>
                                     <td>  ${x.article_stock}</td>
-                                    <td> 
-                                        <a href='/CR_WB_Project/ArticleView?article_id=${x.article_id}' title='View Record' data-toggle='tooltip'><span class='glyphicon glyphicon-eye-open'></span></a>;
-                                        <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>;
-                                        <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
+                                    <td>                                        
+                                        <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
+                                           data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>;
+                                        <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
+                                           data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
                                     </td>
                                 </tr>
-                                </tr>
+                                </c:if>
                             </c:forEach>                            
                         </table>
+                        <form>
+                            <table>
+                                <td id='article_name'></td>
+                            </table>
+                        </form>
                     </div>
                 </div>        
             </div>

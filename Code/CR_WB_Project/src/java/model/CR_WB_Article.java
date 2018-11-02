@@ -5,6 +5,7 @@
  */
 package model;
 
+import java.util.Objects;
 import persistance_unit.RelatedColumn;
 
 /**
@@ -84,8 +85,46 @@ public class CR_WB_Article
 
     public CR_WB_Article()
     {
-        state = "loaded";
+        state = "PERSISTED";
     }
+
+    @Override
+    public int hashCode()
+    {
+        int hash = 5;
+        hash = 41 * hash + Objects.hashCode(this.article_id);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final CR_WB_Article other = (CR_WB_Article) obj;
+        if (!Objects.equals(this.article_id, other.article_id))
+        {
+            return false;
+        }
+        return true;
+    }
+
+    public CR_WB_Article(Integer article_id)
+    {
+        this.article_id = article_id;
+    }
+    
+    
     
 
 }
