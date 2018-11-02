@@ -7,9 +7,6 @@ package views.article;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,7 +14,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.CR_WB_Article;
 
 /**
  *
@@ -77,7 +73,7 @@ public class ArticleServlet extends HttpServlet
     {
 
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/articlejsp.jsp");
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/article/articlejsp.jsp");
         request.setAttribute("objList",
                 persistance.ArticlePersistance.getInstnace().getArticleList());
         if (dispatcher != null)

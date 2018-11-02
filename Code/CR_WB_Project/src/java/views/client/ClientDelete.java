@@ -3,28 +3,25 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.article;
+package views.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.CR_WB_Article;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "ArticleUpdate", urlPatterns =
+@WebServlet(name = "ClientDelete", urlPatterns =
 {
-    "/ArticleUpdate"
+    "/ClientDelete"
 })
-public class ArticleUpdate extends HttpServlet
+public class ClientDelete extends HttpServlet
 {
 
     /**
@@ -46,10 +43,10 @@ public class ArticleUpdate extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ArticleUpdate</title>");
+            out.println("<title>Servlet ClientDelete</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ArticleUpdate at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet ClientDelete at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -68,15 +65,7 @@ public class ArticleUpdate extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        Integer id = Integer.parseInt(request.getParameter("article_id"));
-        int pos = persistance.ArticlePersistance.getInstnace().getArticleList().indexOf(new CR_WB_Article(id));
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/article/articleupdate.jsp");
-        request.setAttribute("article", persistance.ArticlePersistance.getInstnace().getArticleList().get(pos));
-        if (dispatcher != null)
-        {
-            dispatcher.forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -91,22 +80,7 @@ public class ArticleUpdate extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        /*this should go into the logic package*/
-        /*need to alter movement table, to register changes in stock*/
-        Integer id = Integer.parseInt(request.getParameter("id"));
-        CR_WB_Article updated_record = new CR_WB_Article(
-                id,
-                request.getParameter("name"),
-                Float.parseFloat(request.getParameter("price")),
-                Integer.parseInt(request.getParameter("stock")),
-                "UPDATED");
-        int pos = persistance.ArticlePersistance.getInstnace().
-                getArticleList().indexOf(new CR_WB_Article(id));
-        persistance.ArticlePersistance.getInstnace().
-                getArticleList().remove(pos);
-        persistance.ArticlePersistance.getInstnace().
-                getArticleList().add(pos,updated_record);        
-        response.sendRedirect("/CR_WB_Project/ArticleServlet");
+        processRequest(request, response);
     }
 
     /**

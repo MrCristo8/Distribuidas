@@ -12,7 +12,7 @@ import persistance_unit.RelatedColumn;
  *
  * @author wason
  */
-public class CR_WB_Article
+public class CR_WB_Article extends CR_WB_Model
 {
 
     @RelatedColumn("ARTICLE_ID")
@@ -22,18 +22,7 @@ public class CR_WB_Article
     @RelatedColumn("ARTICLE_PRICE")
     private Float article_price;
     @RelatedColumn("ARTICLE_STOCK")
-    private Integer article_stock;
-    private String state;
-
-    public String getState()
-    {
-        return state;
-    }
-
-    public void setState(String state)
-    {
-        this.state = state;
-    }
+    private Integer article_stock;   
 
     public int getArticle_id()
     {
@@ -112,16 +101,21 @@ public class CR_WB_Article
             return false;
         }
         final CR_WB_Article other = (CR_WB_Article) obj;
-        if (!Objects.equals(this.article_id, other.article_id))
-        {
-            return false;
-        }
-        return true;
+        return Objects.equals(this.article_id, other.article_id);
     }
 
     public CR_WB_Article(Integer article_id)
     {
         this.article_id = article_id;
+    }
+
+    public CR_WB_Article(Integer article_id, String article_name, Float article_price, Integer article_stock, String state)
+    {
+        this.article_id = article_id;
+        this.article_name = article_name;
+        this.article_price = article_price;
+        this.article_stock = article_stock;
+        this.state = state;
     }
     
     

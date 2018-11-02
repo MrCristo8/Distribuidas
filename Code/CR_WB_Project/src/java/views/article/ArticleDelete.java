@@ -70,7 +70,7 @@ public class ArticleDelete extends HttpServlet
     {
         Integer id = Integer.parseInt(request.getParameter("article_id"));
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/articledelete.jsp");
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/article/articledelete.jsp");
         request.setAttribute("article_id", id);
         if (dispatcher != null)
         {
