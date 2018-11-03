@@ -7,11 +7,14 @@ package views.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.CR_WB_Client;
 
 /**
  *
@@ -43,7 +46,7 @@ public class ClientDelete extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ClientDelete</title>");            
+            out.println("<title>Servlet ClientDelete</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ClientDelete at " + request.getContextPath() + "</h1>");
@@ -65,7 +68,14 @@ public class ClientDelete extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        Integer id = Integer.parseInt(request.getParameter("client_id"));
+        ServletContext sc = getServletContext();
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/client/clientdelete.jsp");
+        request.setAttribute("client_id", id);
+        if (dispatcher != null)
+        {
+            dispatcher.forward(request, response);
+        }
     }
 
     /**
@@ -80,7 +90,10 @@ public class ClientDelete extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        Integer id = Integer.parseInt(request.getParameter("client_id"));
+        int pos = persistance.ClientPersistance.getInstnace().getClientList().indexOf(new CR_WB_Client(id));
+        persistance.ClientPersistance.getInstnace().getClientList().get(pos).setState("DELETED");
+        response.sendRedirect("/CR_WB_Project/ClientServlet");
     }
 
     /**

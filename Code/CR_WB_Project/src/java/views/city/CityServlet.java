@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.client;
+package views.city;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,24 +14,23 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import persistance.ClientPersistance;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "ClientServlet", urlPatterns =
+@WebServlet(name = "CityServlet", urlPatterns =
 {
-    "/ClientServlet"
+    "/CityServlet"
 })
-public class ClientServlet extends HttpServlet
+public class CityServlet extends HttpServlet
 {
 
-    public ClientServlet()
+    public CityServlet()
     {
-        System.out.println(ClientPersistance.getInstnace().LoadClients());
-    }    
-        
+        persistance.CityPersistance.getInstnace().LoadCities();
+    }   
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,10 +50,10 @@ public class ClientServlet extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ClientServlet</title>");            
+            out.println("<title>Servlet CityServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ClientServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CityServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,10 +72,10 @@ public class ClientServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        ServletContext sc=getServletContext();
-        RequestDispatcher dispatcher=sc.getRequestDispatcher("/WEB-INF/client/clientjsp.jsp");
+        ServletContext sc = getServletContext();
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/city/cityjsp.jsp");
         request.setAttribute("objList",
-                persistance.ClientPersistance.getInstnace().getClientList());
+                persistance.CityPersistance.getInstnace().getCityList());
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);

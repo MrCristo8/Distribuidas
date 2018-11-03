@@ -35,7 +35,7 @@ public class ClientPersistance {
         return clientList;
     }
 
-    public String LoadArticles() {
+    public String LoadClients() {
         String msg = "";
         try {
             Custom_PU.GetObjList(new CR_WB_Client(), TABLE_NAME).forEach(x

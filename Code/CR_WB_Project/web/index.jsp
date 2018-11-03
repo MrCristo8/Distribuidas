@@ -1,3 +1,10 @@
+<%-- 
+    Document   : index
+    Created on : 3/11/2018, 09:53:19 AM
+    Author     : wason
+--%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <!--
 To change this license header, choose License Headers in Project Properties.
@@ -18,7 +25,7 @@ and open the template in the editor.
                         <strong> Sign in to continue</strong>
                     </div>
                     <div class="panel-body">
-                        <form role="form" action="#" method="POST">
+                        <form role="form" action="/CR_WB_Project/UserServlet" method="POST">
                             <fieldset>
                                 <div class="row">
                                     <div class="center-block">
@@ -33,7 +40,7 @@ and open the template in the editor.
                                                 <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-user"></i>
                                                 </span> 
-                                                <input class="form-control" placeholder="Username" name="loginname" type="text" autofocus>
+                                                <input class="form-control" placeholder="Username" name="usrname" type="text" autofocus>
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -41,7 +48,7 @@ and open the template in the editor.
                                                 <span class="input-group-addon">
                                                     <i class="glyphicon glyphicon-lock"></i>
                                                 </span>
-                                                <input class="form-control" placeholder="Password" name="password" type="password" value="">
+                                                <input class="form-control" placeholder="Password" name="pswd" type="password" value="">
                                             </div>
                                         </div>
                                         <div class="form-group">
@@ -51,10 +58,7 @@ and open the template in the editor.
                                 </div>
                             </fieldset>
                         </form>
-                    </div>
-                    <div class="panel-footer ">
-                        Don't have an account! <a href="#" onClick=""> Sign Up Here </a>
-                    </div>
+                    </div>                    
                 </div>
             </div>
         </div>

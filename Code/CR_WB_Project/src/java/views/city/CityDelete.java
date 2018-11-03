@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.client;
+package views.city;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -14,24 +14,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import persistance.ClientPersistance;
+import model.CR_WB_City;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "ClientServlet", urlPatterns =
+@WebServlet(name = "CityDelete", urlPatterns =
 {
-    "/ClientServlet"
+    "/CityDelete"
 })
-public class ClientServlet extends HttpServlet
+public class CityDelete extends HttpServlet
 {
 
-    public ClientServlet()
-    {
-        System.out.println(ClientPersistance.getInstnace().LoadClients());
-    }    
-        
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,10 +46,10 @@ public class ClientServlet extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ClientServlet</title>");            
+            out.println("<title>Servlet CityDelete</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ClientServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CityDelete at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -73,10 +68,10 @@ public class ClientServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        ServletContext sc=getServletContext();
-        RequestDispatcher dispatcher=sc.getRequestDispatcher("/WEB-INF/client/clientjsp.jsp");
-        request.setAttribute("objList",
-                persistance.ClientPersistance.getInstnace().getClientList());
+        Integer id = Integer.parseInt(request.getParameter("city_id"));
+        ServletContext sc = getServletContext();
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/city/citydelete.jsp");
+        request.setAttribute("city_id", id);
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);
@@ -95,7 +90,10 @@ public class ClientServlet extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        Integer id = Integer.parseInt(request.getParameter("city_id"));
+        int pos = persistance.CityPersistance.getInstnace().getCityList().indexOf(new CR_WB_City(id));
+        persistance.CityPersistance.getInstnace().getCityList().get(pos).setState("DELETED");
+        response.sendRedirect("/CR_WB_Project/CityServlet");
     }
 
     /**

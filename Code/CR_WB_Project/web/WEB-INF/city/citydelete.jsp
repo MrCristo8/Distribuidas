@@ -1,6 +1,6 @@
 <%-- 
-    Document   : clientdelete
-    Created on : 2/11/2018, 01:31:35 PM
+    Document   : citydelete
+    Created on : 3/11/2018, 12:26:50 PM
     Author     : wason
 --%>
 
@@ -24,15 +24,15 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="page-header">
-                        <h1>Delete Client</h1>
+                        <h1>Delete City</h1>
                     </div>
-                    <form action="/CR_WB_Project/ClientDelete" method="post">
+                    <form action="/CR_WB_Project/CityDelete" method="post">
                         <div class="alert alert-danger fade in">                            
-                            <input type="hidden" name="client_id" value="${client_id}"/>
-                            <p>Are you shure you want to delete this article?</p><br>
+                            <input type="hidden" name="city_id" value="${city_id}"/>
+                            <p>Are you shure you want to delete this city?</p><br>
                             <p>
                                 <input type="submit" value="Yes" class="btn btn-danger">
-                                <a href="/CR_WB_Project/ArticleServlet" class="btn btn-default">No</a>
+                                <a href="/CR_WB_Project/CityServlet" class="btn btn-default">No</a>
                             </p>
                         </div>
                     </form>

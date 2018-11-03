@@ -26,6 +26,8 @@
                     <div class=col-md-12>
                         <div class=page-header clearfix>
                             <h2 class=pull-left>Client Details</h2>
+                            <a href="" class="btn btn-success pull-right">
+                                Save Changes</a>
                         </div>
                         <form action="/CR_WB_Project/ClientInsert" method="post">
                             <table class='table table-bordered table-striped'>
@@ -47,9 +49,9 @@
                                             <td>  ${x.client_name} </td>
                                             <td>  ${x.client_address}</td>
                                             <td>                                        
-                                                <a href='/CR_WB_Project/ClientUpdate?article_id=${x.client_id}' title='Update Record' 
+                                                <a href='/CR_WB_Project/ClientUpdate?client_id=${x.client_id}' title='Update Record' 
                                                    data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
-                                                <a href='/CR_WB_Project/ClientDelete?article_id=${x.client_id}' title='Delete Record' 
+                                                <a href='/CR_WB_Project/ClientDelete?client_id=${x.client_id}' title='Delete Record' 
                                                    data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
                                             </td>
                                         </tr>

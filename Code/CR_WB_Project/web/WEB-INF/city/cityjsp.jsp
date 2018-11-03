@@ -1,11 +1,9 @@
 <%-- 
-    Document   : articlejsp
-    Created on : 1/11/2018, 03:43:07 PM
+    Document   : cityjsp
+    Created on : 3/11/2018, 12:26:32 PM
     Author     : wason
 --%>
 
-<%@page import="java.util.ArrayList"%>
-<%@page import="model.CR_WB_Article"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -40,32 +38,27 @@
                 <div class=row>
                     <div class=col-md-12>
                         <div class=page-header clearfix>
-                            <h2 class=pull-left>Article Details</h2>
+                            <h2 class=pull-left>City Details</h2>
                             <a href="" class="btn btn-success pull-right">
                                 Save Changes</a>
                         </div>
                         <table class='table table-bordered table-striped'>
                             <thead>
                                 <tr>
-                                    <th>Article ID</th>
-                                    <th>Article Name</th>
-                                    <th>Article Price</th>
-                                    <th>Article Stock</th>
+                                    <th>City ID</th>
+                                    <th>City Name</th>                                    
                                     <th>Actions</th>
                                 </tr>
-                            </thead>   
-
+                            </thead>
                             <c:forEach items="${objList}" var="x">
                                 <c:if test="${x.state!='DELETED'}">
                                 <tr>      
-                                    <td>  ${x.article_id}  </td>
-                                    <td>  ${x.article_name}  </td>
-                                    <td>  ${x.article_price} </td>
-                                    <td>  ${x.article_stock}</td>
+                                    <td>  ${x.city_id}  </td>
+                                    <td>  ${x.city_name}  </td>                                    
                                     <td>                                        
-                                        <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
+                                        <a href='/CR_WB_Project/CityUpdate?city_id=${x.city_id}' title='Update Record' 
                                            data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
-                                        <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
+                                        <a href='/CR_WB_Project/CityDelete?city_id=${x.city_id}' title='Delete Record' 
                                            data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
                                     </td>
                                 </tr>
@@ -74,7 +67,7 @@
                         </table>
                         <form>
                             <table>
-                                <td id='article_name'></td>
+                                <td id='city_name'></td>
                             </table>
                         </form>
                     </div>

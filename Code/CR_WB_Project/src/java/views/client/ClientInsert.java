@@ -86,7 +86,7 @@ public class ClientInsert extends HttpServlet {
                 request.getParameter("dni"),
                 request.getParameter("name"),
                 request.getParameter("address"),
-                "PERSISTED");
+                "CREATED");
         persistance.ClientPersistance.getInstnace().getClientList().add(inserted_record);        
         response.sendRedirect("/CR_WB_Project/ClientServlet");
     }
