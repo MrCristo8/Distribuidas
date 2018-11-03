@@ -64,7 +64,7 @@
                                     <td>  ${x.article_stock}</td>
                                     <td>                                        
                                         <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
-                                           data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>;
+                                           data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
                                         <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
                                            data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
                                     </td>

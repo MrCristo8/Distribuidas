@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import persistance.ClientPersistance;
 
 /**
  *
@@ -25,7 +26,12 @@ import javax.servlet.http.HttpServletResponse;
 })
 public class ClientServlet extends HttpServlet
 {
-    
+
+    public ClientServlet()
+    {
+        System.out.println(ClientPersistance.getInstnace().LoadArticles());
+    }    
+        
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.

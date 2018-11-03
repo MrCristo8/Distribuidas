@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="java.util.ArrayList"%>
-<%@page import="model.CR_WB_Article"%>
+<%@page import="model.CR_WB_Client"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
@@ -48,7 +48,7 @@
                                             <td>  ${x.client_address}</td>
                                             <td>                                        
                                                 <a href='/CR_WB_Project/ClientUpdate?article_id=${x.client_id}' title='Update Record' 
-                                                   data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>;
+                                                   data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
                                                 <a href='/CR_WB_Project/ClientDelete?article_id=${x.client_id}' title='Delete Record' 
                                                    data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
                                             </td>
