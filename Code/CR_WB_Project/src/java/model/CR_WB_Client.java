@@ -101,7 +101,11 @@ public class CR_WB_Client extends CR_WB_Model
         final CR_WB_Client other = (CR_WB_Client) obj;
         return Objects.equals(this.client_id, other.client_id);
     }
-    
-    
 
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 11 * hash + Objects.hashCode(this.client_id);
+        return hash;
+    }
 }

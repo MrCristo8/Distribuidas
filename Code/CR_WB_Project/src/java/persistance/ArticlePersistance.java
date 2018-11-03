@@ -17,7 +17,7 @@ import persistance_unit.Custom_PU;
 public class ArticlePersistance
 {
 
-    private ArrayList<model.CR_WB_Article> articleList;
+    private ArrayList<CR_WB_Article> articleList;
     private static ArticlePersistance uniqueInstance;
     private static final String TABLE_NAME = "CR_WB_ARTICLE";
 

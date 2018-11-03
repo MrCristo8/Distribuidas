@@ -7,6 +7,8 @@ package views.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,7 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 })
 public class ClientServlet extends HttpServlet
 {
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -65,7 +67,14 @@ public class ClientServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        ServletContext sc=getServletContext();
+        RequestDispatcher dispatcher=sc.getRequestDispatcher("/WEB-INF/client/clientjsp.jsp");
+        request.setAttribute("objList",
+                persistance.ClientPersistance.getInstnace().getClientList());
+        if (dispatcher != null)
+        {
+            dispatcher.forward(request, response);
+        }
     }
 
     /**

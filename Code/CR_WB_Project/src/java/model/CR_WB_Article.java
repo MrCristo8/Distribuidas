@@ -117,8 +117,4 @@ public class CR_WB_Article extends CR_WB_Model
         this.article_stock = article_stock;
         this.state = state;
     }
-    
-    
-    
-
 }

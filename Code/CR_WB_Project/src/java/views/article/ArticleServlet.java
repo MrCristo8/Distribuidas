@@ -30,10 +30,6 @@ public class ArticleServlet extends HttpServlet
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
      */
     public ArticleServlet()
     {
@@ -71,16 +67,13 @@ public class ArticleServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/article/articlejsp.jsp");
         request.setAttribute("objList",
                 persistance.ArticlePersistance.getInstnace().getArticleList());
         if (dispatcher != null)
         {
-
             dispatcher.forward(request, response);
-
         }
 
     }
