@@ -3,11 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.user;
+package views.movement;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Objects;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,18 +14,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.CR_WB_User;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "UserCreation", urlPatterns =
+@WebServlet(name = "MovementServlet", urlPatterns =
 {
-    "/UserCreation"
+    "/MovementServlet"
 })
-public class UserCreation extends HttpServlet
+public class MovementServlet extends HttpServlet
 {
+    
+    public MovementServlet()
+    {
+        System.out.println(persistance.MovementPersistance.getInstnace().LoadMovements());
+    }        
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -47,10 +50,10 @@ public class UserCreation extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserCreation</title>");
+            out.println("<title>Servlet MovementServlet</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserCreation at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MovementServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,7 +73,9 @@ public class UserCreation extends HttpServlet
             throws ServletException, IOException
     {
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/user/createuser.jsp");
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/movement/movementjsp.jsp");
+        request.setAttribute("objList",
+                persistance.MovementPersistance.getInstnace().getMovementList());
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);
@@ -89,22 +94,7 @@ public class UserCreation extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        Integer id = 1;
-        for (CR_WB_User user : persistance.UserPersistance.getInstnace().GetUserList())
-        {
-            if (!Objects.equals(user.getUser_id(), id))
-            {
-                break;
-            }
-            id++;
-        }
-        CR_WB_User inserted_record = new CR_WB_User(
-                id,
-                request.getParameter("name"),
-                request.getParameter("pswd"),
-                "CREATED");
-        persistance.UserPersistance.getInstnace().GetUserList().add(inserted_record);
-        response.sendRedirect("/CR_WB_Project/UserServlet");
+        processRequest(request, response);
     }
 
     /**
