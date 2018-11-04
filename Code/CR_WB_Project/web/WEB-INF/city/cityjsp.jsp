@@ -52,18 +52,23 @@
                             </thead>
                             <c:forEach items="${objList}" var="x">
                                 <c:if test="${x.state!='DELETED'}">
-                                <tr>      
-                                    <td>  ${x.city_id}  </td>
-                                    <td>  ${x.city_name}  </td>                                    
-                                    <td>                                        
-                                        <a href='/CR_WB_Project/CityUpdate?city_id=${x.city_id}' title='Update Record' 
-                                           data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
-                                        <a href='/CR_WB_Project/CityDelete?city_id=${x.city_id}' title='Delete Record' 
-                                           data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
-                                    </td>
-                                </tr>
+                                    <tr>      
+                                        <td>  ${x.city_id}  </td>
+                                        <td>  ${x.city_name}  </td>                                    
+                                        <td>                                        
+                                            <a href='/CR_WB_Project/CityUpdate?city_id=${x.city_id}' title='Update Record' 
+                                               data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
+                                            <a href='/CR_WB_Project/CityDelete?city_id=${x.city_id}' title='Delete Record' 
+                                               data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
+                                        </td>
+                                    </tr>
                                 </c:if>
-                            </c:forEach>                            
+                            </c:forEach>    
+                            <tr>
+                                <td></td>
+                                <td><input type="text" name="name"></td>
+                                <td><input type="submit" class="btn btn-primary" value="Add"></td>
+                            </tr>
                         </table>
                         <form>
                             <table>

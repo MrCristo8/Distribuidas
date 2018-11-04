@@ -57,20 +57,27 @@
 
                             <c:forEach items="${objList}" var="x">
                                 <c:if test="${x.state!='DELETED'}">
-                                <tr>      
-                                    <td>  ${x.article_id}  </td>
-                                    <td>  ${x.article_name}  </td>
-                                    <td>  ${x.article_price} </td>
-                                    <td>  ${x.article_stock}</td>
-                                    <td>                                        
-                                        <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
-                                           data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
-                                        <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
-                                           data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
-                                    </td>
-                                </tr>
+                                    <tr>      
+                                        <td>  ${x.article_id}  </td>
+                                        <td>  ${x.article_name}  </td>
+                                        <td>  ${x.article_price} </td>
+                                        <td>  ${x.article_stock}</td>
+                                        <td>                                        
+                                            <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
+                                               data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
+                                            <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
+                                               data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
+                                        </td>
+                                    </tr>
                                 </c:if>
-                            </c:forEach>                            
+                            </c:forEach>   
+                            <tr>
+                                <td></td>
+                                <td><input type="text" name="name"></td>
+                                <td><input type="text" name="price"></td>
+                                <td><input type="text" name="stock"></td>
+                                <td><input type="submit" class="btn btn-primary" value="Add"></td>
+                            </tr>
                         </table>
                         <form>
                             <table>
