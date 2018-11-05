@@ -39,7 +39,7 @@
                                         <th>Client Adress</th>
                                         <th>Actions</th>
                                     </tr>
-                                </thead>   
+                                </thead>  
 
                                 <c:forEach items="${objList}" var="x">
                                     <c:if test="${x.state!='DELETED'}">
@@ -64,14 +64,8 @@
                                     <td><input type="text" name="address"></td>
                                     <td><input type="submit" class="btn btn-primary" value="Add"></td>
                                 </tr>
-
                             </table>
-                        </form>
-                        <form>
-                            <table>
-                                <td id='article_name'></td>
-                            </table>
-                        </form>
+                        </form>                        
                     </div>
                 </div>        
             </div>

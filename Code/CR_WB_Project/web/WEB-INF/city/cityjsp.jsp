@@ -42,6 +42,7 @@
                             <a href="" class="btn btn-success pull-right">
                                 Save Changes</a>
                         </div>
+                        <form action="/CR_WB_Project/CityInsert" method="post">
                         <table class='table table-bordered table-striped'>
                             <thead>
                                 <tr>
@@ -69,11 +70,7 @@
                                 <td><input type="text" name="name"></td>
                                 <td><input type="submit" class="btn btn-primary" value="Add"></td>
                             </tr>
-                        </table>
-                        <form>
-                            <table>
-                                <td id='city_name'></td>
-                            </table>
+                        </table>                        
                         </form>
                     </div>
                 </div>        

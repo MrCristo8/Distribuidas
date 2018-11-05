@@ -44,45 +44,43 @@
                             <a href="" class="btn btn-success pull-right">
                                 Save Changes</a>
                         </div>
-                        <table class='table table-bordered table-striped'>
-                            <thead>
-                                <tr>
-                                    <th>Article ID</th>
-                                    <th>Article Name</th>
-                                    <th>Article Price</th>
-                                    <th>Article Stock</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>   
-
-                            <c:forEach items="${objList}" var="x">
-                                <c:if test="${x.state!='DELETED'}">
-                                    <tr>      
-                                        <td>  ${x.article_id}  </td>
-                                        <td>  ${x.article_name}  </td>
-                                        <td>  ${x.article_price} </td>
-                                        <td>  ${x.article_stock}</td>
-                                        <td>                                        
-                                            <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
-                                               data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
-                                            <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
-                                               data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
-                                        </td>
+                        <form action="/CR_WB_Project/ArticleInsert" method="post">
+                            <table class='table table-bordered table-striped'>
+                                <thead>
+                                    <tr>
+                                        <th>Article ID</th>
+                                        <th>Article Name</th>
+                                        <th>Article Price</th>
+                                        <th>Article Stock</th>
+                                        <th>Actions</th>
                                     </tr>
-                                </c:if>
-                            </c:forEach>   
-                            <tr>
-                                <td></td>
-                                <td><input type="text" name="name"></td>
-                                <td><input type="text" name="price"></td>
-                                <td><input type="text" name="stock"></td>
-                                <td><input type="submit" class="btn btn-primary" value="Add"></td>
-                            </tr>
-                        </table>
-                        <form>
-                            <table>
-                                <td id='article_name'></td>
-                            </table>
+                                </thead>   
+
+                                <c:forEach items="${objList}" var="x">
+                                    <c:if test="${x.state!='DELETED'}">
+                                        <tr>      
+                                            <td>  ${x.article_id}  </td>
+                                            <td>  ${x.article_name}  </td>
+                                            <td>  ${x.article_price} </td>
+                                            <td>  ${x.article_stock}</td>
+                                            <td>                                        
+                                                <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
+                                                   data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
+                                                <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
+                                                   data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>   
+                                <tr>
+                                    <td></td>
+                                    <td><input type="text" name="name"></td>
+                                    <td><input type="text" name="price"></td>
+                                    <td><input type="text" name="stock"></td>
+                                    <td><input type="submit" class="btn btn-primary" value="Add"></td>
+                                </tr>
+                            </table>                      
+
                         </form>
                     </div>
                 </div>        
