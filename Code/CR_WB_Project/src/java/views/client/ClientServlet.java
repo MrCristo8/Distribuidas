@@ -29,7 +29,7 @@ public class ClientServlet extends HttpServlet
 
     public ClientServlet()
     {
-        System.out.println(ClientPersistance.getInstnace().getObjectList());
+        System.out.println(ClientPersistance.getInstnace().LoadObjects());
     }    
         
     /**

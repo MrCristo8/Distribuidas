@@ -59,6 +59,33 @@ public class MovementPersistance implements Persistance<CR_WB_Movement>
     @Override
     public String UpdateOnDatabase()
     {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+       try
+        {
+            movementList.forEach((CR_WB_Movement x) ->
+            {
+                try
+                {
+                    if (x.getState().equals("UPDATED"))
+                    {
+                        Custom_PU.UpdateObject(x, TABLE_NAME);
+
+                    } else if (x.getState().equals("DELETED"))
+                    {
+                        Custom_PU.DeleteObject(x, TABLE_NAME);
+                    }
+                    else if (x.getState().equals("CREATED"))
+                    {
+                        
+                    }
+                } catch (SQLException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            });
+
+        } catch (Exception e)
+        {
+        }
+        return "Success";
     }
 }

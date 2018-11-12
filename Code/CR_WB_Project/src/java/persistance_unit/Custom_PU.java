@@ -72,7 +72,6 @@ public class Custom_PU
                         int id = rset.getInt(col_name);
                         prepared_stmt.setInt(1, id);
                         ResultSet result = prepared_stmt.executeQuery();
-                        stmt.close();
                         Object inner_x = field.getType().newInstance();
                         while (result.next())
                         {
@@ -205,8 +204,7 @@ public class Custom_PU
                 PreparedStatement stmt = conn.prepareStatement(query_string);)
         {
             stmt.setInt(1, id_value);
-            stmt.executeUpdate();
-            stmt.close();
+            stmt.executeUpdate();           
         }catch (Exception e)
         {
             System.out.println(e.getMessage() + " " + e.getCause());

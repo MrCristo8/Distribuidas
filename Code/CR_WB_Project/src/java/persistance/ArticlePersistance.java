@@ -65,7 +65,6 @@ public class ArticlePersistance implements Persistance<CR_WB_Article>
             {
                 try
                 {
-
                     if (x.getState().equals("UPDATED"))
                     {
                         Custom_PU.UpdateObject(x, TABLE_NAME);
@@ -74,8 +73,11 @@ public class ArticlePersistance implements Persistance<CR_WB_Article>
                     {
                         Custom_PU.DeleteObject(x, TABLE_NAME);
                     }
-                }
-                catch(SQLException ex)
+                    else if (x.getState().equals("CREATED"))
+                    {
+                        
+                    }
+                } catch (SQLException ex)
                 {
                     System.out.println(ex.getMessage());
                 }

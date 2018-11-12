@@ -17,8 +17,8 @@ import persistance_unit.TableID;
  */
 public class CR_WB_Movement extends CR_WB_Model
 {
-    @RelatedColumn("MOVEMENT_ID")
     @TableID("MOVEMENT_ID")
+    @RelatedColumn("MOVEMENT_ID")    
     private Integer movement_id;
     @RelatedColumn("ARTICLE_ID")
     private Integer article_id;
