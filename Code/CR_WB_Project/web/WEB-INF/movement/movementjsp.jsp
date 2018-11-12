@@ -31,50 +31,62 @@
                 $('[data-toggle=tooltip]').tooltip();
             });
         </script>
-    </head>
-    <body>
-        <div class=wrapper>
-            <div class=container-fluid>
-                <div class=row>
-                    <div class=col-md-12>
-                        <div class=page-header clearfix>
-                            <h2 class=pull-left>Movement Details</h2>
-                            <a href="" class="btn btn-success pull-right">
-                                Save Changes</a>
-                        </div>
-                        <table class='table table-bordered table-striped'>
-                            <thead>
-                                <tr>
-                                    <th>Movement ID</th>
-                                    <th>Article Name</th>
-                                    <th>Movement Name</th>
-                                    <th>Movement Date</th>
-                                    <th>Movement Ammount</th>
-                                    <th>Movement Direction</th>
-                                </tr>
-                            </thead>   
-
-                            <c:forEach items="${objList}" var="x">
-                                <c:if test="${x.state!='DELETED'}">
-                                    <tr>      
-                                        <td>  ${x.movement_id}  </td>
-                                        <td>  ${x.article.article_name}  </td>
-                                        <td>  ${x.movement_name} </td>
-                                        <td>  ${x.movement_date}</td>
-                                        <td>  ${x.movement_ammount}</td> 
-                                        <td>  ${x.movement_direction}</td>                                         
-                                    </tr>
-                                </c:if>
-                            </c:forEach>                            
-                        </table>
-                        <form>
-                            <table>
-                                <td id='movement_name'></td>
-                            </table>
-                        </form>
+    <div class="container-fluid">
+        <ul class="nav navbar-nav">
+            <li><a href="#">Facturación</a></li>
+            <li><a href="/CR_WB_Project/ClientServlet">Clientes</a></li>
+            <li><a href="/CR_WB_Project/ArticleServlet">Artículos</a></li>
+            <li><a href="/CR_WB_Project/CityServlet">Ciudades</a></li>
+            <li class="active"><a href="/CR_WB_Project/MovementServlet">Movimientos</a></li>
+        </ul>
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="/CR_WB_Project/UserServlet"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+    </div>
+</head>
+<body>
+    <div class=wrapper>
+        <div class=container-fluid>
+            <div class=row>
+                <div class=col-md-12>
+                    <div class=page-header clearfix>
+                        <h2 class=pull-left>Movement Details</h2>
+                        <a href="" class="btn btn-success pull-right">
+                            Save Changes</a>
                     </div>
-                </div>        
-            </div>
+                    <table class='table table-bordered table-striped'>
+                        <thead>
+                            <tr>
+                                <th>Movement ID</th>
+                                <th>Article Name</th>
+                                <th>Movement Name</th>
+                                <th>Movement Date</th>
+                                <th>Movement Ammount</th>
+                                <th>Movement Direction</th>
+                            </tr>
+                        </thead>   
+
+                        <c:forEach items="${objList}" var="x">
+                            <c:if test="${x.state!='DELETED'}">
+                                <tr>      
+                                    <td>  ${x.movement_id}  </td>
+                                    <td>  ${x.article.article_name}  </td>
+                                    <td>  ${x.movement_name} </td>
+                                    <td>  ${x.movement_date}</td>
+                                    <td>  ${x.movement_ammount}</td> 
+                                    <td>  ${x.movement_direction}</td>                                         
+                                </tr>
+                            </c:if>
+                        </c:forEach>                            
+                    </table>
+                    <form>
+                        <table>
+                            <td id='movement_name'></td>
+                        </table>
+                    </form>
+                </div>
+            </div>        
         </div>
-    </body>
+    </div>
+</body>
 </html>

@@ -94,4 +94,12 @@ public class CR_WB_User extends CR_WB_Model
         return Objects.equals(this.user_pwd, other.user_pwd);
     }
 
+    @Override
+    public int hashCode() {
+        int hash = 3;
+        hash = 83 * hash + Objects.hashCode(this.user_name);
+        hash = 83 * hash + Objects.hashCode(this.user_pwd);
+        return hash;
+    }
+
 }

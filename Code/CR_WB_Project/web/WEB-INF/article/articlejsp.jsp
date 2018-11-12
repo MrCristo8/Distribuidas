@@ -35,6 +35,20 @@
         </script>
     </head>
     <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container-fluid">
+                <ul class="nav navbar-nav">
+                    <li><a href="#">Facturación</a></li>
+                    <li><a href="/CR_WB_Project/ClientServlet">Clientes</a></li>
+                    <li class="active"><a href="/CR_WB_Project/ArticleServlet">Artículos</a></li>
+                    <li><a href="/CR_WB_Project/CityServlet">Ciudades</a></li>
+                    <li><a href="/CR_WB_Project/MovementServlet">Movimientos</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/CR_WB_Project/UserServlet"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+                </ul>
+            </div>
+        </nav>
         <div class=wrapper>
             <div class=container-fluid>
                 <div class=row>
