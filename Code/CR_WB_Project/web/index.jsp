@@ -54,6 +54,7 @@ and open the template in the editor.
                                         <div class="form-group">
                                             <input type="submit" class="btn btn-lg btn-primary btn-block" value="Sign in">
                                         </div>
+                                        <a href="/CR_WB_Project/UserCreation"> Sign up </a>
                                     </div>
                                 </div>
                             </fieldset>

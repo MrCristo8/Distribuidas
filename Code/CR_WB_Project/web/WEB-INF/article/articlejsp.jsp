@@ -38,11 +38,11 @@
         <nav class="navbar navbar-inverse">
             <div class="container-fluid">
                 <ul class="nav navbar-nav">
-                    <li><a href="#">Facturación</a></li>
-                    <li><a href="/CR_WB_Project/ClientServlet">Clientes</a></li>
-                    <li class="active"><a href="/CR_WB_Project/ArticleServlet">Artículos</a></li>
-                    <li><a href="/CR_WB_Project/CityServlet">Ciudades</a></li>
-                    <li><a href="/CR_WB_Project/MovementServlet">Movimientos</a></li>
+                    <li><a href="#">Bill</a></li>
+                    <li><a href="/CR_WB_Project/ClientServlet">Clients</a></li>
+                    <li class="active"><a href="/CR_WB_Project/ArticleServlet">Articles</a></li>
+                    <li><a href="/CR_WB_Project/CityServlet">Cities</a></li>
+                    <li><a href="/CR_WB_Project/MovementServlet">Movements</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/CR_WB_Project/UserServlet"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
