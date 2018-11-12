@@ -14,8 +14,9 @@ import persistance_unit.Custom_PU;
  *
  * @author wason
  */
-public class MovementPersistance
+public class MovementPersistance implements Persistance<CR_WB_Movement>
 {
+
     private ArrayList<CR_WB_Movement> movementList;
     private static MovementPersistance uniqueInstance;
     private static final String TABLE_NAME = "CR_WB_MOVEMENT";
@@ -34,12 +35,14 @@ public class MovementPersistance
         movementList = new ArrayList<>();
     }
 
-    public ArrayList<CR_WB_Movement> getMovementList()
+    @Override
+    public ArrayList<CR_WB_Movement> getObjectList()
     {
         return movementList;
     }
 
-    public String LoadMovements()
+    @Override
+    public String LoadObjects()
     {
         String msg = "";
         try
@@ -51,5 +54,11 @@ public class MovementPersistance
             msg = e.getMessage();
         }
         return msg;
+    }
+
+    @Override
+    public String UpdateOnDatabase()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

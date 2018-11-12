@@ -7,6 +7,7 @@ package model;
 
 import java.util.Objects;
 import persistance_unit.RelatedColumn;
+import persistance_unit.TableID;
 
 /**
  *
@@ -16,6 +17,7 @@ public class CR_WB_User extends CR_WB_Model
 {
 
     @RelatedColumn("ID")
+    @TableID("ID")
     private Integer user_id;
     @RelatedColumn("USER_NAME")
     private String user_name;

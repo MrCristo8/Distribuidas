@@ -69,10 +69,10 @@ public class ClientUpdate extends HttpServlet
             throws ServletException, IOException
     {
         Integer id = Integer.parseInt(request.getParameter("client_id"));
-        int pos = persistance.ClientPersistance.getInstnace().getClientList().indexOf(new CR_WB_Client(id));
+        int pos = persistance.ClientPersistance.getInstnace().getObjectList().indexOf(new CR_WB_Client(id));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/client/clientupdate.jsp");
-        request.setAttribute("client", persistance.ClientPersistance.getInstnace().getClientList().get(pos));
+        request.setAttribute("client", persistance.ClientPersistance.getInstnace().getObjectList().get(pos));
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);
@@ -92,18 +92,23 @@ public class ClientUpdate extends HttpServlet
             throws ServletException, IOException
     {
         Integer id = Integer.parseInt(request.getParameter("id"));
+        String state = "UPDATED";
+        int pos = persistance.ClientPersistance.getInstnace().
+                getObjectList().indexOf(new CR_WB_Client(id));
+        if (persistance.ClientPersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED"))
+        {
+            state = "CREATED";
+        }
         CR_WB_Client updated_record = new CR_WB_Client(
                 id,
                 request.getParameter("dni"),
                 request.getParameter("name"),
                 request.getParameter("addr"),
-                "UPDATED");
-        int pos = persistance.ClientPersistance.getInstnace().getClientList()
-                .indexOf(new CR_WB_Client(id));
-        persistance.ClientPersistance.getInstnace().getClientList()
-                .remove(pos);
-        persistance.ClientPersistance.getInstnace().getClientList()
-                .add(pos,updated_record);        
+                state);
+        persistance.ClientPersistance.getInstnace().
+                getObjectList().remove(pos);
+        persistance.ClientPersistance.getInstnace().
+                getObjectList().add(pos, updated_record);        
         response.sendRedirect("/CR_WB_Project/ClientServlet");
     }
 

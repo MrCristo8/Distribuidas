@@ -91,8 +91,16 @@ public class ArticleDelete extends HttpServlet
             throws ServletException, IOException
     {
         Integer id = Integer.parseInt(request.getParameter("article_id"));
-        int pos = persistance.ArticlePersistance.getInstnace().getArticleList().indexOf(new CR_WB_Article(id));
-        persistance.ArticlePersistance.getInstnace().getArticleList().get(pos).setState("DELETED");
+        int pos = persistance.ArticlePersistance.getInstnace().getObjectList().indexOf(new CR_WB_Article(id));
+        String state = "DELETED";
+        if(persistance.ArticlePersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED"))
+        {
+            persistance.ArticlePersistance.getInstnace().getObjectList().remove(pos);
+        }
+        else            
+        {
+            persistance.ArticlePersistance.getInstnace().getObjectList().get(pos).setState(state);
+        }        
         response.sendRedirect("/CR_WB_Project/ArticleServlet");
     }
 

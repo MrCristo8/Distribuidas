@@ -69,10 +69,10 @@ public class ArticleUpdate extends HttpServlet
             throws ServletException, IOException
     {
         Integer id = Integer.parseInt(request.getParameter("article_id"));
-        int pos = persistance.ArticlePersistance.getInstnace().getArticleList().indexOf(new CR_WB_Article(id));
+        int pos = persistance.ArticlePersistance.getInstnace().getObjectList().indexOf(new CR_WB_Article(id));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/article/articleupdate.jsp");
-        request.setAttribute("article", persistance.ArticlePersistance.getInstnace().getArticleList().get(pos));
+        request.setAttribute("article", persistance.ArticlePersistance.getInstnace().getObjectList().get(pos));
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);
@@ -94,19 +94,24 @@ public class ArticleUpdate extends HttpServlet
         /*this should go into the logic package*/
         /*need to alter movement table, to register changes in stock*/
         Integer id = Integer.parseInt(request.getParameter("id"));
+        String state = "UPDATED";        
+        int pos = persistance.ArticlePersistance.getInstnace().
+                getObjectList().indexOf(new CR_WB_Article(id));
+        if(persistance.ArticlePersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED"))
+            state = "CREATED";
         CR_WB_Article updated_record = new CR_WB_Article(
                 id,
                 request.getParameter("name"),
                 Float.parseFloat(request.getParameter("price")),
                 Integer.parseInt(request.getParameter("stock")),
-                "UPDATED");
-        int pos = persistance.ArticlePersistance.getInstnace().
-                getArticleList().indexOf(new CR_WB_Article(id));
+                state);
         persistance.ArticlePersistance.getInstnace().
-                getArticleList().remove(pos);
+                getObjectList().remove(pos);
         persistance.ArticlePersistance.getInstnace().
-                getArticleList().add(pos,updated_record);        
+                getObjectList().add(pos,updated_record);      
+        //persistance.ArticlePersistance.getInstnace().UpdateOnDatabase();
         response.sendRedirect("/CR_WB_Project/ArticleServlet");
+        
     }
 
     /**

@@ -7,6 +7,7 @@ package model;
 
 import java.util.Objects;
 import persistance_unit.RelatedColumn;
+import persistance_unit.TableID;
 
 /**
  *
@@ -14,7 +15,7 @@ import persistance_unit.RelatedColumn;
  */
 public class CR_WB_Article extends CR_WB_Model
 {
-
+    @TableID("ARTICLE_ID")
     @RelatedColumn("ARTICLE_ID")
     private Integer article_id;
     @RelatedColumn("ARTICLE_NAME")

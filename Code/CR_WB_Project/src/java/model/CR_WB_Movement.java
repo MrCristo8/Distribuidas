@@ -9,6 +9,7 @@ import java.util.Date;
 import java.util.Objects;
 import persistance_unit.ManyToOne;
 import persistance_unit.RelatedColumn;
+import persistance_unit.TableID;
 
 /**
  *
@@ -17,6 +18,7 @@ import persistance_unit.RelatedColumn;
 public class CR_WB_Movement extends CR_WB_Model
 {
     @RelatedColumn("MOVEMENT_ID")
+    @TableID("MOVEMENT_ID")
     private Integer movement_id;
     @RelatedColumn("ARTICLE_ID")
     private Integer article_id;

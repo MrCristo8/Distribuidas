@@ -29,7 +29,7 @@ public class ClientServlet extends HttpServlet
 
     public ClientServlet()
     {
-        System.out.println(ClientPersistance.getInstnace().LoadClients());
+        System.out.println(ClientPersistance.getInstnace().getObjectList());
     }    
         
     /**
@@ -76,7 +76,7 @@ public class ClientServlet extends HttpServlet
         ServletContext sc=getServletContext();
         RequestDispatcher dispatcher=sc.getRequestDispatcher("/WEB-INF/client/clientjsp.jsp");
         request.setAttribute("objList",
-                persistance.ClientPersistance.getInstnace().getClientList());
+                persistance.ClientPersistance.getInstnace().getObjectList());
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);

@@ -29,7 +29,7 @@ public class UserServlet extends HttpServlet
 
     public UserServlet()
     {
-        System.out.println(persistance.UserPersistance.getInstnace().LoadUsers());
+        System.out.println(persistance.UserPersistance.getInstnace().LoadObjects());
     }
 
     /**
@@ -95,7 +95,7 @@ public class UserServlet extends HttpServlet
     {
         CR_WB_User form_user = new CR_WB_User(request.getParameter("usrname"),
                 request.getParameter("pswd"));
-        if (persistance.UserPersistance.getInstnace().GetUserList().contains(form_user))
+        if (persistance.UserPersistance.getInstnace().getObjectList().contains(form_user))
         {
             /*here we put the main menu of the application*/
             response.sendRedirect("/CR_WB_Project/ArticleServlet");

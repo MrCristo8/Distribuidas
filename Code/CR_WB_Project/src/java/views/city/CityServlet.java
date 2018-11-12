@@ -28,7 +28,7 @@ public class CityServlet extends HttpServlet
 
     public CityServlet()
     {
-        persistance.CityPersistance.getInstnace().LoadCities();
+        persistance.CityPersistance.getInstnace().LoadObjects();
     }   
 
     /**
@@ -75,7 +75,7 @@ public class CityServlet extends HttpServlet
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/city/cityjsp.jsp");
         request.setAttribute("objList",
-                persistance.CityPersistance.getInstnace().getCityList());
+                persistance.CityPersistance.getInstnace().getObjectList());
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);

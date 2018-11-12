@@ -46,7 +46,7 @@ public class CityUpdate extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CityUpdate</title>");            
+            out.println("<title>Servlet CityUpdate</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CityUpdate at " + request.getContextPath() + "</h1>");
@@ -69,10 +69,10 @@ public class CityUpdate extends HttpServlet
             throws ServletException, IOException
     {
         Integer id = Integer.parseInt(request.getParameter("city_id"));
-        int pos = persistance.CityPersistance.getInstnace().getCityList().indexOf(new CR_WB_City(id));
+        int pos = persistance.CityPersistance.getInstnace().getObjectList().indexOf(new CR_WB_City(id));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/city/cityupdate.jsp");
-        request.setAttribute("city", persistance.CityPersistance.getInstnace().getCityList().get(pos));
+        request.setAttribute("city", persistance.CityPersistance.getInstnace().getObjectList().get(pos));
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);
@@ -91,17 +91,22 @@ public class CityUpdate extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-       Integer id = Integer.parseInt(request.getParameter("id"));
+        Integer id = Integer.parseInt(request.getParameter("id"));
+        String state = "UPDATED";
+        int pos = persistance.CityPersistance.getInstnace().
+                getObjectList().indexOf(new CR_WB_City(id));
+        if (persistance.CityPersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED"))
+        {
+            state = "CREATED";
+        }
         CR_WB_City updated_record = new CR_WB_City(
                 id,
-                request.getParameter("name"),               
-                "UPDATED");
-        int pos = persistance.CityPersistance.getInstnace().
-                getCityList().indexOf(new CR_WB_City(id));
+                request.getParameter("name"),
+                state);
         persistance.CityPersistance.getInstnace().
-                getCityList().remove(pos);
+                getObjectList().remove(pos);
         persistance.CityPersistance.getInstnace().
-                getCityList().add(pos,updated_record);        
+                getObjectList().add(pos, updated_record);
         response.sendRedirect("/CR_WB_Project/CityServlet");
     }
 

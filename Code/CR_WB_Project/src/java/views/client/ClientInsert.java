@@ -76,7 +76,7 @@ public class ClientInsert extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Integer id=1;
-        for (CR_WB_Client client : ClientPersistance.getInstnace().getClientList()) {
+        for (CR_WB_Client client : ClientPersistance.getInstnace().getObjectList()) {
             if(!Objects.equals(client.getClient_id(), id))
                 break;
             id++;
@@ -87,7 +87,7 @@ public class ClientInsert extends HttpServlet {
                 request.getParameter("name"),
                 request.getParameter("address"),
                 "CREATED");
-        persistance.ClientPersistance.getInstnace().getClientList().add(inserted_record);        
+        persistance.ClientPersistance.getInstnace().getObjectList().add(inserted_record);        
         response.sendRedirect("/CR_WB_Project/ClientServlet");
     }
 

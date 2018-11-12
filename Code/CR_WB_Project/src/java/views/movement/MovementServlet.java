@@ -28,7 +28,7 @@ public class MovementServlet extends HttpServlet
     
     public MovementServlet()
     {
-        System.out.println(persistance.MovementPersistance.getInstnace().LoadMovements());
+        System.out.println(persistance.MovementPersistance.getInstnace().LoadObjects());
     }        
 
     /**
@@ -75,7 +75,7 @@ public class MovementServlet extends HttpServlet
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/movement/movementjsp.jsp");
         request.setAttribute("objList",
-                persistance.MovementPersistance.getInstnace().getMovementList());
+                persistance.MovementPersistance.getInstnace().getObjectList());
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);

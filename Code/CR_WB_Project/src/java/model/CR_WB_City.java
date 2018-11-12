@@ -7,6 +7,7 @@ package model;
 
 import java.util.Objects;
 import persistance_unit.RelatedColumn;
+import persistance_unit.TableID;
 
 /**
  *
@@ -14,6 +15,7 @@ import persistance_unit.RelatedColumn;
  */
 public class CR_WB_City extends CR_WB_Model
 {
+    @TableID("CITY_ID")
     @RelatedColumn("CITY_ID")
     private Integer city_id;
     @RelatedColumn("CITY_NAME")

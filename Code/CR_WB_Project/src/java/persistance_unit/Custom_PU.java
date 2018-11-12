@@ -13,15 +13,17 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import oracle.jdbc.pool.OracleDataSource;
 
 /**
  *
  * @author wason
  */
-
 public class Custom_PU
 {
+
     private static final String URL = "jdbc:oracle:thin:@localhost:1521:XE";
     private static final String USER = "wason";
     private static final String PWD = "ROOT";
@@ -29,7 +31,7 @@ public class Custom_PU
 
     public static ArrayList<Object> GetObjList(Object template, String related_table) throws SQLException, InstantiationException, IllegalAccessException
     {
-        ods = new OracleDataSource();        
+        ods = new OracleDataSource();
         ods.setURL(URL);
         ods.setUser(USER);
         ods.setPassword(PWD);
@@ -70,6 +72,7 @@ public class Custom_PU
                         int id = rset.getInt(col_name);
                         prepared_stmt.setInt(1, id);
                         ResultSet result = prepared_stmt.executeQuery();
+                        stmt.close();
                         Object inner_x = field.getType().newInstance();
                         while (result.next())
                         {
@@ -101,12 +104,119 @@ public class Custom_PU
                         field.set(x, inner_x);
                     }
                 }
-                objList.add(x);
+                objList.add(x);                
             }
         } catch (Exception e)
         {
             System.out.println(e.getMessage() + " " + e.getCause());
         }
         return objList;
+    }
+
+    public static String UpdateObject(Object obj_update, String related_table) throws SQLException
+    {
+        String query_string = "UPDATE " + related_table + " SET ";
+        int update = 0;
+        try (Connection conn = ods.getConnection();)
+        {
+            String table_id = "";
+            for (Field field : obj_update.getClass().getDeclaredFields())
+            {
+                field.setAccessible(true);
+                if (field.isAnnotationPresent(TableID.class))
+                {
+                    table_id = field.getAnnotation(TableID.class).value();
+
+                } else if (field.isAnnotationPresent(RelatedColumn.class))
+                {
+                    String col_name = field.getAnnotation(RelatedColumn.class).value();
+                    query_string += col_name + "=?, ";
+                }
+
+            }
+            query_string = query_string.substring(0, query_string.length() - 2);
+            query_string += " WHERE " + table_id + "=?";
+            System.out.println(query_string);
+            PreparedStatement stmt = conn.prepareStatement(query_string);
+            int index = 1;
+            int value = 0;
+            for (Field field : obj_update.getClass().getDeclaredFields())
+            {
+                field.setAccessible(true);
+                if (field.isAnnotationPresent(TableID.class))
+                {
+                    value = (Integer) field.get(obj_update);
+                    continue;
+                } else if (field.isAnnotationPresent(RelatedColumn.class))
+                {
+                    if (field.getType().equals(String.class))
+                    {
+                        stmt.setString(index, (String) field.get(obj_update));
+                    } else if (field.getType().equals(Integer.class))
+                    {
+                        stmt.setInt(index, (Integer) field.get(obj_update));
+                    } else if (field.getType().equals(Date.class))
+                    {
+                        stmt.setDate(index, (java.sql.Date) (Date) field.get(obj_update));
+                    } else if (field.getType().equals(Double.class))
+                    {
+                        stmt.setDouble(index, (double) field.get(obj_update));
+                    } else if (field.getType().equals(Float.class))
+                    {
+                        stmt.setFloat(index, (float) field.get(obj_update));
+                    }
+                    index++;
+                }
+            }
+            //System.out.println(index);
+            stmt.setInt(index, value);
+            update = stmt.executeUpdate();
+            stmt.close();
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage() + " " + e.getCause());
+            return "Update failed rows affected = " + update;
+        }
+        return "Update Successfull! rows affected = " + update;
+    }
+
+    public static String DeleteObject(Object obj_delete, String related_table)
+    {
+        int id_value = 0;
+        String column_name = "";
+        for (Field field : obj_delete.getClass().getDeclaredFields())
+        {
+            field.setAccessible(true);
+            if (field.isAnnotationPresent(TableID.class))
+            {
+                column_name = field.getAnnotation(TableID.class).value();
+                try
+                {
+                    id_value = (Integer) field.get(obj_delete);
+
+                } catch (IllegalArgumentException | IllegalAccessException ex)
+                {
+                    Logger.getLogger(Custom_PU.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        String query_string = "DELETE " + related_table + " WHERE "+column_name+"=?";
+        try (Connection conn = ods.getConnection(); 
+                PreparedStatement stmt = conn.prepareStatement(query_string);)
+        {
+            stmt.setInt(1, id_value);
+            stmt.executeUpdate();
+            stmt.close();
+        }catch (Exception e)
+        {
+            System.out.println(e.getMessage() + " " + e.getCause());
+            return "Delete failed rows affected";
+        }
+        return "Delete Sucesfull!!";
+    }
+    public static String PersistObject(Object obj_insert, String related_table)
+    {
+        
+        return "Insert Successfull";
     }
 }

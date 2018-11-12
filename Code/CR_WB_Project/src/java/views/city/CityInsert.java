@@ -76,7 +76,7 @@ public class CityInsert extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Integer id=1;
-        for (CR_WB_City city : CityPersistance.getInstnace().getCityList()) {
+        for (CR_WB_City city : CityPersistance.getInstnace().getObjectList()) {
             if(!Objects.equals(city.getCity_id(), id))
                 break;
             id++;
@@ -85,7 +85,7 @@ public class CityInsert extends HttpServlet {
                 id,
                 request.getParameter("name"),
                 "CREATED");
-        persistance.CityPersistance.getInstnace().getCityList().add(inserted_record);        
+        persistance.CityPersistance.getInstnace().getObjectList().add(inserted_record);        
         response.sendRedirect("/CR_WB_Project/CityServlet");
     }
 

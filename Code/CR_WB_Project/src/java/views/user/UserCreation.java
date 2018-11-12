@@ -90,7 +90,7 @@ public class UserCreation extends HttpServlet
             throws ServletException, IOException
     {
         Integer id = 1;
-        for (CR_WB_User user : persistance.UserPersistance.getInstnace().GetUserList())
+        for (CR_WB_User user : persistance.UserPersistance.getInstnace().getObjectList())
         {
             if (!Objects.equals(user.getUser_id(), id))
             {
@@ -103,7 +103,7 @@ public class UserCreation extends HttpServlet
                 request.getParameter("name"),
                 request.getParameter("pswd"),
                 "CREATED");
-        persistance.UserPersistance.getInstnace().GetUserList().add(inserted_record);
+        persistance.UserPersistance.getInstnace().getObjectList().add(inserted_record);
         response.sendRedirect("/CR_WB_Project/UserServlet");
     }
 

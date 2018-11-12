@@ -14,7 +14,7 @@ import persistance_unit.Custom_PU;
  *
  * @author wason
  */
-public class CityPersistance
+public class CityPersistance implements Persistance<CR_WB_City>
 {
     private final ArrayList<CR_WB_City> cityList;
     private static CityPersistance uniqueInstance;
@@ -31,11 +31,13 @@ public class CityPersistance
         cityList = new ArrayList<>();
     }
 
-    public ArrayList<CR_WB_City> getCityList() {
+    @Override
+    public ArrayList<CR_WB_City> getObjectList() {
         return cityList;
     }
 
-    public String LoadCities() {
+    @Override
+    public String LoadObjects() {
         String msg = "";
         try {
             Custom_PU.GetObjList(new CR_WB_City(), TABLE_NAME).forEach(x
@@ -44,5 +46,11 @@ public class CityPersistance
             msg = e.getMessage();
         }
         return msg;
+    }    
+
+    @Override
+    public String UpdateOnDatabase()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }

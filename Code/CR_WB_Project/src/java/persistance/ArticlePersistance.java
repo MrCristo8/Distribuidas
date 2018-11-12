@@ -14,7 +14,7 @@ import persistance_unit.Custom_PU;
  *
  * @author wason
  */
-public class ArticlePersistance
+public class ArticlePersistance implements Persistance<CR_WB_Article>
 {
 
     private ArrayList<CR_WB_Article> articleList;
@@ -35,12 +35,14 @@ public class ArticlePersistance
         articleList = new ArrayList<>();
     }
 
-    public ArrayList<CR_WB_Article> getArticleList()
+    @Override
+    public ArrayList<CR_WB_Article> getObjectList()
     {
         return articleList;
     }
 
-    public String LoadArticles()
+    @Override
+    public String LoadObjects()
     {
         String msg = "";
         try
@@ -52,6 +54,37 @@ public class ArticlePersistance
             msg = e.getMessage();
         }
         return msg;
+    }
+
+    @Override
+    public String UpdateOnDatabase()
+    {
+        try
+        {
+            articleList.forEach((CR_WB_Article x) ->
+            {
+                try
+                {
+
+                    if (x.getState().equals("UPDATED"))
+                    {
+                        Custom_PU.UpdateObject(x, TABLE_NAME);
+
+                    } else if (x.getState().equals("DELETED"))
+                    {
+                        Custom_PU.DeleteObject(x, TABLE_NAME);
+                    }
+                }
+                catch(SQLException ex)
+                {
+                    System.out.println(ex.getMessage());
+                }
+            });
+
+        } catch (Exception e)
+        {
+        }
+        return "Success";
     }
 
 }

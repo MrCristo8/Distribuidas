@@ -91,8 +91,16 @@ public class ClientDelete extends HttpServlet
             throws ServletException, IOException
     {
         Integer id = Integer.parseInt(request.getParameter("client_id"));
-        int pos = persistance.ClientPersistance.getInstnace().getClientList().indexOf(new CR_WB_Client(id));
-        persistance.ClientPersistance.getInstnace().getClientList().get(pos).setState("DELETED");
+        int pos = persistance.ClientPersistance.getInstnace().getObjectList().indexOf(new CR_WB_Client(id));
+        String state = "DELETED";
+        if(persistance.ClientPersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED"))
+        {
+            persistance.ClientPersistance.getInstnace().getObjectList().remove(pos);
+        }
+        else            
+        {
+            persistance.ClientPersistance.getInstnace().getObjectList().get(pos).setState(state);
+        }
         response.sendRedirect("/CR_WB_Project/ClientServlet");
     }
 

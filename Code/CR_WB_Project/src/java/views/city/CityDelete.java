@@ -91,8 +91,16 @@ public class CityDelete extends HttpServlet
             throws ServletException, IOException
     {
         Integer id = Integer.parseInt(request.getParameter("city_id"));
-        int pos = persistance.CityPersistance.getInstnace().getCityList().indexOf(new CR_WB_City(id));
-        persistance.CityPersistance.getInstnace().getCityList().get(pos).setState("DELETED");
+        int pos = persistance.CityPersistance.getInstnace().getObjectList().indexOf(new CR_WB_City(id));
+        String state = "DELETED";
+        if(persistance.CityPersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED"))
+        {
+            persistance.CityPersistance.getInstnace().getObjectList().remove(pos);
+        }
+        else            
+        {
+            persistance.CityPersistance.getInstnace().getObjectList().get(pos).setState(state);
+        }
         response.sendRedirect("/CR_WB_Project/CityServlet");
     }
 

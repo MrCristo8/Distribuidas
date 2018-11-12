@@ -33,7 +33,7 @@ public class ArticleServlet extends HttpServlet
      */
     public ArticleServlet()
     {
-        System.out.println(persistance.ArticlePersistance.getInstnace().LoadArticles());
+        System.out.println(persistance.ArticlePersistance.getInstnace().LoadObjects());
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException
@@ -70,7 +70,8 @@ public class ArticleServlet extends HttpServlet
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/article/articlejsp.jsp");
         request.setAttribute("objList",
-                persistance.ArticlePersistance.getInstnace().getArticleList());
+                persistance.ArticlePersistance.getInstnace().getObjectList());
+        persistance.ArticlePersistance.getInstnace().UpdateOnDatabase();
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);

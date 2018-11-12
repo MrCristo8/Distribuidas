@@ -76,7 +76,7 @@ public class ArticleInsert extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Integer id=1;
-        for (CR_WB_Article article : ArticlePersistance.getInstnace().getArticleList()) {
+        for (CR_WB_Article article : ArticlePersistance.getInstnace().getObjectList()) {
             if(!Objects.equals(article.getArticle_id(), id))
                 break;
             id++;
@@ -87,7 +87,7 @@ public class ArticleInsert extends HttpServlet {
                 Float.parseFloat(request.getParameter("price")),
                 Integer.parseInt(request.getParameter("stock")),
                 "CREATED");
-        persistance.ArticlePersistance.getInstnace().getArticleList().add(inserted_record);        
+        persistance.ArticlePersistance.getInstnace().getObjectList().add(inserted_record);        
         response.sendRedirect("/CR_WB_Project/ArticleServlet");
     }
 

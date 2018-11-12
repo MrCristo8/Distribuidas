@@ -14,8 +14,9 @@ import persistance_unit.Custom_PU;
  *
  * @author wason
  */
-public class UserPersistance
+public class UserPersistance implements Persistance<CR_WB_User>
 {
+
     private ArrayList<CR_WB_User> userList;
     private static UserPersistance uniqueInstance;
     private static final String TABLE_NAME = "CR_WB_USERS";
@@ -34,12 +35,14 @@ public class UserPersistance
         userList = new ArrayList<>();
     }
 
-    public ArrayList<CR_WB_User> GetUserList()
+    @Override
+    public ArrayList<CR_WB_User> getObjectList()
     {
         return userList;
     }
 
-    public String LoadUsers()
+    @Override
+    public String LoadObjects()
     {
         String msg = "";
         try
@@ -51,5 +54,11 @@ public class UserPersistance
             msg = e.getMessage();
         }
         return msg;
+    }
+
+    @Override
+    public String UpdateOnDatabase()
+    {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 }
