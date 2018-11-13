@@ -40,8 +40,9 @@
                 <div class=col-md-12>
                     <div class=page-header clearfix>
                         <h2 class=pull-left>Client Details</h2>
-                        <a href="" class="btn btn-success pull-right">
-                            Save Changes</a>
+                        <form action="ClientSave" method="post">
+                            <input type="submit" class="btn btn-success pull-right" value="Save Changes">
+                        </form>
                     </div>
                     <form action="/CR_WB_Project/ClientInsert" method="post">
                         <table class='table table-bordered table-striped'>

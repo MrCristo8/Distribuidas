@@ -31,32 +31,33 @@
                 $('[data-toggle=tooltip]').tooltip();
             });
         </script>
-        <nav class="navbar navbar-inverse">
-            <div class="container-fluid">
-                <ul class="nav navbar-nav">
-                    <li><a href="#">Bill</a></li>
-                    <li><a href="/CR_WB_Project/ClientServlet">Clients</a></li>
-                    <li><a href="/CR_WB_Project/ArticleServlet">Articles</a></li>
-                    <li class="active"><a href="/CR_WB_Project/CityServlet">Cities</a></li>
-                    <li><a href="/CR_WB_Project/MovementServlet">Movements</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/CR_WB_Project/UserServlet"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
-                </ul>
-            </div>
-        </nav>
-    </head>
-    <body>
-        <div class=wrapper>
-            <div class=container-fluid>
-                <div class=row>
-                    <div class=col-md-12>
-                        <div class=page-header clearfix>
-                            <h2 class=pull-left>City Details</h2>
-                            <a href="" class="btn btn-success pull-right">
-                                Save Changes</a>
-                        </div>
-                        <form action="/CR_WB_Project/CityInsert" method="post">
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <ul class="nav navbar-nav">
+                <li><a href="#">Bill</a></li>
+                <li><a href="/CR_WB_Project/ClientServlet">Clients</a></li>
+                <li><a href="/CR_WB_Project/ArticleServlet">Articles</a></li>
+                <li class="active"><a href="/CR_WB_Project/CityServlet">Cities</a></li>
+                <li><a href="/CR_WB_Project/MovementServlet">Movements</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/CR_WB_Project/UserServlet"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+            </ul>
+        </div>
+    </nav>
+</head>
+<body>
+    <div class=wrapper>
+        <div class=container-fluid>
+            <div class=row>
+                <div class=col-md-12>
+                    <div class=page-header clearfix>
+                        <h2 class=pull-left>City Details</h2>
+                        <form action="CitySave" method="post">
+                            <input type="submit" class="btn btn-success pull-right" value="Save Changes">
+                        </form>
+                    </div>
+                    <form action="/CR_WB_Project/CityInsert" method="post">
                         <table class='table table-bordered table-striped'>
                             <thead>
                                 <tr>
@@ -85,10 +86,10 @@
                                 <td><input type="submit" class="btn btn-primary" value="Add"></td>
                             </tr>
                         </table>                        
-                        </form>
-                    </div>
-                </div>        
-            </div>
+                    </form>
+                </div>
+            </div>        
         </div>
-    </body>
+    </div>
+</body>
 </html>

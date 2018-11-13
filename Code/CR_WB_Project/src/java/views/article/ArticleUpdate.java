@@ -112,11 +112,11 @@ public class ArticleUpdate extends HttpServlet {
                 state);
 
         if (updated_record.getArticle_stock() > stock) {
-            movementName = "IN";
+            movementName = "INGRESO";
             movementAmmount = updated_record.getArticle_stock() - stock;
             movementDirection = "+";
         } else {
-            movementName = "OUT";
+            movementName = "EGRESO";
             movementAmmount = stock - updated_record.getArticle_stock();
             movementDirection = "-";
         }

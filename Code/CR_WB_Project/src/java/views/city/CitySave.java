@@ -3,28 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.article;
+package views.city;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
-import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.CR_WB_Article;
-import model.CR_WB_Movement;
-import persistance.ArticlePersistance;
-import persistance.MovementPersistance;
+import persistance.CityPersistance;
 
 /**
  *
  * @author csrm1
  */
-@WebServlet(name = "ArticleInsert", urlPatterns = {"/ArticleInsert"})
-public class ArticleInsert extends HttpServlet {
+@WebServlet(name = "CitySave", urlPatterns = {"/CitySave"})
+public class CitySave extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -43,10 +38,10 @@ public class ArticleInsert extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ArticleInsert</title>");
+            out.println("<title>Servlet CitySave</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ArticleInsert at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet CitySave at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,39 +73,9 @@ public class ArticleInsert extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id = 1;
-        Date date = new Date();
-        for (CR_WB_Article article : ArticlePersistance.getInstnace().getObjectList()) {
-            if (!Objects.equals(article.getArticle_id(), id)) {
-                break;
-            }
-            id++;
-        }
-        CR_WB_Article inserted_record = new CR_WB_Article(
-                id,
-                request.getParameter("name"),
-                Float.parseFloat(request.getParameter("price")),
-                Integer.parseInt(request.getParameter("stock")),
-                "CREATED");
-        persistance.ArticlePersistance.getInstnace().getObjectList().add(inserted_record);
-        response.sendRedirect("/CR_WB_Project/ArticleServlet");
-        Integer movementId = 1;
-        for (CR_WB_Movement article : MovementPersistance.getInstnace().getObjectList()) {
-            if (!Objects.equals(article.getMovement_id(), id)) {
-                break;
-            }
-            movementId++;
-        }
-        CR_WB_Movement movement = new CR_WB_Movement(
-                movementId,
-                id,
-                "INGRESO",
-                date,
-                inserted_record.getArticle_stock(),
-                "+"
-        );
-        movement.setArticle(inserted_record);
-        persistance.MovementPersistance.getInstnace().getObjectList().add(movement);
+        CityPersistance.getInstnace().UpdateOnDatabase();
+        CityPersistance.getInstnace().getObjectList();
+        response.sendRedirect("/CR_WB_Project/CityServlet");
     }
 
     /**
