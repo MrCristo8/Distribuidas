@@ -53,8 +53,6 @@
                 <div class=col-md-12>
                     <div class=page-header clearfix>
                         <h2 class=pull-left>Movement Details</h2>
-                        <a href="" class="btn btn-success pull-right">
-                            Save Changes</a>
                     </div>
                     <table class='table table-bordered table-striped'>
                         <thead>

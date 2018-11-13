@@ -7,6 +7,8 @@ package views.article;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.Objects;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,17 +17,18 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CR_WB_Article;
+import model.CR_WB_Movement;
+import persistance.MovementPersistance;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "ArticleUpdate", urlPatterns =
-{
-    "/ArticleUpdate"
-})
-public class ArticleUpdate extends HttpServlet
-{
+@WebServlet(name = "ArticleUpdate", urlPatterns
+        = {
+            "/ArticleUpdate"
+        })
+public class ArticleUpdate extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,11 +40,9 @@ public class ArticleUpdate extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -66,15 +67,13 @@ public class ArticleUpdate extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("article_id"));
         int pos = persistance.ArticlePersistance.getInstnace().getObjectList().indexOf(new CR_WB_Article(id));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/article/articleupdate.jsp");
         request.setAttribute("article", persistance.ArticlePersistance.getInstnace().getObjectList().get(pos));
-        if (dispatcher != null)
-        {
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -89,29 +88,63 @@ public class ArticleUpdate extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         /*this should go into the logic package*/
-        /*need to alter movement table, to register changes in stock*/
+ /*need to alter movement table, to register changes in stock*/
         Integer id = Integer.parseInt(request.getParameter("id"));
-        String state = "UPDATED";        
+        String state = "UPDATED";
+        String movementName;
+        int movementAmmount;
+        String movementDirection;
+        Date date = new Date();
+
         int pos = persistance.ArticlePersistance.getInstnace().
                 getObjectList().indexOf(new CR_WB_Article(id));
-        if(persistance.ArticlePersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED"))
+        int stock = persistance.ArticlePersistance.getInstnace().getObjectList().get(pos).getArticle_stock();
+        if (persistance.ArticlePersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED")) {
             state = "CREATED";
+        }
         CR_WB_Article updated_record = new CR_WB_Article(
                 id,
                 request.getParameter("name"),
                 Float.parseFloat(request.getParameter("price")),
                 Integer.parseInt(request.getParameter("stock")),
                 state);
+
+        if (updated_record.getArticle_stock() > stock) {
+            movementName = "IN";
+            movementAmmount = updated_record.getArticle_stock() - stock;
+            movementDirection = "+";
+        } else {
+            movementName = "OUT";
+            movementAmmount = stock - updated_record.getArticle_stock();
+            movementDirection = "-";
+        }
         persistance.ArticlePersistance.getInstnace().
                 getObjectList().remove(pos);
         persistance.ArticlePersistance.getInstnace().
-                getObjectList().add(pos,updated_record);      
+                getObjectList().add(pos, updated_record);
+        //Save Movement
+        Integer movementId = 1;
+        for (CR_WB_Movement article : MovementPersistance.getInstnace().getObjectList()) {
+            if (!Objects.equals(article.getMovement_id(), id)) {
+                break;
+            }
+            movementId++;
+        }
+        CR_WB_Movement movement = new CR_WB_Movement(
+                movementId,
+                id,
+                movementName,
+                date,
+                movementAmmount,
+                movementDirection
+        );
+        movement.setArticle(updated_record);
+        persistance.MovementPersistance.getInstnace().getObjectList().add(movement);
         //persistance.ArticlePersistance.getInstnace().UpdateOnDatabase();
         response.sendRedirect("/CR_WB_Project/ArticleServlet");
-        
+
     }
 
     /**
@@ -120,8 +153,7 @@ public class ArticleUpdate extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
