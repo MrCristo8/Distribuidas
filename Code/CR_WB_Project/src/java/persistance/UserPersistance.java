@@ -44,6 +44,7 @@ public class UserPersistance implements Persistance<CR_WB_User>
     @Override
     public String LoadObjects()
     {
+        userList = new ArrayList<>();
         String msg = "";
         try
         {
@@ -72,8 +73,7 @@ public class UserPersistance implements Persistance<CR_WB_User>
                     } else if (x.getState().equals("DELETED"))
                     {
                         Custom_PU.DeleteObject(x, TABLE_NAME);
-                    }
-                    else if (x.getState().equals("CREATED"))
+                    } else if (x.getState().equals("CREATED"))
                     {
                         Custom_PU.PersistObject(x, TABLE_NAME);
                     }

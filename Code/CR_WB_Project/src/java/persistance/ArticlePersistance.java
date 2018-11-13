@@ -44,6 +44,7 @@ public class ArticlePersistance implements Persistance<CR_WB_Article>
     @Override
     public String LoadObjects()
     {
+        articleList = new ArrayList<>();
         String msg = "";
         try
         {

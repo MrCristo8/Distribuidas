@@ -126,8 +126,8 @@ public class ArticleUpdate extends HttpServlet {
                 getObjectList().add(pos, updated_record);
         //Save Movement
         Integer movementId = 1;
-        for (CR_WB_Movement article : MovementPersistance.getInstnace().getObjectList()) {
-            if (!Objects.equals(article.getMovement_id(), id)) {
+        for (CR_WB_Movement movement : MovementPersistance.getInstnace().getObjectList()) {
+            if (!Objects.equals(movement.getMovement_id(), movementId)) {
                 break;
             }
             movementId++;
@@ -143,7 +143,6 @@ public class ArticleUpdate extends HttpServlet {
         movement.setArticle(updated_record);
         movement.setState("CREATED");
         persistance.MovementPersistance.getInstnace().getObjectList().add(movement);
-        //persistance.ArticlePersistance.getInstnace().UpdateOnDatabase();
         response.sendRedirect("/CR_WB_Project/ArticleServlet");
 
     }

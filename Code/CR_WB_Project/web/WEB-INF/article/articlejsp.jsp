@@ -55,7 +55,7 @@
                     <div class=col-md-12>
                         <div class=page-header clearfix>
                             <h2 class=pull-left>Article Details</h2>
-                            <form action="ArticleSave" method="post">
+                            <form action="/CR_WB_Project/ArticleSave" method="post">
                                 <input type="submit" class="btn btn-success pull-right" value="Save Changes">
                             </form>
                         </div>

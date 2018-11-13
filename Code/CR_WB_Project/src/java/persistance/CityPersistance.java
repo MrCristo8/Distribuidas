@@ -16,37 +16,46 @@ import persistance_unit.Custom_PU;
  */
 public class CityPersistance implements Persistance<CR_WB_City>
 {
-    private final ArrayList<CR_WB_City> cityList;
+
+    private ArrayList<CR_WB_City> cityList;
     private static CityPersistance uniqueInstance;
     private static final String TABLE_NAME = "CR_WB_CITY";
 
-    public static CityPersistance getInstnace() {
-        if (uniqueInstance == null) {
+    public static CityPersistance getInstnace()
+    {
+        if (uniqueInstance == null)
+        {
             uniqueInstance = new CityPersistance();
         }
         return uniqueInstance;
     }
 
-    public CityPersistance() {
+    public CityPersistance()
+    {
         cityList = new ArrayList<>();
     }
 
     @Override
-    public ArrayList<CR_WB_City> getObjectList() {
+    public ArrayList<CR_WB_City> getObjectList()
+    {
         return cityList;
     }
 
     @Override
-    public String LoadObjects() {
+    public String LoadObjects()
+    {
+        cityList = new ArrayList<>();
         String msg = "";
-        try {
+        try
+        {
             Custom_PU.GetObjList(new CR_WB_City(), TABLE_NAME).forEach(x
                     -> cityList.add((CR_WB_City) x));
-        } catch (IllegalAccessException | InstantiationException | SQLException e) {
+        } catch (IllegalAccessException | InstantiationException | SQLException e)
+        {
             msg = e.getMessage();
         }
         return msg;
-    }    
+    }
 
     @Override
     public String UpdateOnDatabase()
@@ -64,8 +73,7 @@ public class CityPersistance implements Persistance<CR_WB_City>
                     } else if (x.getState().equals("DELETED"))
                     {
                         Custom_PU.DeleteObject(x, TABLE_NAME);
-                    }
-                    else if (x.getState().equals("CREATED"))
+                    } else if (x.getState().equals("CREATED"))
                     {
                         Custom_PU.PersistObject(x, TABLE_NAME);
                     }

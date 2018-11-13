@@ -7,6 +7,9 @@ package views.article;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.time.Instant;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Objects;
 import javax.servlet.ServletException;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.CR_WB_Article;
 import model.CR_WB_Movement;
+import oracle.jdbc.internal.OracleStatement;
 import persistance.ArticlePersistance;
 import persistance.MovementPersistance;
 
@@ -78,11 +82,11 @@ public class ArticleInsert extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id = 1;
-        Date date = new Date();
+        Integer id = 1;        
+        Date date = java.sql.Date.from(Instant.now());
         for (CR_WB_Article article : ArticlePersistance.getInstnace().getObjectList()) {
             if (!Objects.equals(article.getArticle_id(), id)) {
-                break;
+                continue;
             }
             id++;
         }
@@ -95,9 +99,9 @@ public class ArticleInsert extends HttpServlet {
         persistance.ArticlePersistance.getInstnace().getObjectList().add(inserted_record);
         response.sendRedirect("/CR_WB_Project/ArticleServlet");
         Integer movementId = 1;
-        for (CR_WB_Movement article : MovementPersistance.getInstnace().getObjectList()) {
-            if (!Objects.equals(article.getMovement_id(), id)) {
-                break;
+        for (CR_WB_Movement movement : MovementPersistance.getInstnace().getObjectList()) {
+            if (!Objects.equals(movement.getMovement_id(), movementId)) {
+                continue;
             }
             movementId++;
         }

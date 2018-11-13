@@ -17,7 +17,7 @@ import persistance_unit.Custom_PU;
 public class ClientPersistance implements Persistance<CR_WB_Client>
 {
 
-    private final ArrayList<CR_WB_Client> clientList;
+    private ArrayList<CR_WB_Client> clientList;
     private static ClientPersistance uniqueInstance;
     private static final String TABLE_NAME = "CR_WB_CLIENT";
 
@@ -44,6 +44,7 @@ public class ClientPersistance implements Persistance<CR_WB_Client>
     @Override
     public String LoadObjects()
     {
+        clientList  = new ArrayList<>();
         String msg = "";
         try
         {

@@ -255,7 +255,7 @@ public class Custom_PU
                         stmt.setInt(index, (Integer) field.get(obj_insert));
                     } else if (field.getType().equals(Date.class))
                     {
-                        stmt.setDate(index, (java.sql.Date) (Date) field.get(obj_insert));
+                        stmt.setDate(index, new java.sql.Date(((Date) field.get(obj_insert)).getTime()));
                     } else if (field.getType().equals(Double.class))
                     {
                         stmt.setDouble(index, (double) field.get(obj_insert));
