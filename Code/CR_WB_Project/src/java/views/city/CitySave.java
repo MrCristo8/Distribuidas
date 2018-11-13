@@ -74,7 +74,7 @@ public class CitySave extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         CityPersistance.getInstnace().UpdateOnDatabase();
-        CityPersistance.getInstnace().getObjectList();
+        CityPersistance.getInstnace().LoadObjects();
         response.sendRedirect("/CR_WB_Project/CityServlet");
     }
 

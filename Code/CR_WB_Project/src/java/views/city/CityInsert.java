@@ -40,7 +40,7 @@ public class CityInsert extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CityInsert</title>");            
+            out.println("<title>Servlet CityInsert</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet CityInsert at " + request.getContextPath() + "</h1>");
@@ -75,18 +75,27 @@ public class CityInsert extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id=1;
-        for (CR_WB_City city : CityPersistance.getInstnace().getObjectList()) {
-            if(!Objects.equals(city.getCity_id(), id))
-                break;
-            id++;
+        PrintWriter out = response.getWriter();
+        Integer id = 1;
+        if (!request.getParameter("name").equals("")) {
+            for (CR_WB_City city : CityPersistance.getInstnace().getObjectList()) {
+                if (!Objects.equals(city.getCity_id(), id)) {
+                    break;
+                }
+                id++;
+            }
+            CR_WB_City inserted_record = new CR_WB_City(
+                    id,
+                    request.getParameter("name"),
+                    "CREATED");
+            persistance.CityPersistance.getInstnace().getObjectList().add(inserted_record);
+            response.sendRedirect("/CR_WB_Project/CityServlet");
         }
-        CR_WB_City inserted_record = new CR_WB_City(
-                id,
-                request.getParameter("name"),
-                "CREATED");
-        persistance.CityPersistance.getInstnace().getObjectList().add(inserted_record);        
-        response.sendRedirect("/CR_WB_Project/CityServlet");
+        else{
+            response.setContentType("text/html");
+            out.println("<script> alert('Debes ingresar un nombre antes de continuar'); </script>");
+            response.sendRedirect("/CR_WB_Project/CityServlet");
+        }
     }
 
     /**

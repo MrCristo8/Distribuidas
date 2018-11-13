@@ -40,7 +40,7 @@ public class ClientInsert extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ClientInsert</title>");            
+            out.println("<title>Servlet ClientInsert</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ClientInsert at " + request.getContextPath() + "</h1>");
@@ -75,20 +75,28 @@ public class ClientInsert extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id=1;
-        for (CR_WB_Client client : ClientPersistance.getInstnace().getObjectList()) {
-            if(!Objects.equals(client.getClient_id(), id))
-                break;
-            id++;
+        PrintWriter out = response.getWriter();
+        Integer id = 1;
+        if (!request.getParameter("dni").equals("") && !request.getParameter("name").equals("") && !request.getParameter("address").equals("")) {
+            for (CR_WB_Client client : ClientPersistance.getInstnace().getObjectList()) {
+                if (!Objects.equals(client.getClient_id(), id)) {
+                    break;
+                }
+                id++;
+            }
+            CR_WB_Client inserted_record = new CR_WB_Client(
+                    id,
+                    request.getParameter("dni"),
+                    request.getParameter("name"),
+                    request.getParameter("address"),
+                    "CREATED");
+            persistance.ClientPersistance.getInstnace().getObjectList().add(inserted_record);
+            response.sendRedirect("/CR_WB_Project/ClientServlet");
+        } else {
+            response.setContentType("text/html");
+            out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
+            response.sendRedirect("/CR_WB_Project/ClientServlet");
         }
-        CR_WB_Client inserted_record = new CR_WB_Client(
-                id,
-                request.getParameter("dni"),
-                request.getParameter("name"),
-                request.getParameter("address"),
-                "CREATED");
-        persistance.ClientPersistance.getInstnace().getObjectList().add(inserted_record);        
-        response.sendRedirect("/CR_WB_Project/ClientServlet");
     }
 
     /**

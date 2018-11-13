@@ -74,7 +74,7 @@ public class ClientSave extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ClientPersistance.getInstnace().UpdateOnDatabase();
-        ClientPersistance.getInstnace().getObjectList();
+        ClientPersistance.getInstnace().LoadObjects();
         response.sendRedirect("/CR_WB_Project/ClientServlet");
     }
 

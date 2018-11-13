@@ -82,40 +82,60 @@ public class ArticleInsert extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        Integer id = 1;        
-        Date date = java.sql.Date.from(Instant.now());
-        for (CR_WB_Article article : ArticlePersistance.getInstnace().getObjectList()) {
-            if (!Objects.equals(article.getArticle_id(), id)) {
-                continue;
+        PrintWriter out = response.getWriter();
+        Integer id = 1;
+        if (!request.getParameter("name").equals("") && !request.getParameter("price").equals("") && !request.getParameter("stock").equals("")) {
+            try {
+                Date date = java.sql.Date.from(Instant.now());
+                for (CR_WB_Article article : ArticlePersistance.getInstnace().getObjectList()) {
+                    if (!Objects.equals(article.getArticle_id(), id)) {
+                        continue;
+                    }
+                    id++;
+                }
+                int stock = Integer.parseInt(request.getParameter("stock"));
+                if (stock >= 0) {
+                    CR_WB_Article inserted_record = new CR_WB_Article(
+                            id,
+                            request.getParameter("name"),
+                            Float.parseFloat(request.getParameter("price")),
+                            stock,
+                            "CREATED");
+                    persistance.ArticlePersistance.getInstnace().getObjectList().add(inserted_record);
+                    Integer movementId = 1;
+                    for (CR_WB_Movement movement : MovementPersistance.getInstnace().getObjectList()) {
+                        if (!Objects.equals(movement.getMovement_id(), movementId)) {
+                            continue;
+                        }
+                        movementId++;
+                    }
+                    CR_WB_Movement movement = new CR_WB_Movement(
+                            movementId,
+                            id,
+                            "INGRESO",
+                            date,
+                            inserted_record.getArticle_stock(),
+                            "+"
+                    );
+                    movement.setArticle(inserted_record);
+                    movement.setState("CREATED");
+                    persistance.MovementPersistance.getInstnace().getObjectList().add(movement);
+                    response.sendRedirect("/CR_WB_Project/ArticleServlet");
+                }else {
+                    response.setContentType("text/html");
+                    out.println("<script> alert('No se puede ingresar un sock negativo'); </script>");
+                    response.sendRedirect("/CR_WB_Project/ArticleServlet");
+                }
+            } catch (IOException | NumberFormatException e) {
+                response.setContentType("text/html");
+                out.println("<script> alert(" + e.getMessage() + "); </script>");
+                response.sendRedirect("/CR_WB_Project/ArticleServlet");
             }
-            id++;
+        } else {
+            response.setContentType("text/html");
+            out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
+            response.sendRedirect("/CR_WB_Project/ArticleServlet");
         }
-        CR_WB_Article inserted_record = new CR_WB_Article(
-                id,
-                request.getParameter("name"),
-                Float.parseFloat(request.getParameter("price")),
-                Integer.parseInt(request.getParameter("stock")),
-                "CREATED");
-        persistance.ArticlePersistance.getInstnace().getObjectList().add(inserted_record);        
-        Integer movementId = 1;
-        for (CR_WB_Movement movement_loop : MovementPersistance.getInstnace().getObjectList()) {
-            if (!Objects.equals(movement_loop.getMovement_id(), movementId)) {
-                continue;
-            }
-            movementId++;
-        }
-        CR_WB_Movement movement = new CR_WB_Movement(
-                movementId,
-                id,
-                "INGRESO",
-                date,
-                inserted_record.getArticle_stock(),
-                "+"
-        );
-        movement.setArticle(inserted_record);
-        movement.setState("CREATED");
-        persistance.MovementPersistance.getInstnace().getObjectList().add(movement);
-        response.sendRedirect("/CR_WB_Project/ArticleServlet");
     }
 
     /**

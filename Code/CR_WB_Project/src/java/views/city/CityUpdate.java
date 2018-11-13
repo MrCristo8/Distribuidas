@@ -20,12 +20,11 @@ import model.CR_WB_City;
  *
  * @author wason
  */
-@WebServlet(name = "CityUpdate", urlPatterns =
-{
-    "/CityUpdate"
-})
-public class CityUpdate extends HttpServlet
-{
+@WebServlet(name = "CityUpdate", urlPatterns
+        = {
+            "/CityUpdate"
+        })
+public class CityUpdate extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -37,11 +36,9 @@ public class CityUpdate extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -66,15 +63,13 @@ public class CityUpdate extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("city_id"));
         int pos = persistance.CityPersistance.getInstnace().getObjectList().indexOf(new CR_WB_City(id));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/city/cityupdate.jsp");
         request.setAttribute("city", persistance.CityPersistance.getInstnace().getObjectList().get(pos));
-        if (dispatcher != null)
-        {
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -89,25 +84,31 @@ public class CityUpdate extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
+        PrintWriter out = response.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
-        String state = "UPDATED";
-        int pos = persistance.CityPersistance.getInstnace().
-                getObjectList().indexOf(new CR_WB_City(id));
-        if (persistance.CityPersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED"))
-        {
-            state = "CREATED";
+        if (!request.getParameter("name").equals("")) {
+            String state = "UPDATED";
+            int pos = persistance.CityPersistance.getInstnace().
+                    getObjectList().indexOf(new CR_WB_City(id));
+            if (persistance.CityPersistance.getInstnace().getObjectList().get(pos).getState().equals("CREATED")) {
+                state = "CREATED";
+            }
+            CR_WB_City updated_record = new CR_WB_City(
+                    id,
+                    request.getParameter("name"),
+                    state);
+            persistance.CityPersistance.getInstnace().
+                    getObjectList().remove(pos);
+            persistance.CityPersistance.getInstnace().
+                    getObjectList().add(pos, updated_record);
+            response.sendRedirect("/CR_WB_Project/CityServlet");
         }
-        CR_WB_City updated_record = new CR_WB_City(
-                id,
-                request.getParameter("name"),
-                state);
-        persistance.CityPersistance.getInstnace().
-                getObjectList().remove(pos);
-        persistance.CityPersistance.getInstnace().
-                getObjectList().add(pos, updated_record);
-        response.sendRedirect("/CR_WB_Project/CityServlet");
+        else{
+            response.setContentType("text/html");
+            out.println("<script> alert('Debes ingresar un nombre antes de continuar'); </script>");
+            response.sendRedirect("/CR_WB_Project/CityUpdate?city_id="+id);
+        }
     }
 
     /**
@@ -116,8 +117,7 @@ public class CityUpdate extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
