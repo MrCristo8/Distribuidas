@@ -75,7 +75,7 @@ public class MovementPersistance implements Persistance<CR_WB_Movement>
                     }
                     else if (x.getState().equals("CREATED"))
                     {
-                        
+                        Custom_PU.PersistObject(x, TABLE_NAME);
                     }
                 } catch (SQLException ex)
                 {

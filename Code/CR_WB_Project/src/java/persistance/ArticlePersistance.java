@@ -75,7 +75,7 @@ public class ArticlePersistance implements Persistance<CR_WB_Article>
                     }
                     else if (x.getState().equals("CREATED"))
                     {
-                        
+                        Custom_PU.PersistObject(x, TABLE_NAME);
                     }
                 } catch (SQLException ex)
                 {

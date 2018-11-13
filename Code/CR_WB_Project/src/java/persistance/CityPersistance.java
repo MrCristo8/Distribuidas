@@ -67,7 +67,7 @@ public class CityPersistance implements Persistance<CR_WB_City>
                     }
                     else if (x.getState().equals("CREATED"))
                     {
-                        
+                        Custom_PU.PersistObject(x, TABLE_NAME);
                     }
                 } catch (SQLException ex)
                 {

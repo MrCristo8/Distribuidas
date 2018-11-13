@@ -103,7 +103,7 @@ public class Custom_PU
                         field.set(x, inner_x);
                     }
                 }
-                objList.add(x);                
+                objList.add(x);
             }
         } catch (Exception e)
         {
@@ -192,6 +192,7 @@ public class Custom_PU
                 try
                 {
                     id_value = (Integer) field.get(obj_delete);
+                    break;
 
                 } catch (IllegalArgumentException | IllegalAccessException ex)
                 {
@@ -199,22 +200,82 @@ public class Custom_PU
                 }
             }
         }
-        String query_string = "DELETE " + related_table + " WHERE "+column_name+"=?";
-        try (Connection conn = ods.getConnection(); 
+        String query_string = "DELETE " + related_table + " WHERE " + column_name + "=?";
+        try (Connection conn = ods.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query_string);)
         {
             stmt.setInt(1, id_value);
-            stmt.executeUpdate();           
-        }catch (Exception e)
+            stmt.executeUpdate();
+        } catch (Exception e)
         {
             System.out.println(e.getMessage() + " " + e.getCause());
             return "Delete failed rows affected";
         }
         return "Delete Sucesfull!!";
     }
+
     public static String PersistObject(Object obj_insert, String related_table)
     {
-        
-        return "Insert Successfull";
+        String query_string = "INSERT INTO " + related_table + " (";
+        int count = 0;
+        try (Connection conn = ods.getConnection();)
+        {
+            for (Field field : obj_insert.getClass().getDeclaredFields())
+            {
+                field.setAccessible(true);
+                if (field.isAnnotationPresent(RelatedColumn.class))
+                {
+                    String col_name = field.getAnnotation(RelatedColumn.class).value();
+                    query_string += col_name + ", ";
+                    count++;
+                }
+
+            }
+            query_string = query_string.substring(0, query_string.length() - 2);
+            query_string += " ) VALUES (";
+            for (int i = 0; i < count; i++)
+            {
+                query_string += "?, ";
+            }
+            query_string = query_string.substring(0, query_string.length() - 2);
+            query_string += ")";
+            System.out.println(query_string);
+            int index = 1;
+            PreparedStatement stmt = conn.prepareStatement(query_string);
+            for (Field field : obj_insert.getClass().getDeclaredFields())
+            {
+                field.setAccessible(true);
+                if (field.isAnnotationPresent(RelatedColumn.class))
+                {
+                    if (field.getType().equals(String.class))
+                    {
+                        stmt.setString(index, (String) field.get(obj_insert));
+                    } else if (field.getType().equals(Integer.class))
+                    {
+                        stmt.setInt(index, (Integer) field.get(obj_insert));
+                    } else if (field.getType().equals(Date.class))
+                    {
+                        stmt.setDate(index, (java.sql.Date) (Date) field.get(obj_insert));
+                    } else if (field.getType().equals(Double.class))
+                    {
+                        stmt.setDouble(index, (double) field.get(obj_insert));
+                    } else if (field.getType().equals(Float.class))
+                    {
+                        stmt.setFloat(index, (float) field.get(obj_insert));
+                    }
+                    index++;
+                }
+            }
+            stmt.executeUpdate();
+            conn.close();
+            return "Insert Successfull";
+        } catch (SQLException ex)
+        {
+            System.out.println(ex.getMessage());
+        } catch (IllegalArgumentException | IllegalAccessException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+        return "Success!!";
     }
 }
