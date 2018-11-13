@@ -24,7 +24,7 @@ import oracle.jdbc.pool.OracleDataSource;
 public class Custom_PU
 {
 
-    private static final String URL = "jdbc:oracle:thin:@//localhost:1521/CRSPDB";
+    private static final String URL = "jdbc:oracle:thin:@localhost:1521/xe";
     private static final String USER = "wason";
     private static final String PWD = "ROOT";
     private static OracleDataSource ods;
