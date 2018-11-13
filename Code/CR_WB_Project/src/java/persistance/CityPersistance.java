@@ -66,16 +66,19 @@ public class CityPersistance implements Persistance<CR_WB_City>
             {
                 try
                 {
-                    if (x.getState().equals("UPDATED"))
+                    switch (x.getState())
                     {
-                        Custom_PU.UpdateObject(x, TABLE_NAME);
-
-                    } else if (x.getState().equals("DELETED"))
-                    {
-                        Custom_PU.DeleteObject(x, TABLE_NAME);
-                    } else if (x.getState().equals("CREATED"))
-                    {
-                        Custom_PU.PersistObject(x, TABLE_NAME);
+                        case "UPDATED":
+                            Custom_PU.UpdateObject(x, TABLE_NAME);
+                            break;
+                        case "DELETED":
+                            Custom_PU.DeleteObject(x, TABLE_NAME);
+                            break;
+                        case "CREATED":
+                            Custom_PU.PersistObject(x, TABLE_NAME);
+                            break;
+                        default:
+                            break;
                     }
                 } catch (SQLException ex)
                 {
@@ -85,6 +88,7 @@ public class CityPersistance implements Persistance<CR_WB_City>
 
         } catch (Exception e)
         {
+            System.out.println(e.getMessage());
         }
         return "Success";
     }

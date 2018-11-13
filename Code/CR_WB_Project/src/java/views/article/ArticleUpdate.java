@@ -128,7 +128,7 @@ public class ArticleUpdate extends HttpServlet {
         Integer movementId = 1;
         for (CR_WB_Movement movement : MovementPersistance.getInstnace().getObjectList()) {
             if (!Objects.equals(movement.getMovement_id(), movementId)) {
-                break;
+                continue;
             }
             movementId++;
         }

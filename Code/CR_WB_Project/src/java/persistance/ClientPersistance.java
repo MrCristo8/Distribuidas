@@ -86,6 +86,7 @@ public class ClientPersistance implements Persistance<CR_WB_Client>
 
         } catch (Exception e)
         {
+            System.out.println(e.getMessage());
         }
         return "Success";
     }

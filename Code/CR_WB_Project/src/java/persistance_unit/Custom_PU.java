@@ -36,8 +36,18 @@ public class Custom_PU
         ods.setUser(USER);
         ods.setPassword(PWD);
         ArrayList<Object> objList = new ArrayList<>();
+        String table_id = "";
+        for (Field field : template.getClass().getDeclaredFields())
+        {
+            field.setAccessible(true);
+            if (field.isAnnotationPresent(TableID.class))
+            {
+                table_id = field.getAnnotation(TableID.class).value();
+                break;
+            }
+        }
         try (Connection conn = ods.getConnection(); Statement stmt = conn.createStatement();
-                ResultSet rset = stmt.executeQuery("SELECT * FROM " + related_table))
+                ResultSet rset = stmt.executeQuery("SELECT * FROM " + related_table + " ORDER BY "+table_id+" ASC"))
         {
             while (rset.next())
             {

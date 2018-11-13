@@ -96,8 +96,7 @@ public class ArticleInsert extends HttpServlet {
                 Float.parseFloat(request.getParameter("price")),
                 Integer.parseInt(request.getParameter("stock")),
                 "CREATED");
-        persistance.ArticlePersistance.getInstnace().getObjectList().add(inserted_record);
-        response.sendRedirect("/CR_WB_Project/ArticleServlet");
+        persistance.ArticlePersistance.getInstnace().getObjectList().add(inserted_record);        
         Integer movementId = 1;
         for (CR_WB_Movement movement : MovementPersistance.getInstnace().getObjectList()) {
             if (!Objects.equals(movement.getMovement_id(), movementId)) {
@@ -116,6 +115,7 @@ public class ArticleInsert extends HttpServlet {
         movement.setArticle(inserted_record);
         movement.setState("CREATED");
         persistance.MovementPersistance.getInstnace().getObjectList().add(movement);
+        response.sendRedirect("/CR_WB_Project/ArticleServlet");
     }
 
     /**
