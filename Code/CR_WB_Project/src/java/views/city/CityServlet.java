@@ -28,8 +28,11 @@ public class CityServlet extends HttpServlet
 
     public CityServlet()
     {
-        persistance.CityPersistance.getInstnace().LoadObjects();
-    }   
+        if (persistance.CityPersistance.getInstnace().getObjectList().isEmpty())
+        {
+            persistance.CityPersistance.getInstnace().LoadObjects();
+        }
+    }
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>

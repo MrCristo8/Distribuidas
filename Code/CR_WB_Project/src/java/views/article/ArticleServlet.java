@@ -34,7 +34,10 @@ public class ArticleServlet extends HttpServlet
     public ArticleServlet()
     {
         System.out.println(persistance.ArticlePersistance.getInstnace().LoadObjects());
-        System.out.println(persistance.MovementPersistance.getInstnace().LoadObjects());
+        if(persistance.MovementPersistance.getInstnace().getObjectList().isEmpty())
+        {
+            System.out.println(persistance.MovementPersistance.getInstnace().LoadObjects());
+        }        
     }
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException

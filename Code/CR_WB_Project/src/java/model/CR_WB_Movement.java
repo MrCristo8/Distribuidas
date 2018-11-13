@@ -140,7 +140,8 @@ public class CR_WB_Movement extends CR_WB_Model
         this.movement_id = movement_id;
     }
 
-    public CR_WB_Movement(Integer movement_id, Integer article_id, String movement_name, Date movement_date, Integer movement_ammount, String movement_direction)
+    public CR_WB_Movement(Integer movement_id, Integer article_id, String movement_name, 
+            Date movement_date, Integer movement_ammount, String movement_direction)
     {
         this.movement_id = movement_id;
         this.article_id = article_id;

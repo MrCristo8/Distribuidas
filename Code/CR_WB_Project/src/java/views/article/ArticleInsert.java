@@ -98,8 +98,8 @@ public class ArticleInsert extends HttpServlet {
                 "CREATED");
         persistance.ArticlePersistance.getInstnace().getObjectList().add(inserted_record);        
         Integer movementId = 1;
-        for (CR_WB_Movement movement : MovementPersistance.getInstnace().getObjectList()) {
-            if (!Objects.equals(movement.getMovement_id(), movementId)) {
+        for (CR_WB_Movement movement_loop : MovementPersistance.getInstnace().getObjectList()) {
+            if (!Objects.equals(movement_loop.getMovement_id(), movementId)) {
                 continue;
             }
             movementId++;

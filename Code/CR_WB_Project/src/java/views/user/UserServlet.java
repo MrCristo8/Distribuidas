@@ -29,7 +29,10 @@ public class UserServlet extends HttpServlet
 
     public UserServlet()
     {
-        System.out.println(persistance.UserPersistance.getInstnace().LoadObjects());
+        if (persistance.UserPersistance.getInstnace().getObjectList().isEmpty())
+        {
+            System.out.println(persistance.UserPersistance.getInstnace().LoadObjects());
+        }
     }
 
     /**
@@ -74,7 +77,7 @@ public class UserServlet extends HttpServlet
             throws ServletException, IOException
     {
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/index.jsp");        
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/index.jsp");
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);

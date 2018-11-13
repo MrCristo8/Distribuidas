@@ -28,7 +28,10 @@ public class MovementServlet extends HttpServlet
     
     public MovementServlet()
     {
-        System.out.println(persistance.MovementPersistance.getInstnace().LoadObjects());
+        if(persistance.MovementPersistance.getInstnace().getObjectList().isEmpty())
+        {
+            System.out.println(persistance.MovementPersistance.getInstnace().LoadObjects());
+        }
     }        
 
     /**

@@ -29,9 +29,12 @@ public class ClientServlet extends HttpServlet
 
     public ClientServlet()
     {
-        System.out.println(ClientPersistance.getInstnace().LoadObjects());
-    }    
-        
+        if (ClientPersistance.getInstnace().getObjectList().isEmpty())
+        {
+            System.out.println(ClientPersistance.getInstnace().LoadObjects());
+        }
+    }
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -51,7 +54,7 @@ public class ClientServlet extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ClientServlet</title>");            
+            out.println("<title>Servlet ClientServlet</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ClientServlet at " + request.getContextPath() + "</h1>");
@@ -73,8 +76,8 @@ public class ClientServlet extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        ServletContext sc=getServletContext();
-        RequestDispatcher dispatcher=sc.getRequestDispatcher("/WEB-INF/client/clientjsp.jsp");
+        ServletContext sc = getServletContext();
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/WEB-INF/client/clientjsp.jsp");
         request.setAttribute("objList",
                 persistance.ClientPersistance.getInstnace().getObjectList());
         if (dispatcher != null)
