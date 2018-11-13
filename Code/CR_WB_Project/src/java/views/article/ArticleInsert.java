@@ -110,6 +110,7 @@ public class ArticleInsert extends HttpServlet {
                 "+"
         );
         movement.setArticle(inserted_record);
+        movement.setState("CREATED");
         persistance.MovementPersistance.getInstnace().getObjectList().add(movement);
     }
 

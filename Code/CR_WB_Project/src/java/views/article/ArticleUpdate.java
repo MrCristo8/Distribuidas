@@ -141,6 +141,7 @@ public class ArticleUpdate extends HttpServlet {
                 movementDirection
         );
         movement.setArticle(updated_record);
+        movement.setState("CREATED");
         persistance.MovementPersistance.getInstnace().getObjectList().add(movement);
         //persistance.ArticlePersistance.getInstnace().UpdateOnDatabase();
         response.sendRedirect("/CR_WB_Project/ArticleServlet");
