@@ -101,7 +101,25 @@ public class UserServlet extends HttpServlet
         if (persistance.UserPersistance.getInstnace().getObjectList().contains(form_user))
         {
             /*here we put the main menu of the application*/
-            response.sendRedirect("/CR_WB_Project/ArticleServlet");
+            int pos = persistance.UserPersistance.getInstnace().getObjectList().indexOf(form_user);
+            CR_WB_User temp_user = persistance.UserPersistance.getInstnace().getObjectList().get(pos);
+            temp_user.setState("UPDATED");
+            persistance.UserPersistance.getInstnace().getObjectList().remove(pos);
+            if (temp_user.getUser_pwd().equals(form_user.getUser_pwd()))
+            {
+                temp_user.setValid_wabh(temp_user.getValid_wabh() + 1);
+                persistance.UserPersistance.getInstnace().getObjectList().add(pos, temp_user);
+                persistance.UserPersistance.getInstnace().UpdateOnDatabase();
+                response.sendRedirect("/CR_WB_Project/ArticleServlet");
+            }
+            else
+            {
+                temp_user.setNon_valid_wabh(temp_user.getNon_valid_wabh() + 1);                
+                persistance.UserPersistance.getInstnace().getObjectList().add(pos, temp_user);
+                persistance.UserPersistance.getInstnace().UpdateOnDatabase();
+                response.sendRedirect("/CR_WB_Project");
+            }
+
         } else
         {
             response.sendRedirect("/CR_WB_Project");

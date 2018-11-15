@@ -98,7 +98,7 @@ public class ClientUpdate extends HttpServlet {
                     id,
                     request.getParameter("dni"),
                     request.getParameter("name"),
-                    request.getParameter("addr"),
+                    request.getParameter("address"),
                     state);
             persistance.ClientPersistance.getInstnace().
                     getObjectList().remove(pos);

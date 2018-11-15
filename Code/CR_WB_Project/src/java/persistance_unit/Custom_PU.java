@@ -219,7 +219,7 @@ public class Custom_PU
         } catch (Exception e)
         {
             System.out.println(e.getMessage() + " " + e.getCause());
-            return "Delete failed rows affected";
+            return "Delete failed rows not affected";
         }
         return "Delete Sucesfull!!";
     }
@@ -279,10 +279,8 @@ public class Custom_PU
             stmt.executeUpdate();
             conn.close();
             return "Insert Successfull";
-        } catch (SQLException ex)
-        {
-            System.out.println(ex.getMessage());
-        } catch (IllegalArgumentException | IllegalAccessException ex)
+        } catch (SQLException | IllegalArgumentException | 
+                IllegalAccessException ex)
         {
             System.out.println(ex.getMessage());
         }

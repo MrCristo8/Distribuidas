@@ -23,6 +23,10 @@ public class CR_WB_User extends CR_WB_Model
     private String user_name;
     @RelatedColumn("USER_PWD")
     private String user_pwd;
+    @RelatedColumn("VALID_WABH")
+    private Integer valid_wabh;
+    @RelatedColumn("NON_VALID_WABH")
+    private Integer non_valid_wabh;
 
     public CR_WB_User()
     {
@@ -59,6 +63,27 @@ public class CR_WB_User extends CR_WB_Model
         this.user_pwd = user_pwd;
     }
 
+    public Integer getValid_wabh()
+    {
+        return valid_wabh;
+    }
+
+    public void setValid_wabh(Integer valid_wabh)
+    {
+        this.valid_wabh = valid_wabh;
+    }
+
+    public Integer getNon_valid_wabh()
+    {
+        return non_valid_wabh;
+    }
+
+    public void setNon_valid_wabh(Integer non_valid_wabh)
+    {
+        this.non_valid_wabh = non_valid_wabh;
+    }
+    
+    
     public CR_WB_User(Integer id, String user_name, String user_pwd, String state)
     {
         this.user_id = id;
@@ -67,14 +92,27 @@ public class CR_WB_User extends CR_WB_Model
         this.state = state;
     }
 
+    public CR_WB_User(Integer user_id, String user_name, String user_pwd, 
+            Integer valid_wabh, Integer non_valid_wabh, String state)
+    {
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_pwd = user_pwd;
+        this.valid_wabh = valid_wabh;
+        this.non_valid_wabh = non_valid_wabh;
+        this.state = state;
+    }
+    
+    
+
     public CR_WB_User(String user_name, String user_pwd)
     {
         this.user_name = user_name;
         this.user_pwd = user_pwd;
     }
 
-    @Override
-    public boolean equals(Object obj)
+    //@Override
+    /*public boolean equals(Object obj)
     {
         if (this == obj)
         {
@@ -94,7 +132,28 @@ public class CR_WB_User extends CR_WB_Model
             return false;
         }
         return Objects.equals(this.user_pwd, other.user_pwd);
+    }*/
+
+    @Override
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
+            return true;
+        }
+        if (obj == null)
+        {
+            return false;
+        }
+        if (getClass() != obj.getClass())
+        {
+            return false;
+        }
+        final CR_WB_User other = (CR_WB_User) obj;
+        return Objects.equals(this.user_name, other.user_name);
     }
+    
+    
 
     @Override
     public int hashCode() {
