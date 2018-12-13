@@ -24,7 +24,7 @@ public class ArticlePersistance
         return uniqueInstance;
     }
     
-    public String persistArticle(model.WbCrArticle obj_in)
+    public String persistObject(model.WbCrArticle obj_in)
     {
         return new ObjectDAO().persistObject(obj_in);
     }
