@@ -1,12 +1,15 @@
 package beans;
 // Generated Dec 13, 2018 12:47:24 AM by Hibernate Tools 4.3.1
 
+import controller.ArticlePersistance;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -17,8 +20,7 @@ import model.WbCrArticle;
  */
 @ManagedBean()
 @SessionScoped
-public class ArticleBean implements java.io.Serializable
-{
+public class ArticleBean implements java.io.Serializable {
 
     private String articleName;
     private double articlePrice;
@@ -30,19 +32,16 @@ public class ArticleBean implements java.io.Serializable
     private Set wbCrBilldetails = new HashSet(0);
     private WbCrArticle current;
 
-    public ArticleBean()
-    {
+    public ArticleBean() {
     }
 
-    public ArticleBean(String articleName, double articlePrice, int articleStock)
-    {
+    public ArticleBean(String articleName, double articlePrice, int articleStock) {
         this.articleName = articleName;
         this.articlePrice = articlePrice;
         this.articleStock = articleStock;
     }
 
-    public ArticleBean(String articleName, double articlePrice, int articleStock, Set wbCrStocks, Set wbCrBilldetails)
-    {
+    public ArticleBean(String articleName, double articlePrice, int articleStock, Set wbCrStocks, Set wbCrBilldetails) {
         this.articleName = articleName;
         this.articlePrice = articlePrice;
         this.articleStock = articleStock;
@@ -50,97 +49,69 @@ public class ArticleBean implements java.io.Serializable
         this.wbCrBilldetails = wbCrBilldetails;
     }
 
-    public void setArticleName(String articleName)
-    {
+    public void setArticleName(String articleName) {
         this.articleName = articleName;
     }
 
-    public String getArticleName()
-    {
+    public String getArticleName() {
         return articleName;
     }
 
-    public double getArticlePrice()
-    {
+    public double getArticlePrice() {
         return this.articlePrice;
     }
 
-    public void setArticlePrice(double articlePrice)
-    {
+    public void setArticlePrice(double articlePrice) {
         this.articlePrice = articlePrice;
     }
 
-    public int getArticleStock()
-    {
+    public int getArticleStock() {
         return articleStock;
     }
 
-    public void setArticleStock(int articleStock)
-    {
+    public void setArticleStock(int articleStock) {
         this.articleStock = articleStock;
     }
 
-    public Set getWbCrStocks()
-    {
+    public Set getWbCrStocks() {
         return wbCrStocks;
     }
 
-    public void setWbCrStocks(Set wbCrStocks)
-    {
+    public void setWbCrStocks(Set wbCrStocks) {
         this.wbCrStocks = wbCrStocks;
     }
 
-    public Set getWbCrBilldetails()
-    {
+    public Set getWbCrBilldetails() {
         return wbCrBilldetails;
     }
 
-    public ArrayList<model.WbCrArticle> getArticleList()
-    {
+    public ArrayList<model.WbCrArticle> getArticleList() {
         articleList = controller.ArticlePersistance.getInstance().getAll();
         return articleList;
     }
 
-    public String getFilterString()
-    {
+    public String getFilterString() {
         return filterString;
     }
 
-    public void setFilterString(String filterString)
-    {
+    public void setFilterString(String filterString) {
         this.filterString = filterString;
     }
 
-    public ArrayList<WbCrArticle> getFilteredList()
-    {
-        if (filteredList == null)
-        {
+    public ArrayList<WbCrArticle> getFilteredList() {
+        if (filteredList == null) {
             filteredList = new ArrayList<>();
         }
         return filteredList;
     }
 
-    public WbCrArticle getCurrent()
-    {
-        return current;
-    }
-
-    public void setCurrent(WbCrArticle current)
-    {
-        this.current = current;
-    }
-
-    public void filter()
-    {
-        if (articleList != null && getFilteredList() != null && filterString != null)
-        {
-            if (articleList.size() >= 1)
-            {
+    public void filter() {
+        if (articleList != null && getFilteredList() != null && filterString != null) {
+            if (articleList.size() >= 1) {
                 getFilteredList().clear();
-                articleList.forEach(x ->
-                {
-                    if (x.getArticleName().toUpperCase().contains(filterString.toUpperCase()))
-                    {
+                articleList.forEach(x
+                        -> {
+                    if (x.getArticleName().toUpperCase().contains(filterString.toUpperCase())) {
                         getFilteredList().add(x);
                     }
                 });
@@ -149,38 +120,35 @@ public class ArticleBean implements java.io.Serializable
         }
     }
 
-    public void delete(WbCrArticle art)
-    {
+    public void delete(WbCrArticle art) {
         controller.ArticlePersistance.getInstance().deleteObject(art.getArticleId());
     }
 
-    public void prepareUpdate(WbCrArticle art_update)
-    {
-        setCurrent(art_update);
-        try
-        {
-            FacesContext.getCurrentInstance().getExternalContext().redirect("update.xhtml");
-        } catch (IOException ex)
-        {
-            Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-    public void update()
-    {
-        if(controller.ArticlePersistance.getInstance().updateObject(current).equals("OK"))
-        {
-            try
-            {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
-            } catch (IOException ex)
-            {
-                Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        else
-        {
-            
+    public void Change() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("new.xhtml");
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
         }
     }
 
+    public void Add() {
+        int id = 1;
+        List<WbCrArticle> articles = ArticlePersistance.getInstance().getAll();
+        for (WbCrArticle article : articles) {
+            if (article.getArticleId() != id) {
+                continue;
+            }
+            id++;
+        }
+        ArticlePersistance.getInstance().persistObject(new WbCrArticle(id, articleName, articlePrice, articleStock));
+        try {
+            articleName="";
+            articlePrice=0;
+            articleStock=0;
+            FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }

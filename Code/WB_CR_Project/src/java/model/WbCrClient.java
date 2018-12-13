@@ -77,6 +77,13 @@ public class WbCrClient implements Serializable
         this.clientName = clientName;
     }
 
+    public WbCrClient(Integer clientId, String clientDni, String clientName, String clientAddress) {
+        this.clientId = clientId;
+        this.clientDni = clientDni;
+        this.clientName = clientName;
+        this.clientAddress = clientAddress;
+    }
+
     public Integer getClientId()
     {
         return clientId;
