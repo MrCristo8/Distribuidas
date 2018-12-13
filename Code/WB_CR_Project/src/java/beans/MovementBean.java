@@ -1,11 +1,15 @@
 package beans;
 // Generated Dec 13, 2018 12:47:24 AM by Hibernate Tools 4.3.1
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import model.WbCrMovement;
 
 /**
@@ -126,6 +130,12 @@ public class MovementBean implements java.io.Serializable
         {
             System.out.println("NO OK");
         }
-
+    }
+    public void Change(){
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("new.xhtml");
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
     }
 }
