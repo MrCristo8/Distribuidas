@@ -1,11 +1,15 @@
 package beans;
 // Generated Dec 13, 2018 12:47:24 AM by Hibernate Tools 4.3.1
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import model.WbCrCity;
 
 /**
@@ -21,6 +25,7 @@ public class CityBean implements java.io.Serializable
     private ArrayList<WbCrCity> cityList;
     private String filterString;
     private ArrayList<WbCrCity> filteredList;
+    private WbCrCity current;
     private Set wbCrBills = new HashSet(0);
 
     public CityBean()
@@ -91,6 +96,18 @@ public class CityBean implements java.io.Serializable
         if(filteredList == null) filteredList = new ArrayList<>();
         return filteredList;
     }
+
+    public WbCrCity getCurrent()
+    {
+        return current;
+    }
+
+    public void setCurrent(WbCrCity current)
+    {
+        this.current = current;
+    }
+    
+    
     
     public void filter()
     {
@@ -112,5 +129,37 @@ public class CityBean implements java.io.Serializable
 
     }
     
+    public void delete(WbCrCity art)
+    {        
+        controller.CityPersistance.getInstance().deleteObject(art.getCityId());
+    }
     
+    public void prepareUpdate(WbCrCity art_update)
+    {
+        setCurrent(art_update);
+        try
+        {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("update.xhtml");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void update()
+    {
+        if(controller.CityPersistance.getInstance().updateObject(current).equals("OK"))
+        {
+            try
+            {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+            } catch (IOException ex)
+            {
+                Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
+            
+        }
+    }    
 }

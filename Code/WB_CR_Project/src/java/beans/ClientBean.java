@@ -1,11 +1,15 @@
 package beans;
 // Generated Dec 13, 2018 12:47:24 AM by Hibernate Tools 4.3.1
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import model.WbCrClient;
 
 /**
@@ -20,6 +24,7 @@ public class ClientBean implements java.io.Serializable
     private String clientName;
     private String clientAddress;
     private String filterString;
+    private WbCrClient current;
     private ArrayList<WbCrClient> filteredList;
     private ArrayList<model.WbCrClient> clientList;
     private Set wbCrBills = new HashSet(0);
@@ -105,6 +110,18 @@ public class ClientBean implements java.io.Serializable
         return filteredList;
     }
 
+    public WbCrClient getCurrent()
+    {
+        return current;
+    }
+
+    public void setCurrent(WbCrClient current)
+    {
+        this.current = current;
+    }
+    
+    
+
     public void filter()
     {
         if (clientList != null && getFilteredList() != null && filterString != null)
@@ -123,6 +140,40 @@ public class ClientBean implements java.io.Serializable
             }
         }
 
+    }
+    
+    public void delete(WbCrClient art)
+    {        
+        controller.ClientPersistance.getInstance().deleteObject(art.getClientId());
+    }
+    
+    public void prepareUpdate(WbCrClient art_update)
+    {
+        setCurrent(art_update);
+        try
+        {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("update.xhtml");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void update()
+    {
+        if(controller.ClientPersistance.getInstance().updateObject(current).equals("OK"))
+        {
+            try
+            {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+            } catch (IOException ex)
+            {
+                Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
+            
+        }
     }
 
 }

@@ -14,31 +14,25 @@ and open the template in the editor.
     </head>
     <body>
         <ui:composition template="/layout.xhtml">
-            <ui:define name="title">Update Article</ui:define>
+            <ui:define name="title">Update Movement</ui:define>
             <ui:define name="heading"><br></br></ui:define>
             <ui:define name="content">
                 <h:form class="form-group">
                     <div class="form-group row"> 
-                        <label for="inputUser" class="col-sm-2 col-form-label">Article Name</label>
+                        <label for="inputUser" class="col-sm-2 col-form-label">Movement Name</label>
                         <div class="col-sm-10">
-                            <h:inputText styleClass="form-control" value="#{articleBean.current.articleName}"/>
+                            <h:inputText styleClass="form-control" value="#{movementBean.current.movementName}"/>
                         </div>
                     </div>
                     <div class="form-group row"> 
-                        <label for="inputPass" class="col-sm-2 col-form-label">Article Price</label>
+                        <label for="inputPass" class="col-sm-2 col-form-label">Movement Direction</label>
                         <div class="col-sm-10">
-                            <h:inputText styleClass="form-control" value="#{articleBean.current.articlePrice}"/>
+                            <h:inputText styleClass="form-control" value="#{movementBean.current.movementDirection}"/>
                         </div>
-                    </div>
-                    <div class="form-group row"> 
-                        <label for="inputPass" class="col-sm-2 col-form-label">Article Stock</label>
-                        <div class="col-sm-10">
-                            <h:inputText styleClass="form-control" value="#{articleBean.current.articleStock}"/>
-                        </div>
-                    </div>
+                    </div>                    
                     <div class="form-group row">
                         <div class="col-sm-10">
-                            <h:commandButton class="btn btn-lg btn-primary" value="Add" action="#{articleBean.update()}"></h:commandButton>
+                            <h:commandButton class="btn btn-lg btn-primary" value="Update" action="#{movementBean.update()}"></h:commandButton>
                         </div>
                     </div>
                 </h:form>

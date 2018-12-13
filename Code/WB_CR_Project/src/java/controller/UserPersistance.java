@@ -36,9 +36,9 @@ public class UserPersistance
         return new ObjectDAO().persistObject(obj_in);
     }
 
-    public String deleteObject(model.WbCrUser obj_in, int id)
+    public String deleteObject(int id)
     {
-        return new ObjectDAO().deleteObject(obj_in, id);
+        return new ObjectDAO().deleteObject(new model.WbCrUser(), id);
     }
 
     public ArrayList<model.WbCrUser> getAll()

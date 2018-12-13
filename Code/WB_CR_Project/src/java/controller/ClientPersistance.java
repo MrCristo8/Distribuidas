@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import model.WbCrClient;
 
 /**
  *
@@ -37,9 +38,9 @@ public class ClientPersistance
         return new ObjectDAO().persistObject(obj_in);
     }
 
-    public String deleteObject(model.WbCrClient obj_in, int id)
+    public String deleteObject( int id)
     {
-        return new ObjectDAO().deleteObject(obj_in, id);
+        return new ObjectDAO().deleteObject(new WbCrClient(), id);
     }
 
     public ArrayList<model.WbCrClient> getAll()
@@ -71,7 +72,8 @@ public class ClientPersistance
         } catch (Exception ex)
         {
             msg = ex.toString();
-            em1.getTransaction().rollback();
+            if(em1.getTransaction().isActive())
+                em1.getTransaction().rollback();
         }
         em1.close();
         factory.close();

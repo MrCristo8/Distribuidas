@@ -46,7 +46,7 @@ public class ArticlePersistance
     }    
     public String updateObject(model.WbCrArticle updated_record)
     {
-        String msg = "OK";
+        String msg = "NOK";
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
         EntityManager em1 = factory.createEntityManager();
         model.WbCrArticle obj_in = em1.find(model.WbCrArticle.class, updated_record.getArticleId());

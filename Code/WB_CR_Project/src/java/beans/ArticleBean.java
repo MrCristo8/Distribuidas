@@ -1,11 +1,15 @@
 package beans;
 // Generated Dec 13, 2018 12:47:24 AM by Hibernate Tools 4.3.1
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 import model.WbCrArticle;
 
 /**
@@ -24,6 +28,7 @@ public class ArticleBean implements java.io.Serializable
     private ArrayList<model.WbCrArticle> filteredList;
     private Set wbCrStocks = new HashSet(0);
     private Set wbCrBilldetails = new HashSet(0);
+    private WbCrArticle current;
 
     public ArticleBean()
     {
@@ -115,6 +120,16 @@ public class ArticleBean implements java.io.Serializable
         return filteredList;
     }
 
+    public WbCrArticle getCurrent()
+    {
+        return current;
+    }
+
+    public void setCurrent(WbCrArticle current)
+    {
+        this.current = current;
+    }
+
     public void filter()
     {
         if (articleList != null && getFilteredList() != null && filterString != null)
@@ -133,9 +148,39 @@ public class ArticleBean implements java.io.Serializable
             }
         }
     }
+
     public void delete(WbCrArticle art)
-    {        
+    {
         controller.ArticlePersistance.getInstance().deleteObject(art.getArticleId());
+    }
+
+    public void prepareUpdate(WbCrArticle art_update)
+    {
+        setCurrent(art_update);
+        try
+        {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("update.xhtml");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void update()
+    {
+        if(controller.ArticlePersistance.getInstance().updateObject(current).equals("OK"))
+        {
+            try
+            {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+            } catch (IOException ex)
+            {
+                Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
+            
+        }
     }
 
 }

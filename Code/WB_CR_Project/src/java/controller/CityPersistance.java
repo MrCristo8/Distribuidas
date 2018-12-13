@@ -37,9 +37,9 @@ public class CityPersistance
         return new ObjectDAO().persistObject(obj_in);
     }
 
-    public String deleteObject(model.WbCrCity obj_in, int id)
+    public String deleteObject( int id)
     {
-        return new ObjectDAO().deleteObject(obj_in, id);
+        return new ObjectDAO().deleteObject(new model.WbCrCity(), id);
     }
 
     public ArrayList<model.WbCrCity> getAll()

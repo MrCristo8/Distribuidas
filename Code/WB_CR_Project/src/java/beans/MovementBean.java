@@ -24,6 +24,7 @@ public class MovementBean implements java.io.Serializable
     private String movementDirection;
     private Integer movementId;
     private String filterString;
+    private WbCrMovement current;
     private ArrayList<WbCrMovement> filteredList;
     private ArrayList<WbCrMovement> movementList;
 
@@ -104,10 +105,24 @@ public class MovementBean implements java.io.Serializable
 
     public ArrayList<WbCrMovement> getFilteredList()
     {
-        if(filteredList == null) filteredList = new ArrayList<>();
+        if (filteredList == null)
+        {
+            filteredList = new ArrayList<>();
+        }
         return filteredList;
     }
 
+    public WbCrMovement getCurrent()
+    {
+        return current;
+    }
+
+    public void setCurrent(WbCrMovement current)
+    {
+        this.current = current;
+    }
+
+    
     public void filter()
     {
         if (movementList != null && getFilteredList() != null && filterString != null)
@@ -125,17 +140,54 @@ public class MovementBean implements java.io.Serializable
                 });
 
             }
-        }
-        else
+        } else
         {
             System.out.println("NO OK");
         }
     }
-    public void Change(){
-        try {
+    
+      public void delete(WbCrMovement art)
+    {
+        controller.MovementPersistance.getInstance().deleteObject(art.getMovementId());
+    }
+
+    public void Change()
+    {
+        try
+        {
             FacesContext.getCurrentInstance().getExternalContext().redirect("new.xhtml");
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void prepareUpdate(WbCrMovement art_update)
+    {
+        setCurrent(art_update);
+        try
+        {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("update.xhtml");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void update()
+    {
+        if(controller.MovementPersistance.getInstance().updateObject(current).equals("OK"))
+        {
+            try
+            {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+            } catch (IOException ex)
+            {
+                Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
+            
         }
     }
 }

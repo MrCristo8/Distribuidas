@@ -67,10 +67,10 @@
                                         </h:column>                                     
                                         <h:column>
                                             <c:facet name="header">Actions</c:facet>
-                                            <h:commandLink title="Update Record">
+                                            <h:commandLink title="Update Record" action="#{movementBean.prepareUpdate(movement)}">
                                                 <i class="material-icons" data-toggle="tooltip" title="Edit">edit</i>
                                             </h:commandLink>
-                                            <h:commandLink title="Delete Record">
+                                            <h:commandLink title="Delete Record" action="#{movementBean.delete(movement)}">
                                                 <i class="material-icons" data-toggle="tooltip" title="Delete">delete</i>
                                             </h:commandLink>            
                                         </h:column>

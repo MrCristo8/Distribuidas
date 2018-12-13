@@ -36,9 +36,9 @@ public class MovementPersistance
         return new ObjectDAO().persistObject(obj_in);
     }
 
-    public String deleteObject(model.WbCrMovement obj_in, int id)
+    public String deleteObject(int id)
     {
-        return new ObjectDAO().deleteObject(obj_in, id);
+        return new ObjectDAO().deleteObject(new model.WbCrMovement(), id);
     }
 
     public ArrayList<model.WbCrMovement> getAll()
