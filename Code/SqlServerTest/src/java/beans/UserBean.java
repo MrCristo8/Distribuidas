@@ -8,7 +8,7 @@ package beans;
 import javax.inject.Named;
 import javax.enterprise.context.SessionScoped;
 import java.io.Serializable;
-import model.dao.ObjectDAO;
+import controller.ObjectDAO;
 
 /**
  *
@@ -52,7 +52,7 @@ public class UserBean implements Serializable
     
     public void login()
     {
-        model.dao.ObjectDAO persistance_obj = new ObjectDAO();
+        controller.ObjectDAO persistance_obj = new ObjectDAO();
         System.out.println(persistance_obj.getAllObjects(new model.WbCrUser(), "WbCrUser").size());
     }
 

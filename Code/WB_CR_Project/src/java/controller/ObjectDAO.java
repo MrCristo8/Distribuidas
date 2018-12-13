@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package model.dao;
+package controller;
 
 import java.io.Serializable;
 import java.util.List;
@@ -22,7 +22,7 @@ public class ObjectDAO implements DAOIface<Object, Serializable>
     public String persistObject(Object entity)
     {
         String msg;        
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("SqlServerTestPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
         EntityManager em1 = factory.createEntityManager();
         try
         {
@@ -45,7 +45,7 @@ public class ObjectDAO implements DAOIface<Object, Serializable>
     public String deleteObject(Object entity, Object id)
     {
         String msg;
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("SqlServerTestPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
         EntityManager em1 = factory.createEntityManager();
         Object obj_in = em1.find(entity.getClass(), id);
         try
@@ -69,7 +69,7 @@ public class ObjectDAO implements DAOIface<Object, Serializable>
     @Override
     public List<?> getAllObjects(Object entity, String query)
     {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("SqlServerTestPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
         EntityManager em1 = factory.createEntityManager();
         List<?> result_list = em1.createNamedQuery(query+".findAll", entity.getClass()).getResultList();
         em1.close();
@@ -80,7 +80,7 @@ public class ObjectDAO implements DAOIface<Object, Serializable>
     @Override
     public Object findObject(Object entity, Object id)
     {
-        EntityManagerFactory factory = Persistence.createEntityManagerFactory("SqlServerTestPU");
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
         EntityManager em1 = factory.createEntityManager();
         try
         {
