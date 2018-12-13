@@ -7,3 +7,5 @@
 /Code/WB_CR_Project/nbproject/private/
 /Code/WB_CR_Project/build/
 /Code/WB_CR_Project/dist/
+Code/WB_CR_Project/src/conf/persistence.xml
+Code/WB_CR_Project/web/WEB-INF/glassfish-resources.xml
