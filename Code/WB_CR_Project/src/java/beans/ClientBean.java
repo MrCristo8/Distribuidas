@@ -1,9 +1,11 @@
 package beans;
 // Generated Dec 13, 2018 12:47:24 AM by Hibernate Tools 4.3.1
 
+import controller.ClientPersistance;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -176,4 +178,31 @@ public class ClientBean implements java.io.Serializable
         }
     }
 
+    public void Change() {
+        try {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("new.xhtml");
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void Add(){
+        int id=1;
+        List<WbCrClient> clients = ClientPersistance.getInstance().getAll();
+        for (WbCrClient client : clients) {
+            if(client.getClientId()!=id){
+                continue;
+            }
+            id++;
+        }
+        ClientPersistance.getInstance().persistObject(new WbCrClient(id, clientDni, clientName, clientAddress));
+        try {
+            clientDni="";
+            clientName="";
+            clientAddress="";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
 }

@@ -1,9 +1,11 @@
 package beans;
 // Generated Dec 13, 2018 12:47:24 AM by Hibernate Tools 4.3.1
 
+import controller.MovementPersistance;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,8 +19,7 @@ import model.WbCrMovement;
  */
 @ManagedBean()
 @SessionScoped
-public class MovementBean implements java.io.Serializable
-{
+public class MovementBean implements java.io.Serializable {
 
     private String movementName;
     private String movementDirection;
@@ -30,83 +31,67 @@ public class MovementBean implements java.io.Serializable
 
     private Set wbCrStocks = new HashSet(0);
 
-    public MovementBean()
-    {
+    public MovementBean() {
     }
 
-    public MovementBean(String movementName, String movementDirection)
-    {
+    public MovementBean(String movementName, String movementDirection) {
         this.movementName = movementName;
         this.movementDirection = movementDirection;
     }
 
-    public MovementBean(String movementName, String movementDirection, Set wbCrStocks)
-    {
+    public MovementBean(String movementName, String movementDirection, Set wbCrStocks) {
         this.movementName = movementName;
         this.movementDirection = movementDirection;
         this.wbCrStocks = wbCrStocks;
     }
 
-    public String getMovementName()
-    {
+    public String getMovementName() {
         return this.movementName;
     }
 
-    public void setMovementName(String movementName)
-    {
+    public void setMovementName(String movementName) {
         this.movementName = movementName;
     }
 
-    public String getMovementDirection()
-    {
+    public String getMovementDirection() {
         return this.movementDirection;
     }
 
-    public void setMovementDirection(String movementDirection)
-    {
+    public void setMovementDirection(String movementDirection) {
         this.movementDirection = movementDirection;
     }
 
-    public Set getWbCrStocks()
-    {
+    public Set getWbCrStocks() {
         return this.wbCrStocks;
     }
 
-    public void setWbCrStocks(Set wbCrStocks)
-    {
+    public void setWbCrStocks(Set wbCrStocks) {
         this.wbCrStocks = wbCrStocks;
     }
 
-    public Integer getMovementId()
-    {
+    public Integer getMovementId() {
         return movementId;
     }
 
-    public void setMovementId(Integer movementId)
-    {
+    public void setMovementId(Integer movementId) {
         this.movementId = movementId;
     }
 
-    public ArrayList<WbCrMovement> getMovementList()
-    {
+    public ArrayList<WbCrMovement> getMovementList() {
         movementList = controller.MovementPersistance.getInstance().getAll();
         return movementList;
     }
 
-    public String getFilterString()
-    {
+    public String getFilterString() {
         return filterString;
     }
 
-    public void setFilterString(String filterString)
-    {
+    public void setFilterString(String filterString) {
         this.filterString = filterString;
     }
 
-    public ArrayList<WbCrMovement> getFilteredList()
-    {
-        if (filteredList == null)
-        {
+    public ArrayList<WbCrMovement> getFilteredList() {
+        if (filteredList == null) {
             filteredList = new ArrayList<>();
         }
         return filteredList;
@@ -128,13 +113,11 @@ public class MovementBean implements java.io.Serializable
         if (movementList != null && getFilteredList() != null && filterString != null)
         {
             System.out.println("OK");
-            if (movementList.size() >= 1)
-            {
+            if (movementList.size() >= 1) {
                 getFilteredList().clear();
-                movementList.forEach(x ->
-                {
-                    if (x.getMovementName().toUpperCase().contains(filterString.toUpperCase()))
-                    {
+                movementList.forEach(x
+                        -> {
+                    if (x.getMovementName().toUpperCase().contains(filterString.toUpperCase())) {
                         getFilteredList().add(x);
                     }
                 });
@@ -145,19 +128,31 @@ public class MovementBean implements java.io.Serializable
             System.out.println("NO OK");
         }
     }
-    
-      public void delete(WbCrMovement art)
-    {
-        controller.MovementPersistance.getInstance().deleteObject(art.getMovementId());
-    }
 
-    public void Change()
-    {
-        try
-        {
+    public void Change() {
+        try {
             FacesContext.getCurrentInstance().getExternalContext().redirect("new.xhtml");
         } catch (IOException ex)
         {
+            System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void Add(){
+        int id=1;
+        List<WbCrMovement> movements = MovementPersistance.getInstance().getAll();
+        for (WbCrMovement movement : movements) {
+            if(movement.getMovementId()!=id){
+                continue;
+            }
+            id++;
+        }
+        MovementPersistance.getInstance().persistObject(new WbCrMovement(id, movementName, movementDirection));
+        try {
+            movementName="";
+            movementDirection="";
+            FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+        } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }
