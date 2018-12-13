@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:body>
+        <h:form class="form-group">
+            <div class="form-group row"> 
+                <label for="inputUser" class="col-sm-2 col-form-label">User</label>
+                <div class="col-sm-10">
+                    <h:inputText styleClass="form-control" value="#{userBean.userName}"/>
+                </div>
+            </div>
+            <div class="form-group row"> 
+                <label for="inputPass" class="col-sm-2 col-form-label">Password</label>
+                <div class="col-sm-10">
+                    <h:inputSecret styleClass="form-control" value="#{userBean.userPassword}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="inputPermission" class="col-sm-2 col-form-label">Permission</label>
+                <div class="col-sm-10">
+                    <h:inputText styleClass="form-control" value="#{userBean.userPermission}"/>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <h:commandButton class="btn btn-lg btn-primary" value="Add" action="#{userBean.Add()}"></h:commandButton>
+                </div>
+            </div>
+        </h:form>
+    </h:body>
+</html>

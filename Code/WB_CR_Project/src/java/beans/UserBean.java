@@ -4,8 +4,6 @@ package beans;
 import controller.UserPersistance;
 import java.io.IOException;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
@@ -21,6 +19,7 @@ public class UserBean implements java.io.Serializable {
     private String userName;
     private String userPassword;
     private String userPermission;
+    private String[] permission;
 
     public UserBean() {
     }
@@ -49,17 +48,41 @@ public class UserBean implements java.io.Serializable {
         this.userPermission = userPermission;
     }
 
+    public String[] getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String[] permission) {
+        this.permission = permission;
+    }
+    
+    
     public void login() {
         List<WbCrUser> users = UserPersistance.getInstance().getAll();
         WbCrUser user = new WbCrUser(getUserName(), getUserPassword());
         if (users.contains(user)) {
             try {
-                FacesContext.getCurrentInstance().getExternalContext().redirect("city/city.xhtml");
+                int id=users.indexOf(user);
+                user=users.get(id);
+                permission=user.getUserPermission().split(",");
+                FacesContext.getCurrentInstance().getExternalContext().redirect("layout.xhtml");
             } catch (IOException ex) {
                 System.out.println("Error: "+ex.getMessage());
             }
         } else {
             System.out.println("NO");
         }
+    }
+    
+    public void Add(){
+        int id=1;
+        List<WbCrUser> users = UserPersistance.getInstance().getAll();
+        for (WbCrUser user : users) {
+            if(user.getUserId()!=id){
+                continue;
+            }
+            id++;
+        }
+        UserPersistance.getInstance().persistObject(new WbCrUser(id, userName, userPassword, userPermission));
     }
 }
