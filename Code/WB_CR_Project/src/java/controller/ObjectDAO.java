@@ -58,7 +58,8 @@ public class ObjectDAO implements DAOIface<Object, Serializable>
         } catch (Exception ex)
         {
             msg = ex.toString();
-            em1.getTransaction().rollback();
+            if(em1.getTransaction().isActive())
+                em1.getTransaction().rollback();
         }
         em1.close();
         factory.close();

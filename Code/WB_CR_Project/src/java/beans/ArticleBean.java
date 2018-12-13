@@ -132,7 +132,10 @@ public class ArticleBean implements java.io.Serializable
 
             }
         }
-
+    }
+    public void delete(WbCrArticle art)
+    {        
+        controller.ArticlePersistance.getInstance().deleteObject(art.getArticleId());
     }
 
 }
