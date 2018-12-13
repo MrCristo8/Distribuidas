@@ -181,4 +181,49 @@
             <to-view-id>/wbCrMovement/Detail.jsp</to-view-id>
         </navigation-case>
     </navigation-rule>
+    <application>
+        <el-resolver>model.util.JsfCrudELResolver</el-resolver>
+    </application>
+    <managed-bean>
+        <managed-bean-name>wbCrUser</managed-bean-name>
+        <managed-bean-class>controller.WbCrUserController</managed-bean-class>
+    
+        <managed-bean-scope>session</managed-bean-scope></managed-bean>
+    <managed-bean>
+        <managed-bean-name>wbCrUserJpa</managed-bean-name>
+        <managed-bean-class>managedbeans.WbCrUserFacade</managed-bean-class>
+    
+        <managed-bean-scope>session</managed-bean-scope></managed-bean>
+    <converter>
+        <converter-for-class>model.WbCrUser</converter-for-class>
+        <converter-class>controller.WbCrUserConverter</converter-class>
+    </converter>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>wbCrUser_create</from-outcome>
+            <to-view-id>/wbCrUser/New.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>wbCrUser_list</from-outcome>
+            <to-view-id>/wbCrUser/List.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>wbCrUser_edit</from-outcome>
+            <to-view-id>/wbCrUser/Edit.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
+    <navigation-rule>
+        <from-view-id>*</from-view-id>
+        <navigation-case>
+            <from-outcome>wbCrUser_detail</from-outcome>
+            <to-view-id>/wbCrUser/Detail.jsp</to-view-id>
+        </navigation-case>
+    </navigation-rule>
 </faces-config>
