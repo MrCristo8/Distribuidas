@@ -12,24 +12,34 @@ and open the template in the editor.
             <div class="form-group row"> 
                 <label for="inputUser" class="col-sm-2 col-form-label">User</label>
                 <div class="col-sm-10">
-                    <h:inputText styleClass="form-control" value="#{userBean.userName}"/>
+                    <h:inputText styleClass="form-control" value="#{userBean.current.userName}" required="true"/>
                 </div>
             </div>
             <div class="form-group row"> 
                 <label for="inputPass" class="col-sm-2 col-form-label">Password</label>
                 <div class="col-sm-10">
-                    <h:inputSecret styleClass="form-control" value="#{userBean.userPassword}"/>
+                    <h:inputSecret styleClass="form-control" value="#{userBean.current.userPassword}" required="true"/>
                 </div>
             </div>
             <div class="form-group row">
                 <label for="inputPermission" class="col-sm-2 col-form-label">Permission</label>
                 <div class="col-sm-10">
-                    <h:inputText styleClass="form-control" value="#{userBean.userPermission}"/>
+                    <h:inputText styleClass="form-control" value="#{userBean.current.userPermission}"/>
                 </div>
             </div>
             <div class="form-group row">
-                <div class="col-sm-10">
+                <div class="col-sm-2">
                     <h:commandButton class="btn btn-lg btn-primary" value="Add" action="#{userBean.Add()}"></h:commandButton>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <h:commandButton class="btn btn-lg btn-primary" value="Update" action="#{userBean.Update()}"></h:commandButton>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-2">
+                    <h:commandButton class="btn btn-lg btn-primary" value="Delete" action="#{userBean.Delete()}"></h:commandButton>
                 </div>
             </div>
         </h:form>

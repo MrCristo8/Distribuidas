@@ -20,8 +20,10 @@ public class UserBean implements java.io.Serializable {
     private String userPassword;
     private String userPermission;
     private String[] permission;
+    private WbCrUser current;
 
     public UserBean() {
+        current = new WbCrUser(0, "", "", "");
     }
 
     public String getUserName() {
@@ -55,34 +57,69 @@ public class UserBean implements java.io.Serializable {
     public void setPermission(String[] permission) {
         this.permission = permission;
     }
-    
-    
+
+    public WbCrUser getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(WbCrUser current) {
+        this.current = current;
+    }
+
     public void login() {
         List<WbCrUser> users = UserPersistance.getInstance().getAll();
         WbCrUser user = new WbCrUser(getUserName(), getUserPassword());
         if (users.contains(user)) {
             try {
-                int id=users.indexOf(user);
-                user=users.get(id);
-                permission=user.getUserPermission().split(",");
+                int id = users.indexOf(user);
+                user = users.get(id);
+                permission = user.getUserPermission().split(",");
                 FacesContext.getCurrentInstance().getExternalContext().redirect("layout.xhtml");
             } catch (IOException ex) {
-                System.out.println("Error: "+ex.getMessage());
+                System.out.println("Error: " + ex.getMessage());
             }
         } else {
             System.out.println("NO");
         }
     }
-    
-    public void Add(){
-        int id=1;
+
+    public void Add() {
+        int id = 1;
         List<WbCrUser> users = UserPersistance.getInstance().getAll();
         for (WbCrUser user : users) {
-            if(user.getUserId()!=id){
+            if (user.getUserId() != id) {
                 continue;
             }
             id++;
         }
-        UserPersistance.getInstance().persistObject(new WbCrUser(id, userName, userPassword, userPermission));
+        current.setUserId(id);
+        UserPersistance.getInstance().persistObject(current);
+        current = new WbCrUser();
+    }
+
+    public void Delete() {
+        List<WbCrUser> users = UserPersistance.getInstance().getAll();
+        if (users.contains(current)) {
+            int id = users.indexOf(current);
+            id = users.get(id).getUserId();
+            UserPersistance.getInstance().deleteObject(id);
+            current=new WbCrUser();
+        } else {
+            System.out.println("NO");
+        }
+    }
+
+    public void Update() {
+        List<WbCrUser> users = UserPersistance.getInstance().getAll();
+        WbCrUser user = new WbCrUser(current.getUserName(), current.getUserPassword());
+        if (users.contains(user)) {
+            int id = users.indexOf(user);
+            id = users.get(id).getUserId();
+            current.setUserId(id);
+            UserPersistance.getInstance().updateObject(current);
+            current = new WbCrUser();
+        } else {
+            System.out.println("NO");
+        }
     }
 }
