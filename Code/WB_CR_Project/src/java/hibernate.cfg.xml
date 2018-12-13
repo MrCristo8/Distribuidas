@@ -42,8 +42,8 @@ Contributor(s):
 <hibernate-configuration>
   <session-factory>
     <property name="hibernate.connection.driver_class">com.microsoft.sqlserver.jdbc.SQLServerDriver</property>
-    <property name="hibernate.connection.url">jdbc:sqlserver://localhost:1433;databaseName=WB_CR_DB</property>
+    <property name="hibernate.connection.url">jdbc:sqlserver://localhost:2820;databaseName=CR_WB_Project</property>
     <property name="hibernate.connection.username">sa</property>
-    <property name="hibernate.connection.password">Crsdb008.</property>
+    <property name="hibernate.connection.password">ROOT</property>
   </session-factory>
 </hibernate-configuration>
