@@ -157,4 +157,38 @@ public class CityBean implements java.io.Serializable
         }
     }
     
+    public void prepareUpdate(WbCrCity art_update)
+    {
+        setCurrent(art_update);
+        try
+        {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("update.xhtml");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void update()
+    {
+        if(controller.CityPersistance.getInstance().updateObject(current).equals("OK"))
+        {
+            try
+            {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+            } catch (IOException ex)
+            {
+                Logger.getLogger(CityBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
+            
+        }
+    }
+    
+    public void delete(WbCrCity art)
+    {        
+        controller.CityPersistance.getInstance().deleteObject(art.getCityId());
+    }
+    
 }

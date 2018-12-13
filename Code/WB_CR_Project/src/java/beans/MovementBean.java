@@ -185,4 +185,9 @@ public class MovementBean implements java.io.Serializable {
             
         }
     }
+    
+    public void delete(WbCrMovement art)
+    {        
+        controller.MovementPersistance.getInstance().deleteObject(art.getMovementId());
+    }
 }

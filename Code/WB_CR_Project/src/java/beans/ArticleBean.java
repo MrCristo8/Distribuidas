@@ -105,6 +105,17 @@ public class ArticleBean implements java.io.Serializable {
         return filteredList;
     }
 
+    public WbCrArticle getCurrent()
+    {
+        return current;
+    }
+
+    public void setCurrent(WbCrArticle current)
+    {
+        this.current = current;
+    }
+
+    
     public void filter() {
         if (articleList != null && getFilteredList() != null && filterString != null) {
             if (articleList.size() >= 1) {
@@ -149,6 +160,35 @@ public class ArticleBean implements java.io.Serializable {
             FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
+        }
+    }
+    
+    public void prepareUpdate(WbCrArticle art_update)
+    {
+        setCurrent(art_update);
+        try
+        {
+            FacesContext.getCurrentInstance().getExternalContext().redirect("update.xhtml");
+        } catch (IOException ex)
+        {
+            Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    public void update()
+    {
+        if(controller.ArticlePersistance.getInstance().updateObject(current).equals("OK"))
+        {
+            try
+            {
+                FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
+            } catch (IOException ex)
+            {
+                Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+        else
+        {
+            
         }
     }
 }
