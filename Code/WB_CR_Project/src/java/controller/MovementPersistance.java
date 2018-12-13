@@ -6,6 +6,9 @@
 package controller;
 
 import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -46,5 +49,30 @@ public class MovementPersistance
             obj_arr.add((model.WbCrMovement) x);
         });
         return obj_arr;
+    }
+    
+    public String updateObject(model.WbCrMovement updated_record)
+    {
+        String msg = "OK";
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
+        EntityManager em1 = factory.createEntityManager();
+        model.WbCrMovement obj_in = em1.find(model.WbCrMovement.class, updated_record.getMovementId());
+        try
+        {
+            em1.getTransaction().begin();
+            obj_in.setMovementId(updated_record.getMovementId());
+            obj_in.setMovementName(updated_record.getMovementName());
+            obj_in.setMovementDirection(updated_record.getMovementDirection());            
+            em1.getTransaction().commit();
+            msg = "OK";
+
+        } catch (Exception ex)
+        {
+            msg = ex.toString();
+            em1.getTransaction().rollback();
+        }
+        em1.close();
+        factory.close();
+        return msg;
     }
 }

@@ -6,6 +6,9 @@
 package controller;
 
 import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -13,6 +16,7 @@ import java.util.ArrayList;
  */
 public class CityPersistance
 {
+
     private static CityPersistance uniqueInstance;
 
     private CityPersistance()
@@ -46,5 +50,29 @@ public class CityPersistance
             obj_arr.add((model.WbCrCity) x);
         });
         return obj_arr;
+    }
+
+    public String updateObject(model.WbCrCity updated_record)
+    {
+        String msg = "OK";
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
+        EntityManager em1 = factory.createEntityManager();
+        model.WbCrCity obj_in = em1.find(model.WbCrCity.class, updated_record.getCityId());
+        try
+        {
+            em1.getTransaction().begin();
+            obj_in.setCityId(updated_record.getCityId());
+            obj_in.setCityName(updated_record.getCityName());
+            em1.getTransaction().commit();
+            msg = "OK";
+
+        } catch (Exception ex)
+        {
+            msg = ex.toString();
+            em1.getTransaction().rollback();
+        }
+        em1.close();
+        factory.close();
+        return msg;
     }
 }

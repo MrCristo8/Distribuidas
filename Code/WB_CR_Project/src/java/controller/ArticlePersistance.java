@@ -6,6 +6,9 @@
 package controller;
 
 import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -41,5 +44,30 @@ public class ArticlePersistance
         });
         return obj_arr;
     }    
+    public String updateObject(model.WbCrArticle updated_record)
+    {
+        String msg = "OK";
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
+        EntityManager em1 = factory.createEntityManager();
+        model.WbCrArticle obj_in = em1.find(model.WbCrArticle.class, updated_record.getArticleId());
+        try
+        {
+            em1.getTransaction().begin();
+            obj_in.setArticleId(updated_record.getArticleId());
+            obj_in.setArticleName(updated_record.getArticleName());
+            obj_in.setArticlePrice(updated_record.getArticlePrice());
+            obj_in.setArticleStock(updated_record.getArticleStock());
+            em1.getTransaction().commit();
+            msg = "OK";
+
+        } catch (Exception ex)
+        {
+            msg = ex.toString();
+            em1.getTransaction().rollback();
+        }
+        em1.close();
+        factory.close();        
+        return msg;
+    }
     
 }

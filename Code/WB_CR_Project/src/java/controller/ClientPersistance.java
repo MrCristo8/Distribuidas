@@ -6,6 +6,9 @@
 package controller;
 
 import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 
 /**
  *
@@ -13,6 +16,7 @@ import java.util.ArrayList;
  */
 public class ClientPersistance
 {
+
     private static ClientPersistance uniqueInstance;
 
     private ClientPersistance()
@@ -46,5 +50,31 @@ public class ClientPersistance
             obj_arr.add((model.WbCrClient) x);
         });
         return obj_arr;
+    }
+
+    public String updateObject(model.WbCrClient updated_record)
+    {
+        String msg = "OK";
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
+        EntityManager em1 = factory.createEntityManager();
+        model.WbCrClient obj_in = em1.find(model.WbCrClient.class, updated_record.getClientId());
+        try
+        {
+            em1.getTransaction().begin();
+            obj_in.setClientId(updated_record.getClientId());
+            obj_in.setClientDni(updated_record.getClientDni());
+            obj_in.setClientName(updated_record.getClientName());
+            obj_in.setClientAddress(updated_record.getClientAddress());
+            em1.getTransaction().commit();
+            msg = "OK";
+
+        } catch (Exception ex)
+        {
+            msg = ex.toString();
+            em1.getTransaction().rollback();
+        }
+        em1.close();
+        factory.close();
+        return msg;
     }
 }
