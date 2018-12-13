@@ -80,15 +80,15 @@
                                     <h2 class="pull-left">Search Results</h2>
                                 </div>
                                 <h:form>
-                                    <h:dataTable styleClass="table table-bordered table-striped" value="#{movementBean.filteredList}" var="movement">
+                                    <h:dataTable styleClass="table table-bordered table-striped" value="#{movementBean.filteredList}" var="movement_search">
                                         <h:column> 
-                                            <h:outputText value="#{movement.movementId}"/>
+                                            <h:outputText value="#{movement_search.movementId}"/>
                                         </h:column>
                                         <h:column> 
-                                            <h:outputText value="#{movement.movementName}"/> 
+                                            <h:outputText value="#{movement_search.movementName}"/> 
                                         </h:column>
                                         <h:column> 
-                                            <h:outputText value="#{movement.movementDirection}"/> 
+                                            <h:outputText value="#{movement_search.movementDirection}"/> 
                                         </h:column>                                         
                                     </h:dataTable>
                                 </h:form>         
