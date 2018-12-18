@@ -15,7 +15,9 @@ import model.WbCrBill;
  *
  * @author csrm1
  */
-public class BillPersistance {
+public class BillPersistance
+{
+
     private static BillPersistance uniqueInstance;
 
     private BillPersistance()
@@ -36,7 +38,7 @@ public class BillPersistance {
         return new ObjectDAO().persistObject(obj_in);
     }
 
-    public String deleteObject( int id)
+    public String deleteObject(int id)
     {
         return new ObjectDAO().deleteObject(new WbCrBill(), id);
     }

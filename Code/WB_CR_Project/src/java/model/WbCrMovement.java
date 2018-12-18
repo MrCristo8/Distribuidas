@@ -3,6 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
 package model;
 
 import java.io.Serializable;
@@ -23,16 +24,18 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author csrm1
+ * @author wason
  */
 @Entity
 @Table(name = "WB_CR_MOVEMENT")
 @XmlRootElement
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "WbCrMovement.findAll", query = "SELECT w FROM WbCrMovement w")
     , @NamedQuery(name = "WbCrMovement.findByMovementId", query = "SELECT w FROM WbCrMovement w WHERE w.movementId = :movementId")
     , @NamedQuery(name = "WbCrMovement.findByMovementName", query = "SELECT w FROM WbCrMovement w WHERE w.movementName = :movementName")
-    , @NamedQuery(name = "WbCrMovement.findByMovementDirection", query = "SELECT w FROM WbCrMovement w WHERE w.movementDirection = :movementDirection")})
+    , @NamedQuery(name = "WbCrMovement.findByMovementDirection", query = "SELECT w FROM WbCrMovement w WHERE w.movementDirection = :movementDirection")
+})
 public class WbCrMovement implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -47,78 +50,96 @@ public class WbCrMovement implements Serializable {
     @Size(max = 1)
     @Column(name = "MOVEMENT_DIRECTION")
     private String movementDirection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrMovement")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movementId")
     private Collection<WbCrInventory> wbCrInventoryCollection;
 
-    public WbCrMovement() {
+    public WbCrMovement()
+    {
     }
 
-    public WbCrMovement(Integer movementId, String movementName, String movementDirection) {
+    public WbCrMovement(Integer movementId, String movementName, String movementDirection)
+    {
         this.movementId = movementId;
         this.movementName = movementName;
         this.movementDirection = movementDirection;
     }
 
-    public WbCrMovement(Integer movementId) {
+    
+    
+    public WbCrMovement(Integer movementId)
+    {
         this.movementId = movementId;
     }
 
-    public Integer getMovementId() {
+    public Integer getMovementId()
+    {
         return movementId;
     }
 
-    public void setMovementId(Integer movementId) {
+    public void setMovementId(Integer movementId)
+    {
         this.movementId = movementId;
     }
 
-    public String getMovementName() {
+    public String getMovementName()
+    {
         return movementName;
     }
 
-    public void setMovementName(String movementName) {
+    public void setMovementName(String movementName)
+    {
         this.movementName = movementName;
     }
 
-    public String getMovementDirection() {
+    public String getMovementDirection()
+    {
         return movementDirection;
     }
 
-    public void setMovementDirection(String movementDirection) {
+    public void setMovementDirection(String movementDirection)
+    {
         this.movementDirection = movementDirection;
     }
 
     @XmlTransient
-    public Collection<WbCrInventory> getWbCrInventoryCollection() {
+    public Collection<WbCrInventory> getWbCrInventoryCollection()
+    {
         return wbCrInventoryCollection;
     }
 
-    public void setWbCrInventoryCollection(Collection<WbCrInventory> wbCrInventoryCollection) {
+    public void setWbCrInventoryCollection(Collection<WbCrInventory> wbCrInventoryCollection)
+    {
         this.wbCrInventoryCollection = wbCrInventoryCollection;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (movementId != null ? movementId.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof WbCrMovement)) {
+        if (!(object instanceof WbCrMovement))
+        {
             return false;
         }
         WbCrMovement other = (WbCrMovement) object;
-        if ((this.movementId == null && other.movementId != null) || (this.movementId != null && !this.movementId.equals(other.movementId))) {
+        if ((this.movementId == null && other.movementId != null) || (this.movementId != null && !this.movementId.equals(other.movementId)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.WbCrMovement[ movementId=" + movementId + " ]";
     }
-    
+
 }

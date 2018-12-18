@@ -36,11 +36,30 @@ public class ObjectDAO implements DAOIface<Object, Serializable> {
         } catch (Exception ex) {
             msg = ex.toString();
             em1.getTransaction().rollback();
-        }
-        em1.close();
-        factory.close();
+        }        
         return msg;
     }
+    
+    public String persistManyObject(ArrayList<?> toPersist) {
+        String msg;
+        EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
+        EntityManager em1 = factory.createEntityManager();
+        try {
+            em1.getTransaction().begin();
+            toPersist.forEach(x -> {
+                em1.persist(x);
+            });
+            em1.getTransaction().commit();
+            msg = "OK";
+
+        } catch (Exception ex) {
+            msg = ex.toString();
+            if(em1.getTransaction().isActive())
+                em1.getTransaction().rollback();
+        }        
+        return msg;
+    }
+    
 
     @Override
     public String deleteObject(Object entity, Object id) {
@@ -139,4 +158,5 @@ public class ObjectDAO implements DAOIface<Object, Serializable> {
         }
         return ammount;
     }
+
 }

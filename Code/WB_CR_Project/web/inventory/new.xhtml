@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:d="http://java.sun.com/jsf/core"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:body>
+        <ui:composition template="/layout.xhtml">
+            <ui:define name="title">New Inventory</ui:define>
+            <ui:define name="heading"><br></br></ui:define>
+            <ui:define name="content">
+                <h:form class="form-group">
+                    <div class="form-group row"> 
+                        <label for="inputUser" class="col-sm-2 col-form-label">Inventory date</label>
+                        <div class="col-sm-10">
+                            <h:inputText p:type ="date" styleClass="form-control" value="#{inventoryBean.inventoryDate}"/>
+                        </div>
+                    </div>                    
+                    <h:dataTable styleClass="table table-bordered table-striped" value="#{inventoryBean.in_arr}" var="in_arr">
+                        <h:column> 
+                            <d:facet name="header">Movement Name</d:facet>
+                            <h:outputText value="#{in_arr.movement.movementName}"/>
+                        </h:column>
+                        <h:column> 
+                            <d:facet name="header">Article Name</d:facet>
+                            <h:outputText value="#{in_arr.article.articleName}"/> 
+                        </h:column>   
+                        <h:column> 
+                            <d:facet name="header">Inventory Ammount</d:facet>
+                            <h:outputText value="#{in_arr.ammount}"/> 
+                        </h:column>  
+                    </h:dataTable>
+                    <table class="table table-bordered table-striped">
+                        <td>
+                            <h:selectOneMenu styleClass="form-control" value="#{inventoryBean.wbCrMovement}">
+                                <c:forEach items="#{movementBean.movementList}" var="movement">
+                                    <f:selectItem itemValue="#{movement.movementId}" itemLabel="#{movement.movementName}"></f:selectItem>
+                                </c:forEach>
+                            </h:selectOneMenu>
+                        </td>
+                        <td>
+                            <h:selectOneMenu styleClass="form-control" value="#{inventoryBean.wbCrarticle}">
+                                <c:forEach items="#{articleBean.articleList}" var="article">
+                                    <f:selectItem itemValue="#{article.articleId}" itemLabel="#{article.articleName}"></f:selectItem>
+                                </c:forEach>
+                            </h:selectOneMenu>
+                        </td>
+                        <td>
+                            <h:inputText styleClass="form-control" value="#{inventoryBean.inventoryAmmount}"/>
+                        </td>
+                        <td>
+                            <h:commandButton class="btn btn-lg btn-primary" value="Add" action="#{inventoryBean.addItems}"></h:commandButton>
+                        </td>
+                    </table>
+                    <br></br>    
+                    <br></br>
+                    <h:commandButton class="btn btn-lg btn-primary" value="Add" action="#{inventoryBean.Add}"></h:commandButton>
+                </h:form>
+            </ui:define>
+        </ui:composition>
+    </h:body>
+</html>

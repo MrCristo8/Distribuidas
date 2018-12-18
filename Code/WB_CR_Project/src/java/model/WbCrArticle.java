@@ -23,18 +23,21 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author csrm1
+ * @author wason
  */
 @Entity
 @Table(name = "WB_CR_ARTICLE")
 @XmlRootElement
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "WbCrArticle.findAll", query = "SELECT w FROM WbCrArticle w")
     , @NamedQuery(name = "WbCrArticle.findByArticleId", query = "SELECT w FROM WbCrArticle w WHERE w.articleId = :articleId")
     , @NamedQuery(name = "WbCrArticle.findByArticleName", query = "SELECT w FROM WbCrArticle w WHERE w.articleName = :articleName")
     , @NamedQuery(name = "WbCrArticle.findByArticlePrice", query = "SELECT w FROM WbCrArticle w WHERE w.articlePrice = :articlePrice")
-    , @NamedQuery(name = "WbCrArticle.findByArticleStock", query = "SELECT w FROM WbCrArticle w WHERE w.articleStock = :articleStock")})
-public class WbCrArticle implements Serializable {
+    , @NamedQuery(name = "WbCrArticle.findByArticleStock", query = "SELECT w FROM WbCrArticle w WHERE w.articleStock = :articleStock")
+})
+public class WbCrArticle implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,95 +55,117 @@ public class WbCrArticle implements Serializable {
     private Integer articleStock;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrArticle")
     private Collection<WbCrBilldetail> wbCrBilldetailCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrArticle")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "articleId")
     private Collection<WbCrInventory> wbCrInventoryCollection;
 
-    public WbCrArticle() {
+    public WbCrArticle()
+    {
     }
 
-    public WbCrArticle(Integer articleId, String articleName, Double articlePrice, Integer articleStock) {
+    public WbCrArticle(Integer articleId, String articleName, Double articlePrice, Integer articleStock)
+    {
         this.articleId = articleId;
         this.articleName = articleName;
         this.articlePrice = articlePrice;
         this.articleStock = articleStock;
     }
 
-    public WbCrArticle(Integer articleId) {
+    
+    
+    public WbCrArticle(Integer articleId)
+    {
         this.articleId = articleId;
     }
 
-    public Integer getArticleId() {
+    public Integer getArticleId()
+    {
         return articleId;
     }
 
-    public void setArticleId(Integer articleId) {
+    public void setArticleId(Integer articleId)
+    {
         this.articleId = articleId;
     }
 
-    public String getArticleName() {
+    public String getArticleName()
+    {
         return articleName;
     }
 
-    public void setArticleName(String articleName) {
+    public void setArticleName(String articleName)
+    {
         this.articleName = articleName;
     }
 
-    public Double getArticlePrice() {
+    public Double getArticlePrice()
+    {
         return articlePrice;
     }
 
-    public void setArticlePrice(Double articlePrice) {
+    public void setArticlePrice(Double articlePrice)
+    {
         this.articlePrice = articlePrice;
     }
 
-    public Integer getArticleStock() {
+    public Integer getArticleStock()
+    {
         return articleStock;
     }
 
-    public void setArticleStock(Integer articleStock) {
+    public void setArticleStock(Integer articleStock)
+    {
         this.articleStock = articleStock;
     }
 
     @XmlTransient
-    public Collection<WbCrBilldetail> getWbCrBilldetailCollection() {
+    public Collection<WbCrBilldetail> getWbCrBilldetailCollection()
+    {
         return wbCrBilldetailCollection;
     }
 
-    public void setWbCrBilldetailCollection(Collection<WbCrBilldetail> wbCrBilldetailCollection) {
+    public void setWbCrBilldetailCollection(Collection<WbCrBilldetail> wbCrBilldetailCollection)
+    {
         this.wbCrBilldetailCollection = wbCrBilldetailCollection;
     }
 
     @XmlTransient
-    public Collection<WbCrInventory> getWbCrInventoryCollection() {
+    public Collection<WbCrInventory> getWbCrInventoryCollection()
+    {
         return wbCrInventoryCollection;
     }
 
-    public void setWbCrInventoryCollection(Collection<WbCrInventory> wbCrInventoryCollection) {
+    public void setWbCrInventoryCollection(Collection<WbCrInventory> wbCrInventoryCollection)
+    {
         this.wbCrInventoryCollection = wbCrInventoryCollection;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (articleId != null ? articleId.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof WbCrArticle)) {
+        if (!(object instanceof WbCrArticle))
+        {
             return false;
         }
         WbCrArticle other = (WbCrArticle) object;
-        if ((this.articleId == null && other.articleId != null) || (this.articleId != null && !this.articleId.equals(other.articleId))) {
+        if ((this.articleId == null && other.articleId != null) || (this.articleId != null && !this.articleId.equals(other.articleId)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.WbCrArticle[ articleId=" + articleId + " ]";
     }
     

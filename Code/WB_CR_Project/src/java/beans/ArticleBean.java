@@ -9,9 +9,14 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
+import javax.faces.convert.Converter;
+import javax.faces.convert.ConverterException;
+import javax.faces.convert.FacesConverter;
 import model.WbCrArticle;
 
 /**
@@ -19,7 +24,8 @@ import model.WbCrArticle;
  */
 @ManagedBean()
 @SessionScoped
-public class ArticleBean implements java.io.Serializable {
+public class ArticleBean implements java.io.Serializable
+{
 
     private String articleName;
     private double articlePrice;
@@ -31,16 +37,19 @@ public class ArticleBean implements java.io.Serializable {
     private Set wbCrBilldetails = new HashSet(0);
     private WbCrArticle current;
 
-    public ArticleBean() {
+    public ArticleBean()
+    {
     }
 
-    public ArticleBean(String articleName, double articlePrice, int articleStock) {
+    public ArticleBean(String articleName, double articlePrice, int articleStock)
+    {
         this.articleName = articleName;
         this.articlePrice = articlePrice;
         this.articleStock = articleStock;
     }
 
-    public ArticleBean(String articleName, double articlePrice, int articleStock, Set wbCrStocks, Set wbCrBilldetails) {
+    public ArticleBean(String articleName, double articlePrice, int articleStock, Set wbCrStocks, Set wbCrBilldetails)
+    {
         this.articleName = articleName;
         this.articlePrice = articlePrice;
         this.articleStock = articleStock;
@@ -48,57 +57,71 @@ public class ArticleBean implements java.io.Serializable {
         this.wbCrBilldetails = wbCrBilldetails;
     }
 
-    public void setArticleName(String articleName) {
+    public void setArticleName(String articleName)
+    {
         this.articleName = articleName;
     }
 
-    public String getArticleName() {
+    public String getArticleName()
+    {
         return articleName;
     }
 
-    public double getArticlePrice() {
+    public double getArticlePrice()
+    {
         return this.articlePrice;
     }
 
-    public void setArticlePrice(double articlePrice) {
+    public void setArticlePrice(double articlePrice)
+    {
         this.articlePrice = articlePrice;
     }
 
-    public int getArticleStock() {
+    public int getArticleStock()
+    {
         return articleStock;
     }
 
-    public void setArticleStock(int articleStock) {
+    public void setArticleStock(int articleStock)
+    {
         this.articleStock = articleStock;
     }
 
-    public Set getWbCrStocks() {
+    public Set getWbCrStocks()
+    {
         return wbCrStocks;
     }
 
-    public void setWbCrStocks(Set wbCrStocks) {
+    public void setWbCrStocks(Set wbCrStocks)
+    {
         this.wbCrStocks = wbCrStocks;
     }
 
-    public Set getWbCrBilldetails() {
+    public Set getWbCrBilldetails()
+    {
         return wbCrBilldetails;
     }
 
-    public ArrayList<model.WbCrArticle> getArticleList() {
+    public ArrayList<model.WbCrArticle> getArticleList()
+    {
         articleList = controller.ArticlePersistance.getInstance().getAll();
         return articleList;
     }
 
-    public String getFilterString() {
+    public String getFilterString()
+    {
         return filterString;
     }
 
-    public void setFilterString(String filterString) {
+    public void setFilterString(String filterString)
+    {
         this.filterString = filterString;
     }
 
-    public ArrayList<WbCrArticle> getFilteredList() {
-        if (filteredList == null) {
+    public ArrayList<WbCrArticle> getFilteredList()
+    {
+        if (filteredList == null)
+        {
             filteredList = new ArrayList<>();
         }
         return filteredList;
@@ -114,14 +137,18 @@ public class ArticleBean implements java.io.Serializable {
         this.current = current;
     }
 
-    
-    public void filter() {
-        if (articleList != null && getFilteredList() != null && filterString != null) {
-            if (articleList.size() >= 1) {
+    public void filter()
+    {
+        if (articleList != null && getFilteredList() != null && filterString != null)
+        {
+            if (articleList.size() >= 1)
+            {
                 getFilteredList().clear();
                 articleList.forEach(x
-                        -> {
-                    if (x.getArticleName().toUpperCase().contains(filterString.toUpperCase())) {
+                        ->
+                {
+                    if (x.getArticleName().toUpperCase().contains(filterString.toUpperCase()))
+                    {
                         getFilteredList().add(x);
                     }
                 });
@@ -130,38 +157,47 @@ public class ArticleBean implements java.io.Serializable {
         }
     }
 
-    public void delete(WbCrArticle art) {
+    public void delete(WbCrArticle art)
+    {
         controller.ArticlePersistance.getInstance().deleteObject(art.getArticleId());
     }
 
-    public void Change() {
-        try {
+    public void Change()
+    {
+        try
+        {
             FacesContext.getCurrentInstance().getExternalContext().redirect("new.xhtml");
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.out.println(ex.getMessage());
         }
     }
 
-    public void Add() {
+    public void Add()
+    {
         int id = 1;
         List<WbCrArticle> articles = ArticlePersistance.getInstance().getAll();
-        for (WbCrArticle article : articles) {
-            if (article.getArticleId() != id) {
+        for (WbCrArticle article : articles)
+        {
+            if (article.getArticleId() != id)
+            {
                 continue;
             }
             id++;
         }
         ArticlePersistance.getInstance().persistObject(new WbCrArticle(id, articleName, articlePrice, articleStock));
-        try {
-            articleName="";
-            articlePrice=0;
-            articleStock=0;
+        try
+        {
+            articleName = "";
+            articlePrice = 0;
+            articleStock = 0;
             FacesContext.getCurrentInstance().getExternalContext().redirect("list.xhtml");
-        } catch (IOException ex) {
+        } catch (IOException ex)
+        {
             System.out.println(ex.getMessage());
         }
     }
-    
+
     public void prepareUpdate(WbCrArticle art_update)
     {
         setCurrent(art_update);
@@ -173,9 +209,10 @@ public class ArticleBean implements java.io.Serializable {
             Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     public void update()
     {
-        if(controller.ArticlePersistance.getInstance().updateObject(current).equals("OK"))
+        if (controller.ArticlePersistance.getInstance().updateObject(current).equals("OK"))
         {
             try
             {
@@ -184,10 +221,48 @@ public class ArticleBean implements java.io.Serializable {
             {
                 Logger.getLogger(ArticleBean.class.getName()).log(Level.SEVERE, null, ex);
             }
-        }
-        else
+        } else
         {
-            
+
+        }
+    }
+    
+    @FacesConverter(forClass = WbCrArticle.class)
+    public static class WbCrArticleConverter implements Converter
+    {
+
+        public Object getAsObject(FacesContext context, UIComponent component, String submittedValue)
+        {
+            if (submittedValue == null || submittedValue.isEmpty())
+            {
+                return null;
+            }
+
+            try
+            {               
+                
+                return null;
+            } catch (NumberFormatException e)
+            {
+                throw new ConverterException(new FacesMessage(submittedValue + " is valid ID"), e);
+            }
+        }
+
+        @Override
+        public String getAsString(FacesContext context, UIComponent component, Object value)
+        {
+            if (value == null)
+            {
+                return "";
+            }
+
+            if (value instanceof WbCrArticle)
+            {
+                return Integer.toString(((WbCrArticle) value).getArticleId());
+            } else
+            {
+                throw new ConverterException(new FacesMessage(value + " is not a valid Warehouse"));
+            }
         }
     }
 }

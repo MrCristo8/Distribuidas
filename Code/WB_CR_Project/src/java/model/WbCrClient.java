@@ -23,18 +23,21 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author csrm1
+ * @author wason
  */
 @Entity
 @Table(name = "WB_CR_CLIENT")
 @XmlRootElement
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "WbCrClient.findAll", query = "SELECT w FROM WbCrClient w")
     , @NamedQuery(name = "WbCrClient.findByClientId", query = "SELECT w FROM WbCrClient w WHERE w.clientId = :clientId")
     , @NamedQuery(name = "WbCrClient.findByClientDni", query = "SELECT w FROM WbCrClient w WHERE w.clientDni = :clientDni")
     , @NamedQuery(name = "WbCrClient.findByClientName", query = "SELECT w FROM WbCrClient w WHERE w.clientName = :clientName")
-    , @NamedQuery(name = "WbCrClient.findByClientAddress", query = "SELECT w FROM WbCrClient w WHERE w.clientAddress = :clientAddress")})
-public class WbCrClient implements Serializable {
+    , @NamedQuery(name = "WbCrClient.findByClientAddress", query = "SELECT w FROM WbCrClient w WHERE w.clientAddress = :clientAddress")
+})
+public class WbCrClient implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,83 +57,103 @@ public class WbCrClient implements Serializable {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId")
     private Collection<WbCrBill> wbCrBillCollection;
 
-    public WbCrClient() {
+    public WbCrClient()
+    {
     }
 
-    public WbCrClient(Integer clientId, String clientDni, String clientName, String clientAddress) {
+    public WbCrClient(Integer clientId, String clientDni, String clientName, String clientAddress)
+    {
         this.clientId = clientId;
         this.clientDni = clientDni;
         this.clientName = clientName;
         this.clientAddress = clientAddress;
     }
+    
+    
 
-    public WbCrClient(Integer clientId) {
+    public WbCrClient(Integer clientId)
+    {
         this.clientId = clientId;
     }
 
-    public Integer getClientId() {
+    public Integer getClientId()
+    {
         return clientId;
     }
 
-    public void setClientId(Integer clientId) {
+    public void setClientId(Integer clientId)
+    {
         this.clientId = clientId;
     }
 
-    public String getClientDni() {
+    public String getClientDni()
+    {
         return clientDni;
     }
 
-    public void setClientDni(String clientDni) {
+    public void setClientDni(String clientDni)
+    {
         this.clientDni = clientDni;
     }
 
-    public String getClientName() {
+    public String getClientName()
+    {
         return clientName;
     }
 
-    public void setClientName(String clientName) {
+    public void setClientName(String clientName)
+    {
         this.clientName = clientName;
     }
 
-    public String getClientAddress() {
+    public String getClientAddress()
+    {
         return clientAddress;
     }
 
-    public void setClientAddress(String clientAddress) {
+    public void setClientAddress(String clientAddress)
+    {
         this.clientAddress = clientAddress;
     }
 
     @XmlTransient
-    public Collection<WbCrBill> getWbCrBillCollection() {
+    public Collection<WbCrBill> getWbCrBillCollection()
+    {
         return wbCrBillCollection;
     }
 
-    public void setWbCrBillCollection(Collection<WbCrBill> wbCrBillCollection) {
+    public void setWbCrBillCollection(Collection<WbCrBill> wbCrBillCollection)
+    {
         this.wbCrBillCollection = wbCrBillCollection;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (clientId != null ? clientId.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof WbCrClient)) {
+        if (!(object instanceof WbCrClient))
+        {
             return false;
         }
         WbCrClient other = (WbCrClient) object;
-        if ((this.clientId == null && other.clientId != null) || (this.clientId != null && !this.clientId.equals(other.clientId))) {
+        if ((this.clientId == null && other.clientId != null) || (this.clientId != null && !this.clientId.equals(other.clientId)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.WbCrClient[ clientId=" + clientId + " ]";
     }
     

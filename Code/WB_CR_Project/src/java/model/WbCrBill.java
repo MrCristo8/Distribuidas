@@ -27,16 +27,19 @@ import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
- * @author csrm1
+ * @author wason
  */
 @Entity
 @Table(name = "WB_CR_BILL")
 @XmlRootElement
-@NamedQueries({
+@NamedQueries(
+{
     @NamedQuery(name = "WbCrBill.findAll", query = "SELECT w FROM WbCrBill w")
     , @NamedQuery(name = "WbCrBill.findByBillDate", query = "SELECT w FROM WbCrBill w WHERE w.billDate = :billDate")
-    , @NamedQuery(name = "WbCrBill.findByBillId", query = "SELECT w FROM WbCrBill w WHERE w.billId = :billId")})
-public class WbCrBill implements Serializable {
+    , @NamedQuery(name = "WbCrBill.findByBillId", query = "SELECT w FROM WbCrBill w WHERE w.billId = :billId")
+})
+public class WbCrBill implements Serializable
+{
 
     private static final long serialVersionUID = 1L;
     @Column(name = "BILL_DATE")
@@ -56,83 +59,103 @@ public class WbCrBill implements Serializable {
     @ManyToOne(optional = false)
     private WbCrClient clientId;
 
-    public WbCrBill() {
+    public WbCrBill()
+    {
     }
 
-    public WbCrBill(Date billDate, Integer billId, WbCrCity cityId, WbCrClient clientId) {
+    public WbCrBill(Date billDate, Integer billId, WbCrCity cityId, WbCrClient clientId)
+    {
         this.billDate = billDate;
         this.billId = billId;
         this.cityId = cityId;
         this.clientId = clientId;
     }
+    
+    
 
-    public WbCrBill(Integer billId) {
+    public WbCrBill(Integer billId)
+    {
         this.billId = billId;
     }
 
-    public Date getBillDate() {
+    public Date getBillDate()
+    {
         return billDate;
     }
 
-    public void setBillDate(Date billDate) {
+    public void setBillDate(Date billDate)
+    {
         this.billDate = billDate;
     }
 
-    public Integer getBillId() {
+    public Integer getBillId()
+    {
         return billId;
     }
 
-    public void setBillId(Integer billId) {
+    public void setBillId(Integer billId)
+    {
         this.billId = billId;
     }
 
     @XmlTransient
-    public Collection<WbCrBilldetail> getWbCrBilldetailCollection() {
+    public Collection<WbCrBilldetail> getWbCrBilldetailCollection()
+    {
         return wbCrBilldetailCollection;
     }
 
-    public void setWbCrBilldetailCollection(Collection<WbCrBilldetail> wbCrBilldetailCollection) {
+    public void setWbCrBilldetailCollection(Collection<WbCrBilldetail> wbCrBilldetailCollection)
+    {
         this.wbCrBilldetailCollection = wbCrBilldetailCollection;
     }
 
-    public WbCrCity getCityId() {
+    public WbCrCity getCityId()
+    {
         return cityId;
     }
 
-    public void setCityId(WbCrCity cityId) {
+    public void setCityId(WbCrCity cityId)
+    {
         this.cityId = cityId;
     }
 
-    public WbCrClient getClientId() {
+    public WbCrClient getClientId()
+    {
         return clientId;
     }
 
-    public void setClientId(WbCrClient clientId) {
+    public void setClientId(WbCrClient clientId)
+    {
         this.clientId = clientId;
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int hash = 0;
         hash += (billId != null ? billId.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object) {
+    public boolean equals(Object object)
+    {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof WbCrBill)) {
+        if (!(object instanceof WbCrBill))
+        {
             return false;
         }
         WbCrBill other = (WbCrBill) object;
-        if ((this.billId == null && other.billId != null) || (this.billId != null && !this.billId.equals(other.billId))) {
+        if ((this.billId == null && other.billId != null) || (this.billId != null && !this.billId.equals(other.billId)))
+        {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "model.WbCrBill[ billId=" + billId + " ]";
     }
     
