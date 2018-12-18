@@ -1,0 +1,38 @@
+City per client
+
+select 
+sum(a.ARTICLE_PRICE*b.DETAIL_AMOUNT) as AMMOUNT,
+ a.ARTICLE_NAME,
+ d.CITY_NAME
+ from
+ WB_CR_ARTICLE a inner join WB_CR_BILLDETAIL b on a.ARTICLE_ID=b.ARTICLE_ID 
+ inner join WB_CR_BILL c on b.BILL_ID=c.BILL_ID inner join WB_CR_CITY d on c.CITY_ID=d.CITY_ID
+ GROUP BY ARTICLE_NAME, CITY_NAME
+
+
+Movement per article
+
+select
+	a.ARTICLE_NAME,
+	COUNT(c.MOVEMENT_ID) as INVENTORY_COUNT,
+	c.MOVEMENT_NAME 
+from WB_CR_ARTICLE a inner join WB_CR_INVENTORY b 
+on a.ARTICLE_ID=b.ARTICLE_ID inner join WB_CR_MOVEMENT c 
+on b.MOVEMENT_ID = c.MOVEMENT_ID
+group by ARTICLE_NAME, MOVEMENT_NAME
+
+
+Article ammount per client
+
+select 
+	a.CLIENT_NAME,
+	d.ARTICLE_NAME,
+	sum(c.DETAIL_AMOUNT*d.ARTICLE_PRICE) TOTAL_SOLD
+from WB_CR_CLIENT a inner join WB_CR_BILL b 
+on a.CLIENT_ID=b.CLIENT_ID
+inner join WB_CR_BILLDETAIL c 
+on b.BILL_ID = c.BILL_ID 
+inner join WB_CR_ARTICLE d 
+on c.ARTICLE_ID=d.ARTICLE_ID
+
+group by CLIENT_NAME, ARTICLE_NAME
