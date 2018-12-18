@@ -7,35 +7,114 @@ and open the template in the editor.
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:h="http://xmlns.jcp.org/jsf/html">
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:jc="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:f="http://java.sun.com/jsf/core">
     <h:body>
         <ui:composition template="/layout.xhtml">
             <ui:define name="title">New Bill</ui:define>
             <ui:define name="heading"><br></br></ui:define>
             <ui:define name="content">
-                <h2 class="pull-left">HEAD</h2>
+                <h2 class="pull-left">Head</h2>
                 <h:form class="form-group">
                     <div class="form-group row"> 
                         <label for="date" class="col-sm-2 col-form-label">Date</label>
                         <div class="col-sm-10">
-                            <h:inputText styleClass="form-control" value="#{billBean.billDate}"/>
+                            <h:inputText p:type="date" styleClass="form-control" value="#{billBean.billDate}"/>
                         </div>
                     </div>
                     <div class="form-group row"> 
                         <label for="inputName" class="col-sm-2 col-form-label">Client Name</label>
                         <div class="col-sm-10">
-                            <h:inputText styleClass="form-control" value="#{billBean.client.clientName}"/>
+                            <h:selectOneMenu value = "#{billBean.clientSelected}" styleClass="form-control"> 
+                                <c:forEach items="#{billBean.clientList}" var="client">
+                                    <f:selectItem itemValue = "#{client.clientId}" itemLabel = "#{client.clientName}" /> 
+                                </c:forEach>
+                            </h:selectOneMenu>
                         </div>
                     </div>
                     <div class="form-group row"> 
                         <label for="inputName" class="col-sm-2 col-form-label">City Name</label>
                         <div class="col-sm-10">
-                            <h:inputText styleClass="form-control" value="#{billBean.city.cityName}"/>
+                            <h:selectOneMenu value = "#{billBean.clientSelected}" styleClass="form-control"> 
+                                <c:forEach items="#{billBean.cityList}" var="city">
+                                    <f:selectItem itemValue = "#{city.cityId}" itemLabel = "#{city.cityName}" /> 
+                                </c:forEach>
+                            </h:selectOneMenu>
+                        </div>
+                    </div>
+                    <div class="wrapper">
+                        <div class="container-fluid">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h:form styleClass="card card-sm">
+                                        <div class="card-body row no-gutters align-items-center">
+                                            <div class="col">
+                                                <div class="page-header clearfix">
+                                                    <h2 class="pull-left">Detail</h2>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col-auto">
+                                                <h:inputText styleClass="form-control form-control-md form-control-borderless" value="#{billdetailBean.filterString}"></h:inputText>
+                                            </div>
+                                            <!--end of col-->
+                                            <div class="col-auto">
+                                                <h:commandButton styleClass="btn btn-md btn-success" value="Search" onclick="#{billdetailBean.filter()}"></h:commandButton>
+                                            </div>
+                                            <!--end of col-->
+                                        </div>
+                                    </h:form>    
+                                    <h:form>
+                                        <h:dataTable styleClass="table table-bordered table-striped" value="#{billdetailBean.billDetailList}" var="article">
+                                            <h:column> 
+                                                <jc:facet name="header">Article ID</jc:facet>
+                                                <h:outputText value="#{article.wbCrArticle.articleId}"/>
+                                            </h:column>
+                                            <h:column> 
+                                                <jc:facet name="header">Article Name</jc:facet>
+                                                <h:outputText value="#{article.wbCrArticle.articleName}"/> 
+                                            </h:column>
+                                            <h:column> 
+                                                <jc:facet name="header">Article Price</jc:facet>
+                                                <h:outputText value="#{article.wbCrArticle.articlePrice}"/> 
+                                            </h:column>
+                                            <h:column> 
+                                                <jc:facet name="header">Ammount</jc:facet>
+                                                <h:outputText value="#{article.detailAmount}"/> 
+                                            </h:column>
+                                            <h:column>
+                                                <jc:facet name="header">Actions</jc:facet>
+                                                <h:commandLink title="Update Record" action="#{articleBean.prepareUpdate(article)}">
+                                                    <i class="material-icons" data-toggle="tooltip" title="Edit">edit</i>
+                                                </h:commandLink>
+                                                <h:commandLink title="Delete Record" action="#{articleBean.delete(article)}">
+                                                    <i class="material-icons" data-toggle="tooltip" title="Delete">delete</i>
+                                                </h:commandLink>            
+                                            </h:column>
+                                        </h:dataTable>
+                                    </h:form>         
+                                    <h:selectOneMenu value = "#{billdetailBean.articleSelected}" styleClass="form-control"> 
+                                        <c:forEach items="#{billdetailBean.articleList}" var="article">
+                                            <f:selectItem itemValue = "#{article.articleId}" itemLabel = "#{article.articleName}" /> 
+                                        </c:forEach>
+                                    </h:selectOneMenu>    
+                                    <br></br>
+                                    <h:inputText styleClass="form-control form-control-md form-control-borderless" value="#{billdetailBean.detailAmount}"></h:inputText>
+                                    <br></br>
+                                    <h:commandButton styleClass="btn btn-primary" value="Add Detail" action="#{billdetailBean.AddToList}"></h:commandButton>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <div class="col-sm-10">
-                            <h:commandButton class="btn btn-lg btn-primary" value="Add" action="#{billBean.Add}"></h:commandButton>
+                            <h:commandButton class="btn btn-lg btn-primary" value="Save" action="#{billBean.Add}"></h:commandButton>
                         </div>
                     </div>
                 </h:form>

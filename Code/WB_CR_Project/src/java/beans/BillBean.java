@@ -23,9 +23,6 @@ import model.WbCrClient;
 @ManagedBean()
 @SessionScoped
 public class BillBean implements java.io.Serializable {
-
-    private CityBean wbCrCity;
-    private ClientBean wbCrClient;
     private Date billDate;
     private Set wbCrBilldetails = new HashSet(0);
     private List<WbCrBill> billsList;
@@ -36,37 +33,10 @@ public class BillBean implements java.io.Serializable {
     private WbCrBill current;
     private List<WbCrClient> clientList;
     private List<WbCrCity> cityList;
-
+    private String clientSelected;
+    private String citySelected;
+    
     public BillBean() {
-    }
-
-    public BillBean(CityBean wbCrCity, ClientBean wbCrClient, Date billDate) {
-        this.wbCrCity = wbCrCity;
-        this.wbCrClient = wbCrClient;
-        this.billDate = billDate;
-    }
-
-    public BillBean(CityBean wbCrCity, ClientBean wbCrClient, Date billDate, Set wbCrBilldetails) {
-        this.wbCrCity = wbCrCity;
-        this.wbCrClient = wbCrClient;
-        this.billDate = billDate;
-        this.wbCrBilldetails = wbCrBilldetails;
-    }
-
-    public CityBean getWbCrCity() {
-        return this.wbCrCity;
-    }
-
-    public void setWbCrCity(CityBean wbCrCity) {
-        this.wbCrCity = wbCrCity;
-    }
-
-    public ClientBean getWbCrClient() {
-        return this.wbCrClient;
-    }
-
-    public void setWbCrClient(ClientBean wbCrClient) {
-        this.wbCrClient = wbCrClient;
     }
 
     public Date getBillDate() {
@@ -153,6 +123,22 @@ public class BillBean implements java.io.Serializable {
 
     public void setCityList(List<WbCrCity> cityList) {
         this.cityList = cityList;
+    }
+
+    public String getClientSelected() {
+        return clientSelected;
+    }
+
+    public void setClientSelected(String clientSelected) {
+        this.clientSelected = clientSelected;
+    }
+
+    public String getCitySelected() {
+        return citySelected;
+    }
+
+    public void setCitySelected(String citySelected) {
+        this.citySelected = citySelected;
     }
 
     public void filter() {

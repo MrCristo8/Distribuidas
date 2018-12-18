@@ -59,8 +59,12 @@ public class WbCrBilldetail implements Serializable
         this.wbCrBilldetailPK = new WbCrBilldetailPK(articleId, billId);
     }
 
-    public WbCrBilldetailPK getWbCrBilldetailPK()
-    {
+    public WbCrBilldetail(WbCrBilldetailPK wbCrBilldetailPK, Integer detailAmount) {
+        this.wbCrBilldetailPK = wbCrBilldetailPK;
+        this.detailAmount = detailAmount;
+    }
+
+    public WbCrBilldetailPK getWbCrBilldetailPK() {
         return wbCrBilldetailPK;
     }
 
@@ -116,11 +120,7 @@ public class WbCrBilldetail implements Serializable
             return false;
         }
         WbCrBilldetail other = (WbCrBilldetail) object;
-        if ((this.wbCrBilldetailPK == null && other.wbCrBilldetailPK != null) || (this.wbCrBilldetailPK != null && !this.wbCrBilldetailPK.equals(other.wbCrBilldetailPK)))
-        {
-            return false;
-        }
-        return true;
+        return !((this.wbCrBilldetailPK == null && other.wbCrBilldetailPK != null) || (this.wbCrBilldetailPK != null && !this.wbCrBilldetailPK.equals(other.wbCrBilldetailPK)));
     }
 
     @Override

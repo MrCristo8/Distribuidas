@@ -252,7 +252,6 @@ public class InventoryBean implements Serializable
 
         }
     }
-
     public void addItems()
     {
         try
