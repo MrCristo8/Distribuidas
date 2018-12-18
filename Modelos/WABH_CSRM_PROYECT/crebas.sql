@@ -1,6 +1,6 @@
 /*==============================================================*/
 /* DBMS name:      Microsoft SQL Server 2016                    */
-/* Created on:     18/12/2018 12:13:40 a. m.                    */
+/* Created on:     18/12/2018 12:35:06 a. m.                    */
 /*==============================================================*/
 
 
@@ -20,9 +20,9 @@ go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('WB_CR_BILLDETAIL') and o.name = 'FK_WB_CR_BI_WB_CR_BIL_WB_CR_MO')
+   where r.fkeyid = object_id('WB_CR_BILLDETAIL') and o.name = 'FK_WB_CR_BI_WB_CR_BIL_WB_CR_BI')
 alter table WB_CR_BILLDETAIL
-   drop constraint FK_WB_CR_BI_WB_CR_BIL_WB_CR_MO
+   drop constraint FK_WB_CR_BI_WB_CR_BIL_WB_CR_BI
 go
 
 if exists (select 1
@@ -34,9 +34,16 @@ go
 
 if exists (select 1
    from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
-   where r.fkeyid = object_id('WB_CR_BILLDETAIL') and o.name = 'FK_WB_CR_BI_WB_CR_BIL_WB_CR_BI')
-alter table WB_CR_BILLDETAIL
-   drop constraint FK_WB_CR_BI_WB_CR_BIL_WB_CR_BI
+   where r.fkeyid = object_id('WB_CR_INVENTORY') and o.name = 'FK_WB_CR_IN_WB_CR_INV_WB_CR_AR')
+alter table WB_CR_INVENTORY
+   drop constraint FK_WB_CR_IN_WB_CR_INV_WB_CR_AR
+go
+
+if exists (select 1
+   from sys.sysreferences r join sys.sysobjects o on (o.id = r.constid and o.type = 'F')
+   where r.fkeyid = object_id('WB_CR_INVENTORY') and o.name = 'FK_WB_CR_IN_WB_CR_INV_WB_CR_MO')
+alter table WB_CR_INVENTORY
+   drop constraint FK_WB_CR_IN_WB_CR_INV_WB_CR_MO
 go
 
 if exists (select 1
@@ -69,15 +76,6 @@ if exists (select 1
            where  id = object_id('WB_CR_BILL')
             and   type = 'U')
    drop table WB_CR_BILL
-go
-
-if exists (select 1
-            from  sysindexes
-           where  id    = object_id('WB_CR_BILLDETAIL')
-            and   name  = 'WB_CR_BILLDETAIL_FK'
-            and   indid > 0
-            and   indid < 255)
-   drop index WB_CR_BILLDETAIL.WB_CR_BILLDETAIL_FK
 go
 
 if exists (select 1
@@ -117,6 +115,31 @@ if exists (select 1
            where  id = object_id('WB_CR_CLIENT')
             and   type = 'U')
    drop table WB_CR_CLIENT
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('WB_CR_INVENTORY')
+            and   name  = 'CB_CR_INVENTORY2_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index WB_CR_INVENTORY.CB_CR_INVENTORY2_FK
+go
+
+if exists (select 1
+            from  sysindexes
+           where  id    = object_id('WB_CR_INVENTORY')
+            and   name  = 'CB_CR_INVENTORY_FK'
+            and   indid > 0
+            and   indid < 255)
+   drop index WB_CR_INVENTORY.CB_CR_INVENTORY_FK
+go
+
+if exists (select 1
+            from  sysobjects
+           where  id = object_id('WB_CR_INVENTORY')
+            and   type = 'U')
+   drop table WB_CR_INVENTORY
 go
 
 if exists (select 1
@@ -183,9 +206,8 @@ go
 create table WB_CR_BILLDETAIL (
    ARTICLE_ID           int                  not null,
    BILL_ID              int                  not null,
-   MOVEMENT_ID          int                  not null,
    DETAIL_AMOUNT        int                  null,
-   constraint PK_WB_CR_BILLDETAIL primary key (ARTICLE_ID, BILL_ID, MOVEMENT_ID)
+   constraint PK_WB_CR_BILLDETAIL primary key (ARTICLE_ID, BILL_ID)
 )
 go
 
@@ -210,16 +232,6 @@ create nonclustered index WB_CR_BILLDETAIL3_FK on WB_CR_BILLDETAIL (BILL_ID ASC)
 go
 
 /*==============================================================*/
-/* Index: WB_CR_BILLDETAIL_FK                                   */
-/*==============================================================*/
-
-
-
-
-create nonclustered index WB_CR_BILLDETAIL_FK on WB_CR_BILLDETAIL (MOVEMENT_ID ASC)
-go
-
-/*==============================================================*/
 /* Table: WB_CR_CITY                                            */
 /*==============================================================*/
 create table WB_CR_CITY (
@@ -239,6 +251,38 @@ create table WB_CR_CLIENT (
    CLIENT_ADDRESS       varchar(200)         null,
    constraint PK_WB_CR_CLIENT primary key (CLIENT_ID)
 )
+go
+
+/*==============================================================*/
+/* Table: WB_CR_INVENTORY                                       */
+/*==============================================================*/
+create table WB_CR_INVENTORY (
+   MOVEMENT_ID          int                  not null,
+   ARTICLE_ID           int                  not null,
+   INVENTORY_DATE       datetime             null,
+   INVENTORY_AMMOUNT    int                  null,
+   constraint PK_WB_CR_INVENTORY primary key (MOVEMENT_ID, ARTICLE_ID)
+)
+go
+
+/*==============================================================*/
+/* Index: CB_CR_INVENTORY_FK                                    */
+/*==============================================================*/
+
+
+
+
+create nonclustered index CB_CR_INVENTORY_FK on WB_CR_INVENTORY (ARTICLE_ID ASC)
+go
+
+/*==============================================================*/
+/* Index: CB_CR_INVENTORY2_FK                                   */
+/*==============================================================*/
+
+
+
+
+create nonclustered index CB_CR_INVENTORY2_FK on WB_CR_INVENTORY (MOVEMENT_ID ASC)
 go
 
 /*==============================================================*/
@@ -275,8 +319,8 @@ alter table WB_CR_BILL
 go
 
 alter table WB_CR_BILLDETAIL
-   add constraint FK_WB_CR_BI_WB_CR_BIL_WB_CR_MO foreign key (MOVEMENT_ID)
-      references WB_CR_MOVEMENT (MOVEMENT_ID)
+   add constraint FK_WB_CR_BI_WB_CR_BIL_WB_CR_BI foreign key (BILL_ID)
+      references WB_CR_BILL (BILL_ID)
 go
 
 alter table WB_CR_BILLDETAIL
@@ -284,8 +328,13 @@ alter table WB_CR_BILLDETAIL
       references WB_CR_ARTICLE (ARTICLE_ID)
 go
 
-alter table WB_CR_BILLDETAIL
-   add constraint FK_WB_CR_BI_WB_CR_BIL_WB_CR_BI foreign key (BILL_ID)
-      references WB_CR_BILL (BILL_ID)
+alter table WB_CR_INVENTORY
+   add constraint FK_WB_CR_IN_WB_CR_INV_WB_CR_AR foreign key (ARTICLE_ID)
+      references WB_CR_ARTICLE (ARTICLE_ID)
+go
+
+alter table WB_CR_INVENTORY
+   add constraint FK_WB_CR_IN_WB_CR_INV_WB_CR_MO foreign key (MOVEMENT_ID)
+      references WB_CR_MOVEMENT (MOVEMENT_ID)
 go
 
