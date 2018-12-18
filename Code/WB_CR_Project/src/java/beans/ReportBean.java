@@ -8,9 +8,8 @@ package beans;
 import controller.Report;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -26,7 +25,7 @@ import model.SalesPerCity;
 @SessionScoped
 public class ReportBean implements Serializable {
 
-    private Map<String, String> options;
+    private HashMap<String, String> options;
     private String option;
     private List<SalesPerCity> sales;
     private List<ArticleByMovement> ammount;
@@ -36,7 +35,7 @@ public class ReportBean implements Serializable {
     @PostConstruct
     public void init() {
         if (options == null) {
-            options = new LinkedHashMap<>();
+            options = new HashMap<>();
         }
         if (option == null) {
             option = new String();
@@ -55,11 +54,11 @@ public class ReportBean implements Serializable {
         }
     }
 
-    public Map<String, String> getOptions() {
+    public HashMap<String, String> getOptions() {
         return options;
     }
 
-    public void setOptions(Map<String, String> options) {
+    public void setOptions(HashMap<String, String> options) {
         this.options = options;
     }
 

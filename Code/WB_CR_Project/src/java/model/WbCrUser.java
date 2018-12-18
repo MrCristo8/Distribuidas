@@ -20,21 +20,18 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author wason
+ * @author csrm1
  */
 @Entity
 @Table(name = "WB_CR_USER")
 @XmlRootElement
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "WbCrUser.findAll", query = "SELECT w FROM WbCrUser w")
     , @NamedQuery(name = "WbCrUser.findByUserId", query = "SELECT w FROM WbCrUser w WHERE w.userId = :userId")
     , @NamedQuery(name = "WbCrUser.findByUserName", query = "SELECT w FROM WbCrUser w WHERE w.userName = :userName")
     , @NamedQuery(name = "WbCrUser.findByUserPassword", query = "SELECT w FROM WbCrUser w WHERE w.userPassword = :userPassword")
-    , @NamedQuery(name = "WbCrUser.findByUserPermission", query = "SELECT w FROM WbCrUser w WHERE w.userPermission = :userPermission")
-})
-public class WbCrUser implements Serializable
-{
+    , @NamedQuery(name = "WbCrUser.findByUserPermission", query = "SELECT w FROM WbCrUser w WHERE w.userPermission = :userPermission")})
+public class WbCrUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -52,81 +49,59 @@ public class WbCrUser implements Serializable
     @Column(name = "USER_PERMISSION")
     private String userPermission;
 
-    public WbCrUser()
-    {
+    public WbCrUser() {
     }
 
-    public WbCrUser(Integer userId)
-    {
-        this.userId = userId;
-    }
-
-    public WbCrUser(Integer userId, String userName, String userPassword)
-    {
-        this.userId = userId;
+    public WbCrUser(String userName, String userPassword) {
         this.userName = userName;
         this.userPassword = userPassword;
     }
 
-    public WbCrUser(String userName, String userPassword)
-    {
-        this.userName = userName;
-        this.userPassword = userPassword;
-    }
-
-    public WbCrUser(Integer userId, String userName, String userPassword, String userPermission)
-    {
+    public WbCrUser(Integer userId, String userName, String userPassword, String userPermission) {
         this.userId = userId;
         this.userName = userName;
         this.userPassword = userPassword;
         this.userPermission = userPermission;
     }
 
-   
-
-    public Integer getUserId()
-    {
-        return userId;
-    }
-
-    public void setUserId(Integer userId)
-    {
+    public WbCrUser(Integer userId) {
         this.userId = userId;
     }
 
-    public String getUserName()
-    {
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName)
-    {
+    public void setUserName(String userName) {
         this.userName = userName;
     }
 
-    public String getUserPassword()
-    {
+    public String getUserPassword() {
         return userPassword;
     }
 
-    public void setUserPassword(String userPassword)
-    {
+    public void setUserPassword(String userPassword) {
         this.userPassword = userPassword;
     }
 
-    public String getUserPermission()
-    {
+    public String getUserPermission() {
         return userPermission;
     }
 
-    public void setUserPermission(String userPermission)
-    {
+    public void setUserPermission(String userPermission) {
         this.userPermission = userPermission;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 7;
         hash = 53 * hash + Objects.hashCode(this.userName);
         hash = 53 * hash + Objects.hashCode(this.userPassword);
@@ -134,37 +109,30 @@ public class WbCrUser implements Serializable
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass())
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         final WbCrUser other = (WbCrUser) obj;
-        if (!Objects.equals(this.userName, other.userName))
-        {
+        if (!Objects.equals(this.userName, other.userName)) {
             return false;
         }
-        if (!Objects.equals(this.userPassword, other.userPassword))
-        {
+        if (!Objects.equals(this.userPassword, other.userPassword)) {
             return false;
         }
         return true;
     }
 
-
+    
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.WbCrUser[ userId=" + userId + " ]";
     }
     

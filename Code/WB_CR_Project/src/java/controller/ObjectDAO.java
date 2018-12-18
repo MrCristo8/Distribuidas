@@ -94,17 +94,16 @@ public class ObjectDAO implements DAOIface<Object, Serializable> {
     public List<SalesPerCity> getSalesPerCity() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
         EntityManager em1 = factory.createEntityManager();
-        String sql = "SELECT city.CITY_NAME, SUM(dollarsSold) AS dollarsSold "
-                + "FROM(SELECT SUM(article.article_price*detail.DETAIL_AMOUNT) AS dollarsSold "
-                + "FROM WB_CR_ARTICLE article,WB_CR_BILLDETAIL detail "
-                + "WHERE article.ARTICLE_ID=detail.ARTICLE_ID GROUP BY article.ARTICLE_ID) AS dollarsSold, WB_CR_CITY city, WB_CR_BILLDETAIL detail "
-                + "WHERE city.CITY_ID=detail.CITY_ID GROUP BY city.CITY_NAME;";
+        String sql = "select sum(a.ARTICLE_PRICE*b.DETAIL_AMOUNT) as AMMOUNT, a.ARTICLE_NAME, d.CITY_NAME "
+                + "from WB_CR_ARTICLE a inner join WB_CR_BILLDETAIL b on a.ARTICLE_ID=b.ARTICLE_ID  "
+                + "inner join WB_CR_BILL c on b.BILL_ID=c.BILL_ID inner join WB_CR_CITY d on c.CITY_ID=d.CITY_ID "
+                + "GROUP BY ARTICLE_NAME, CITY_NAME;";
         Query query = em1.createNativeQuery(sql);
         List resultList = query.getResultList();
-        List<SalesPerCity> sales =new ArrayList<>();
+        List<SalesPerCity> sales = new ArrayList<>();
         for (Object result : resultList) {
             Object[] field = (Object[]) result;
-            sales.add(new SalesPerCity(field[0].toString(), Double.parseDouble(field[1].toString())));
+            sales.add(new SalesPerCity(field[2].toString(), field[1].toString(), Double.parseDouble(field[0].toString())));
         }
         return sales;
     }
@@ -112,9 +111,9 @@ public class ObjectDAO implements DAOIface<Object, Serializable> {
     public List<ArticleByClient> getArticleByClient() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
         EntityManager em1 = factory.createEntityManager();
-        String sql = "SELECT client.CLIENT_NAME, article.ARTICLE_NAME, SUM(detail.DETAIL_AMOUNT*article.ARTICLE_PRICE) as DollarsSold "
-                + "FROM WB_CR_CLIENT client, WB_CR_BILLDETAIL detail, WB_CR_ARTICLE article "
-                + "WHERE client.CLIENT_ID=detail.CLIENT_ID AND detail.ARTICLE_ID=article.ARTICLE_ID GROUP BY CLIENT_NAME, ARTICLE_NAME;";
+        String sql = "select a.CLIENT_NAME, d.ARTICLE_NAME, sum(c.DETAIL_AMOUNT*d.ARTICLE_PRICE) TOTAL_SOLD from WB_CR_CLIENT a "
+                + "inner join WB_CR_BILL b on a.CLIENT_ID=b.CLIENT_ID inner join WB_CR_BILLDETAIL c on b.BILL_ID = c.BILL_ID "
+                + "inner join WB_CR_ARTICLE d on c.ARTICLE_ID=d.ARTICLE_ID group by CLIENT_NAME, ARTICLE_NAME;";
         Query query = em1.createNativeQuery(sql);
         List resultList = query.getResultList();
         List<ArticleByClient> clientSales = new ArrayList<>();
@@ -128,15 +127,15 @@ public class ObjectDAO implements DAOIface<Object, Serializable> {
     public List<ArticleByMovement> getArticleByMovement() {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("WB_CR_ProjectPU");
         EntityManager em1 = factory.createEntityManager();
-        String sql = "SELECT article.ARTICLE_NAME, mov.MOVEMENT_NAME, COUNT(mov.MOVEMENT_NAME) AS Quantity "
-                + "FROM WB_CR_ARTICLE article, WB_CR_STOCK stock , WB_CR_MOVEMENT mov "
-                + "WHERE article.ARTICLE_ID=stock.ARTICLE_ID AND stock.MOVEMENT_ID=mov.MOVEMENT_ID GROUP BY ARTICLE_NAME, MOVEMENT_NAME;";
+        String sql = "select	a.ARTICLE_NAME,	COUNT(c.MOVEMENT_ID) as INVENTORY_COUNT, c.MOVEMENT_NAME "
+                + "from WB_CR_ARTICLE a inner join WB_CR_INVENTORY b on a.ARTICLE_ID=b.ARTICLE_ID "
+                + "inner join WB_CR_MOVEMENT c on b.MOVEMENT_ID = c.MOVEMENT_ID group by ARTICLE_NAME, MOVEMENT_NAME;";
         Query query = em1.createNativeQuery(sql);
         List resultList = query.getResultList();
         List<ArticleByMovement> ammount = new ArrayList<>();
         for (Object result : resultList) {
             Object[] field = (Object[]) result;
-            ammount.add(new ArticleByMovement(field[0].toString(), field[1].toString(), Integer.parseInt(field[2].toString())));
+            ammount.add(new ArticleByMovement(field[0].toString(), field[2].toString(), Integer.parseInt(field[1].toString())));
         }
         return ammount;
     }

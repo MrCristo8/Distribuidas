@@ -12,15 +12,18 @@ package model;
 public class SalesPerCity {
 
     private String cityName;
+    private String articleName;
     private Double dollarsSold;
 
     public SalesPerCity() {
     }
 
-    public SalesPerCity(String cityName, Double dollarsSold) {
+    public SalesPerCity(String cityName, String articleName, Double dollarsSold) {
         this.cityName = cityName;
+        this.articleName = articleName;
         this.dollarsSold = dollarsSold;
     }
+
 
     public String getCityName() {
         return cityName;
@@ -37,4 +40,13 @@ public class SalesPerCity {
     public void setDollarsSold(Double dollarsSold) {
         this.dollarsSold = dollarsSold;
     }
+
+    public String getArticleName() {
+        return articleName;
+    }
+
+    public void setArticleName(String articleName) {
+        this.articleName = articleName;
+    }
+    
 }

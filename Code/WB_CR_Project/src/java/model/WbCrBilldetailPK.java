@@ -13,11 +13,10 @@ import javax.validation.constraints.NotNull;
 
 /**
  *
- * @author wason
+ * @author csrm1
  */
 @Embeddable
-public class WbCrBilldetailPK implements Serializable
-{
+public class WbCrBilldetailPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
@@ -28,39 +27,32 @@ public class WbCrBilldetailPK implements Serializable
     @Column(name = "BILL_ID")
     private int billId;
 
-    public WbCrBilldetailPK()
-    {
+    public WbCrBilldetailPK() {
     }
 
-    public WbCrBilldetailPK(int articleId, int billId)
-    {
+    public WbCrBilldetailPK(int articleId, int billId) {
         this.articleId = articleId;
         this.billId = billId;
     }
 
-    public int getArticleId()
-    {
+    public int getArticleId() {
         return articleId;
     }
 
-    public void setArticleId(int articleId)
-    {
+    public void setArticleId(int articleId) {
         this.articleId = articleId;
     }
 
-    public int getBillId()
-    {
+    public int getBillId() {
         return billId;
     }
 
-    public void setBillId(int billId)
-    {
+    public void setBillId(int billId) {
         this.billId = billId;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
         hash += (int) articleId;
         hash += (int) billId;
@@ -68,28 +60,23 @@ public class WbCrBilldetailPK implements Serializable
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof WbCrBilldetailPK))
-        {
+        if (!(object instanceof WbCrBilldetailPK)) {
             return false;
         }
         WbCrBilldetailPK other = (WbCrBilldetailPK) object;
-        if (this.articleId != other.articleId)
-        {
+        if (this.articleId != other.articleId) {
             return false;
         }
-        if (this.billId != other.billId)
-        {
+        if (this.billId != other.billId) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
+    public String toString() {
         return "model.WbCrBilldetailPK[ articleId=" + articleId + ", billId=" + billId + " ]";
     }
     

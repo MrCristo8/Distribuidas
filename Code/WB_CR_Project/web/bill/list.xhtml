@@ -1,5 +1,10 @@
-<?xml version='1.0' encoding='UTF-8' ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:c="http://java.sun.com/jsf/core"
@@ -21,7 +26,7 @@
     </h:head>
     <h:body>
         <ui:composition template="/layout.xhtml">
-            <ui:define name="title">Articles</ui:define>
+            <ui:define name="title">Bills</ui:define>
             <ui:define name="heading"><br></br></ui:define>
             <ui:define name="content">
                 <div class="wrapper">
@@ -32,50 +37,48 @@
                                     <div class="card-body row no-gutters align-items-center">
                                         <div class="col">
                                             <div class="page-header clearfix">
-                                                <h2 class="pull-left">Article Details</h2>
+                                                <h2 class="pull-left">Bill Details</h2>
                                             </div>
                                         </div>
                                         <div class="col">
-                                            <h:commandButton styleClass="btn btn-primary" value="Add New Article" action="#{articleBean.Change}"></h:commandButton>
+                                            <h:commandButton styleClass="btn btn-primary" value="Add New Bill" action="#{billBean.Change}"></h:commandButton>
                                         </div>
                                         <!--end of col-->
                                         <div class="col-auto">
-                                            <h:selectOneListbox value="#{billBean.clientList}">
-                                            </h:selectOneListbox>
-                                            <h:inputText styleClass="form-control form-control-md form-control-borderless" value="#{articleBean.filterString}"></h:inputText>
+                                            <h:inputText styleClass="form-control form-control-md form-control-borderless" value="#{billBean.filterString}"></h:inputText>
                                         </div>
                                         <!--end of col-->
                                         <div class="col-auto">
-                                            <h:commandButton styleClass="btn btn-md btn-success" value="Search" onclick="#{articleBean.filter()}"></h:commandButton>
+                                            <h:commandButton styleClass="btn btn-md btn-success" value="Search" onclick="#{billBean.filter()}"></h:commandButton>
                                         </div>
                                         <!--end of col-->
                                     </div>
                                 </h:form>    
 
                                 <h:form>
-                                    <h:dataTable styleClass="table table-bordered table-striped" value="#{articleBean.articleList}" var="article">
+                                    <h:dataTable styleClass="table table-bordered table-striped" value="#{billBean.billsList}" var="bill">
                                         <h:column> 
-                                            <c:facet name="header">Article ID</c:facet>
-                                            <h:outputText value="#{article.articleId}"/>
+                                            <c:facet name="header">Bill Number</c:facet>
+                                            <h:outputText value="#{bill.billId}"/>
                                         </h:column>
                                         <h:column> 
-                                            <c:facet name="header">Article Name</c:facet>
-                                            <h:outputText value="#{article.articleName}"/> 
+                                            <c:facet name="header">Bill Date</c:facet>
+                                            <h:outputText value="#{bill.billDate}"/> 
                                         </h:column>
                                         <h:column> 
-                                            <c:facet name="header">Article Price</c:facet>
-                                            <h:outputText value="#{article.articlePrice}"/> 
+                                            <c:facet name="header">Client Name</c:facet>
+                                            <h:outputText value="#{bill.clientId.clientName}"/> 
                                         </h:column>
                                         <h:column> 
-                                            <c:facet name="header">Article Stock</c:facet>
-                                            <h:outputText value="#{article.articleStock}"/> 
+                                            <c:facet name="header">City Name</c:facet>
+                                            <h:outputText value="#{bill.cityId.cityName}"/> 
                                         </h:column>
                                         <h:column>
                                             <c:facet name="header">Actions</c:facet>
-                                            <h:commandLink title="Update Record" action="#{articleBean.prepareUpdate(article)}">
+                                            <h:commandLink title="Update Record" action="#{billBean.prepareUpdate(bill)}">
                                                 <i class="material-icons" data-toggle="tooltip" title="Edit">edit</i>
                                             </h:commandLink>
-                                            <h:commandLink title="Delete Record" action="#{articleBean.delete(article)}">
+                                            <h:commandLink title="Delete Record" action="#{billBean.delete(bill)}">
                                                 <i class="material-icons" data-toggle="tooltip" title="Delete">delete</i>
                                             </h:commandLink>            
                                         </h:column>
@@ -85,22 +88,22 @@
                                     <h2 class="pull-left">Search Results</h2>
                                 </div>
                                 <h:form>
-                                    <h:dataTable styleClass="table table-bordered table-striped" value="#{articleBean.filteredList}" var="article_search">
+                                    <h:dataTable styleClass="table table-bordered table-striped" value="#{billBean.filteredList}" var="bill_search">
                                         <h:column> 
-                                            <c:facet name="header">Article ID</c:facet>
-                                            <h:outputText value="#{article_search.articleId}"/>
+                                            <c:facet name="header">Bill Number</c:facet>
+                                            <h:outputText value="#{bill_search.billId}"/>
                                         </h:column>
                                         <h:column> 
-                                            <c:facet name="header">Article Name</c:facet>
-                                            <h:outputText value="#{article_search.articleName}"/> 
+                                            <c:facet name="header">Bill Date</c:facet>
+                                            <h:outputText value="#{bill_search.billDate}"/> 
                                         </h:column>
                                         <h:column> 
-                                            <c:facet name="header">Article Price</c:facet>
-                                            <h:outputText value="#{article_search.articlePrice}"/> 
+                                            <c:facet name="header">Client Name</c:facet>
+                                            <h:outputText value="#{bill_search.clientId.clientName}"/> 
                                         </h:column>
                                         <h:column> 
-                                            <c:facet name="header">Article Stock</c:facet>
-                                            <h:outputText value="#{article_search.articleStock}"/> 
+                                            <c:facet name="header">City Name</c:facet>
+                                            <h:outputText value="#{bill_search.cityId.cityName}"/> 
                                         </h:column>                                        
                                     </h:dataTable>
                                 </h:form>            
@@ -112,4 +115,3 @@
         </ui:composition>
     </h:body>
 </html>
-

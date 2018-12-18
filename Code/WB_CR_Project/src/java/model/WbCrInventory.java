@@ -7,10 +7,9 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -18,131 +17,113 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
  *
- * @author wason
+ * @author csrm1
  */
 @Entity
 @Table(name = "WB_CR_INVENTORY")
 @XmlRootElement
-@NamedQueries(
-{
+@NamedQueries({
     @NamedQuery(name = "WbCrInventory.findAll", query = "SELECT w FROM WbCrInventory w")
+    , @NamedQuery(name = "WbCrInventory.findByInventoryId", query = "SELECT w FROM WbCrInventory w WHERE w.wbCrInventoryPK.inventoryId = :inventoryId")
+    , @NamedQuery(name = "WbCrInventory.findByMovementId", query = "SELECT w FROM WbCrInventory w WHERE w.wbCrInventoryPK.movementId = :movementId")
+    , @NamedQuery(name = "WbCrInventory.findByArticleId", query = "SELECT w FROM WbCrInventory w WHERE w.wbCrInventoryPK.articleId = :articleId")
     , @NamedQuery(name = "WbCrInventory.findByInventoryDate", query = "SELECT w FROM WbCrInventory w WHERE w.inventoryDate = :inventoryDate")
-    , @NamedQuery(name = "WbCrInventory.findByInventoryAmmount", query = "SELECT w FROM WbCrInventory w WHERE w.inventoryAmmount = :inventoryAmmount")
-    , @NamedQuery(name = "WbCrInventory.findByInventoryId", query = "SELECT w FROM WbCrInventory w WHERE w.inventoryId = :inventoryId")
-})
-public class WbCrInventory implements Serializable
-{
+    , @NamedQuery(name = "WbCrInventory.findByInventoryAmmount", query = "SELECT w FROM WbCrInventory w WHERE w.inventoryAmmount = :inventoryAmmount")})
+public class WbCrInventory implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    @EmbeddedId
+    protected WbCrInventoryPK wbCrInventoryPK;
     @Column(name = "INVENTORY_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date inventoryDate;
     @Column(name = "INVENTORY_AMMOUNT")
     private Integer inventoryAmmount;
-    @Id
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "INVENTORY_ID")
-    private Integer inventoryId;
-    @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ARTICLE_ID")
+    @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ARTICLE_ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private WbCrArticle articleId;
-    @JoinColumn(name = "MOVEMENT_ID", referencedColumnName = "MOVEMENT_ID")
+    private WbCrArticle wbCrArticle;
+    @JoinColumn(name = "MOVEMENT_ID", referencedColumnName = "MOVEMENT_ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
-    private WbCrMovement movementId;
+    private WbCrMovement wbCrMovement;
 
-    public WbCrInventory()
-    {
+    public WbCrInventory() {
     }
 
-    public WbCrInventory(Integer inventoryId)
-    {
-        this.inventoryId = inventoryId;
+    public WbCrInventory(WbCrInventoryPK wbCrInventoryPK) {
+        this.wbCrInventoryPK = wbCrInventoryPK;
     }
 
-    public Date getInventoryDate()
-    {
+    public WbCrInventory(int inventoryId, int movementId, int articleId) {
+        this.wbCrInventoryPK = new WbCrInventoryPK(inventoryId, movementId, articleId);
+    }
+
+    public WbCrInventoryPK getWbCrInventoryPK() {
+        return wbCrInventoryPK;
+    }
+
+    public void setWbCrInventoryPK(WbCrInventoryPK wbCrInventoryPK) {
+        this.wbCrInventoryPK = wbCrInventoryPK;
+    }
+
+    public Date getInventoryDate() {
         return inventoryDate;
     }
 
-    public void setInventoryDate(Date inventoryDate)
-    {
+    public void setInventoryDate(Date inventoryDate) {
         this.inventoryDate = inventoryDate;
     }
 
-    public Integer getInventoryAmmount()
-    {
+    public Integer getInventoryAmmount() {
         return inventoryAmmount;
     }
 
-    public void setInventoryAmmount(Integer inventoryAmmount)
-    {
+    public void setInventoryAmmount(Integer inventoryAmmount) {
         this.inventoryAmmount = inventoryAmmount;
     }
 
-    public Integer getInventoryId()
-    {
-        return inventoryId;
+    public WbCrArticle getWbCrArticle() {
+        return wbCrArticle;
     }
 
-    public void setInventoryId(Integer inventoryId)
-    {
-        this.inventoryId = inventoryId;
+    public void setWbCrArticle(WbCrArticle wbCrArticle) {
+        this.wbCrArticle = wbCrArticle;
     }
 
-    public WbCrArticle getArticleId()
-    {
-        return articleId;
+    public WbCrMovement getWbCrMovement() {
+        return wbCrMovement;
     }
 
-    public void setArticleId(WbCrArticle articleId)
-    {
-        this.articleId = articleId;
-    }
-
-    public WbCrMovement getMovementId()
-    {
-        return movementId;
-    }
-
-    public void setMovementId(WbCrMovement movementId)
-    {
-        this.movementId = movementId;
+    public void setWbCrMovement(WbCrMovement wbCrMovement) {
+        this.wbCrMovement = wbCrMovement;
     }
 
     @Override
-    public int hashCode()
-    {
+    public int hashCode() {
         int hash = 0;
-        hash += (inventoryId != null ? inventoryId.hashCode() : 0);
+        hash += (wbCrInventoryPK != null ? wbCrInventoryPK.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public boolean equals(Object object)
-    {
+    public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof WbCrInventory))
-        {
+        if (!(object instanceof WbCrInventory)) {
             return false;
         }
         WbCrInventory other = (WbCrInventory) object;
-        if ((this.inventoryId == null && other.inventoryId != null) || (this.inventoryId != null && !this.inventoryId.equals(other.inventoryId)))
-        {
+        if ((this.wbCrInventoryPK == null && other.wbCrInventoryPK != null) || (this.wbCrInventoryPK != null && !this.wbCrInventoryPK.equals(other.wbCrInventoryPK))) {
             return false;
         }
         return true;
     }
 
     @Override
-    public String toString()
-    {
-        return "model.WbCrInventory[ inventoryId=" + inventoryId + " ]";
+    public String toString() {
+        return "model.WbCrInventory[ wbCrInventoryPK=" + wbCrInventoryPK + " ]";
     }
     
 }

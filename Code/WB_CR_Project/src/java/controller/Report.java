@@ -8,7 +8,6 @@ package controller;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import model.ArticleByClient;
 import model.ArticleByMovement;
 import model.ClientReport;
@@ -70,7 +69,7 @@ public class Report {
     }
 
     public List<ClientReport> getClireports() {
-        Map<String, Double> map;
+        HashMap<String, Double> map;
         ArticleByClient compare;
         for (String client : getClients()) {
             map = new HashMap<>();
@@ -93,11 +92,9 @@ public class Report {
     }
 
     public List<String> getClients() {
-        for (ArticleByClient articleByClient : getArticleByClient()) {
-            if (!clients.contains(articleByClient.getClientName())) {
-                clients.add(articleByClient.getClientName());
-            }
-        }
+        getArticleByClient().stream().filter((articleByClient) -> (!clients.contains(articleByClient.getClientName()))).forEachOrdered((articleByClient) -> {
+            clients.add(articleByClient.getClientName());
+        });
         return clients;
     }
 
@@ -106,11 +103,9 @@ public class Report {
     }
 
     public List<String> getArticles() {
-        for (ArticleByClient articleByClient : getArticleByClient()) {
-            if (!articles.contains(articleByClient.getArticleName())) {
-                articles.add(articleByClient.getArticleName());
-            }
-        }
+        getArticleByClient().stream().filter((articleByClient) -> (!articles.contains(articleByClient.getArticleName()))).forEachOrdered((articleByClient) -> {
+            articles.add(articleByClient.getArticleName());
+        });
         return articles;
     }
 

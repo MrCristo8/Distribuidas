@@ -14,6 +14,9 @@ and open the template in the editor.
         <link rel="stylesheet" href="style.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"></link>
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
     </head>
     <body>
         <div class="container">
@@ -45,19 +48,25 @@ and open the template in the editor.
                                 <a class="nav-link" href="http://localhost:8080/WB_CR_Project/faces/user/user.xhtml">Users</a>
                             </li>
                         </c:if>
-                        <c:if test="${permission=='Stock'}">
+                        <c:if test="${permission=='Inventory'}">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:8080/WB_CR_Project/faces/reports/reports.xhtml">Stock</a>
+                                <a class="nav-link" href="http://localhost:8080/WB_CR_Project/faces/inventory/list.xhtml">Inventory</a>
                             </li>
                         </c:if>
                         <c:if test="${permission=='Bills'}">
                             <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:8080/WB_CR_Project/faces/reports/reports.xhtml">Bills</a>
+                                <a class="nav-link" href="http://localhost:8080/WB_CR_Project/faces/bill/list.xhtml">Bills</a>
                             </li>
                         </c:if>
                         <c:if test="${permission=='Reports'}">
-                            <li class="nav-item">
-                                <a class="nav-link" href="http://localhost:8080/WB_CR_Project/faces/reports/reports.xhtml">Reports</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Reports</a>
+                                <div class="dropdown-menu">
+                                    <a class="dropdown-item" href="http://localhost:8080/WB_CR_Project/faces/reports/articleByClient.xhtml">Article By Client</a>
+                                    <a class="dropdown-item" href="http://localhost:8080/WB_CR_Project/faces/reports/articleByMovement.xhtml">Article By Movement</a>
+                                    <a class="dropdown-item" href="http://localhost:8080/WB_CR_Project/faces/reports/balancePerArticle.xhtml">Balance Per Article</a>
+                                    <a class="dropdown-item" href="http://localhost:8080/WB_CR_Project/faces/reports/salesPerCity.xhtml">Sales Per City</a>
+                                </div>
                             </li>
                         </c:if>
                     </ul>

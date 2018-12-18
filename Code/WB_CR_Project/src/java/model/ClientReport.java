@@ -5,7 +5,7 @@
  */
 package model;
 
-import java.util.Map;
+import java.util.HashMap;
 
 /**
  *
@@ -13,12 +13,12 @@ import java.util.Map;
  */
 public class ClientReport {
     private String clientName;
-    private Map<String,Double> atributes;
+    private HashMap<String,Double> atributes;
 
     public ClientReport() {
     }
 
-    public ClientReport(String clientName, Map<String, Double> atributes) {
+    public ClientReport(String clientName, HashMap<String, Double> atributes) {
         this.clientName = clientName;
         this.atributes = atributes;
     }
@@ -31,11 +31,11 @@ public class ClientReport {
         this.clientName = clientName;
     }
 
-    public Map<String, Double> getAtributes() {
+    public HashMap<String, Double> getAtributes() {
         return atributes;
     }
 
-    public void setAtributes(Map<String, Double> atributes) {
+    public void setAtributes(HashMap<String, Double> atributes) {
         this.atributes = atributes;
     }
 }
