@@ -43,12 +43,10 @@ public class WbCrCity implements Serializable
     @NotNull
     @Column(name = "CITY_ID")
     private Integer cityId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 45)
+    @Size(max = 45)
     @Column(name = "CITY_NAME")
     private String cityName;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrCity")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cityId")
     private Collection<WbCrBill> wbCrBillCollection;
 
     public WbCrCity()
@@ -60,10 +58,9 @@ public class WbCrCity implements Serializable
         this.cityId = cityId;
     }
 
-    public WbCrCity(Integer cityId, String cityName)
+    public WbCrCity(int id, String cityName)
     {
-        this.cityId = cityId;
-        this.cityName = cityName;
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public Integer getCityId()

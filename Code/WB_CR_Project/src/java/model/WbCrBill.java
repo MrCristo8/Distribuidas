@@ -11,8 +11,8 @@ import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
@@ -35,59 +35,37 @@ import javax.xml.bind.annotation.XmlTransient;
 @NamedQueries(
 {
     @NamedQuery(name = "WbCrBill.findAll", query = "SELECT w FROM WbCrBill w")
-    , @NamedQuery(name = "WbCrBill.findByCityId", query = "SELECT w FROM WbCrBill w WHERE w.wbCrBillPK.cityId = :cityId")
-    , @NamedQuery(name = "WbCrBill.findByClientId", query = "SELECT w FROM WbCrBill w WHERE w.wbCrBillPK.clientId = :clientId")
-    , @NamedQuery(name = "WbCrBill.findByBillId", query = "SELECT w FROM WbCrBill w WHERE w.wbCrBillPK.billId = :billId")
     , @NamedQuery(name = "WbCrBill.findByBillDate", query = "SELECT w FROM WbCrBill w WHERE w.billDate = :billDate")
+    , @NamedQuery(name = "WbCrBill.findByBillId", query = "SELECT w FROM WbCrBill w WHERE w.billId = :billId")
 })
 public class WbCrBill implements Serializable
 {
 
     private static final long serialVersionUID = 1L;
-    @EmbeddedId
-    protected WbCrBillPK wbCrBillPK;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "BILL_DATE")
     @Temporal(TemporalType.TIMESTAMP)
     private Date billDate;
+    @Id
+    @Basic(optional = false)
+    @NotNull
+    @Column(name = "BILL_ID")
+    private Integer billId;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrBill")
     private Collection<WbCrBilldetail> wbCrBilldetailCollection;
-    @JoinColumn(name = "CITY_ID", referencedColumnName = "CITY_ID", insertable = false, updatable = false)
+    @JoinColumn(name = "CITY_ID", referencedColumnName = "CITY_ID")
     @ManyToOne(optional = false)
-    private WbCrCity wbCrCity;
-    @JoinColumn(name = "CLIENT_ID", referencedColumnName = "CLIENT_ID", insertable = false, updatable = false)
+    private WbCrCity cityId;
+    @JoinColumn(name = "CLIENT_ID", referencedColumnName = "CLIENT_ID")
     @ManyToOne(optional = false)
-    private WbCrClient wbCrClient;
+    private WbCrClient clientId;
 
     public WbCrBill()
     {
     }
 
-    public WbCrBill(WbCrBillPK wbCrBillPK)
+    public WbCrBill(Integer billId)
     {
-        this.wbCrBillPK = wbCrBillPK;
-    }
-
-    public WbCrBill(WbCrBillPK wbCrBillPK, Date billDate)
-    {
-        this.wbCrBillPK = wbCrBillPK;
-        this.billDate = billDate;
-    }
-
-    public WbCrBill(int cityId, int clientId, int billId)
-    {
-        this.wbCrBillPK = new WbCrBillPK(cityId, clientId, billId);
-    }
-
-    public WbCrBillPK getWbCrBillPK()
-    {
-        return wbCrBillPK;
-    }
-
-    public void setWbCrBillPK(WbCrBillPK wbCrBillPK)
-    {
-        this.wbCrBillPK = wbCrBillPK;
+        this.billId = billId;
     }
 
     public Date getBillDate()
@@ -98,6 +76,16 @@ public class WbCrBill implements Serializable
     public void setBillDate(Date billDate)
     {
         this.billDate = billDate;
+    }
+
+    public Integer getBillId()
+    {
+        return billId;
+    }
+
+    public void setBillId(Integer billId)
+    {
+        this.billId = billId;
     }
 
     @XmlTransient
@@ -111,31 +99,31 @@ public class WbCrBill implements Serializable
         this.wbCrBilldetailCollection = wbCrBilldetailCollection;
     }
 
-    public WbCrCity getWbCrCity()
+    public WbCrCity getCityId()
     {
-        return wbCrCity;
+        return cityId;
     }
 
-    public void setWbCrCity(WbCrCity wbCrCity)
+    public void setCityId(WbCrCity cityId)
     {
-        this.wbCrCity = wbCrCity;
+        this.cityId = cityId;
     }
 
-    public WbCrClient getWbCrClient()
+    public WbCrClient getClientId()
     {
-        return wbCrClient;
+        return clientId;
     }
 
-    public void setWbCrClient(WbCrClient wbCrClient)
+    public void setClientId(WbCrClient clientId)
     {
-        this.wbCrClient = wbCrClient;
+        this.clientId = clientId;
     }
 
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (wbCrBillPK != null ? wbCrBillPK.hashCode() : 0);
+        hash += (billId != null ? billId.hashCode() : 0);
         return hash;
     }
 
@@ -148,7 +136,7 @@ public class WbCrBill implements Serializable
             return false;
         }
         WbCrBill other = (WbCrBill) object;
-        if ((this.wbCrBillPK == null && other.wbCrBillPK != null) || (this.wbCrBillPK != null && !this.wbCrBillPK.equals(other.wbCrBillPK)))
+        if ((this.billId == null && other.billId != null) || (this.billId != null && !this.billId.equals(other.billId)))
         {
             return false;
         }
@@ -158,7 +146,7 @@ public class WbCrBill implements Serializable
     @Override
     public String toString()
     {
-        return "model.WbCrBill[ wbCrBillPK=" + wbCrBillPK + " ]";
+        return "model.WbCrBill[ billId=" + billId + " ]";
     }
     
 }

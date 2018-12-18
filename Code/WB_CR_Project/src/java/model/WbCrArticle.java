@@ -45,23 +45,18 @@ public class WbCrArticle implements Serializable
     @NotNull
     @Column(name = "ARTICLE_ID")
     private Integer articleId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "ARTICLE_NAME")
     private String articleName;
-    @Basic(optional = false)
-    @NotNull
+    // @Max(value=?)  @Min(value=?)//if you know range of your decimal fields consider using these annotations to enforce field validation
     @Column(name = "ARTICLE_PRICE")
-    private double articlePrice;
-    @Basic(optional = false)
-    @NotNull
+    private Double articlePrice;
     @Column(name = "ARTICLE_STOCK")
-    private int articleStock;
+    private Integer articleStock;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrArticle")
     private Collection<WbCrBilldetail> wbCrBilldetailCollection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrArticle")
-    private Collection<WbCrStock> wbCrStockCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "articleId")
+    private Collection<WbCrInventory> wbCrInventoryCollection;
 
     public WbCrArticle()
     {
@@ -72,13 +67,14 @@ public class WbCrArticle implements Serializable
         this.articleId = articleId;
     }
 
-    public WbCrArticle(Integer articleId, String articleName, double articlePrice, int articleStock)
+    public WbCrArticle(Integer articleId, String articleName, Double articlePrice, Integer articleStock)
     {
         this.articleId = articleId;
         this.articleName = articleName;
         this.articlePrice = articlePrice;
         this.articleStock = articleStock;
     }
+
 
     public Integer getArticleId()
     {
@@ -100,22 +96,22 @@ public class WbCrArticle implements Serializable
         this.articleName = articleName;
     }
 
-    public double getArticlePrice()
+    public Double getArticlePrice()
     {
         return articlePrice;
     }
 
-    public void setArticlePrice(double articlePrice)
+    public void setArticlePrice(Double articlePrice)
     {
         this.articlePrice = articlePrice;
     }
 
-    public int getArticleStock()
+    public Integer getArticleStock()
     {
         return articleStock;
     }
 
-    public void setArticleStock(int articleStock)
+    public void setArticleStock(Integer articleStock)
     {
         this.articleStock = articleStock;
     }
@@ -132,14 +128,14 @@ public class WbCrArticle implements Serializable
     }
 
     @XmlTransient
-    public Collection<WbCrStock> getWbCrStockCollection()
+    public Collection<WbCrInventory> getWbCrInventoryCollection()
     {
-        return wbCrStockCollection;
+        return wbCrInventoryCollection;
     }
 
-    public void setWbCrStockCollection(Collection<WbCrStock> wbCrStockCollection)
+    public void setWbCrInventoryCollection(Collection<WbCrInventory> wbCrInventoryCollection)
     {
-        this.wbCrStockCollection = wbCrStockCollection;
+        this.wbCrInventoryCollection = wbCrInventoryCollection;
     }
 
     @Override

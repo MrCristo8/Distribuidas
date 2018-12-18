@@ -44,18 +44,14 @@ public class WbCrMovement implements Serializable
     @NotNull
     @Column(name = "MOVEMENT_ID")
     private Integer movementId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 30)
+    @Size(max = 30)
     @Column(name = "MOVEMENT_NAME")
     private String movementName;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 1)
+    @Size(max = 1)
     @Column(name = "MOVEMENT_DIRECTION")
     private String movementDirection;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrMovement")
-    private Collection<WbCrStock> wbCrStockCollection;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "movementId")
+    private Collection<WbCrInventory> wbCrInventoryCollection;
 
     public WbCrMovement()
     {
@@ -72,6 +68,8 @@ public class WbCrMovement implements Serializable
         this.movementName = movementName;
         this.movementDirection = movementDirection;
     }
+
+
 
     public Integer getMovementId()
     {
@@ -104,14 +102,14 @@ public class WbCrMovement implements Serializable
     }
 
     @XmlTransient
-    public Collection<WbCrStock> getWbCrStockCollection()
+    public Collection<WbCrInventory> getWbCrInventoryCollection()
     {
-        return wbCrStockCollection;
+        return wbCrInventoryCollection;
     }
 
-    public void setWbCrStockCollection(Collection<WbCrStock> wbCrStockCollection)
+    public void setWbCrInventoryCollection(Collection<WbCrInventory> wbCrInventoryCollection)
     {
-        this.wbCrStockCollection = wbCrStockCollection;
+        this.wbCrInventoryCollection = wbCrInventoryCollection;
     }
 
     @Override

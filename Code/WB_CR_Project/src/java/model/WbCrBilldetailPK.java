@@ -21,60 +21,20 @@ public class WbCrBilldetailPK implements Serializable
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "CITY_ID")
-    private int cityId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "CLIENT_ID")
-    private int clientId;
+    @Column(name = "ARTICLE_ID")
+    private int articleId;
     @Basic(optional = false)
     @NotNull
     @Column(name = "BILL_ID")
     private int billId;
-    @Basic(optional = false)
-    @NotNull
-    @Column(name = "ARTICLE_ID")
-    private int articleId;
 
     public WbCrBilldetailPK()
     {
     }
 
-    public WbCrBilldetailPK(int cityId, int clientId, int billId, int articleId)
+    public WbCrBilldetailPK(int articleId, int billId)
     {
-        this.cityId = cityId;
-        this.clientId = clientId;
-        this.billId = billId;
         this.articleId = articleId;
-    }
-
-    public int getCityId()
-    {
-        return cityId;
-    }
-
-    public void setCityId(int cityId)
-    {
-        this.cityId = cityId;
-    }
-
-    public int getClientId()
-    {
-        return clientId;
-    }
-
-    public void setClientId(int clientId)
-    {
-        this.clientId = clientId;
-    }
-
-    public int getBillId()
-    {
-        return billId;
-    }
-
-    public void setBillId(int billId)
-    {
         this.billId = billId;
     }
 
@@ -88,14 +48,22 @@ public class WbCrBilldetailPK implements Serializable
         this.articleId = articleId;
     }
 
+    public int getBillId()
+    {
+        return billId;
+    }
+
+    public void setBillId(int billId)
+    {
+        this.billId = billId;
+    }
+
     @Override
     public int hashCode()
     {
         int hash = 0;
-        hash += (int) cityId;
-        hash += (int) clientId;
-        hash += (int) billId;
         hash += (int) articleId;
+        hash += (int) billId;
         return hash;
     }
 
@@ -108,19 +76,11 @@ public class WbCrBilldetailPK implements Serializable
             return false;
         }
         WbCrBilldetailPK other = (WbCrBilldetailPK) object;
-        if (this.cityId != other.cityId)
-        {
-            return false;
-        }
-        if (this.clientId != other.clientId)
+        if (this.articleId != other.articleId)
         {
             return false;
         }
         if (this.billId != other.billId)
-        {
-            return false;
-        }
-        if (this.articleId != other.articleId)
         {
             return false;
         }
@@ -130,7 +90,7 @@ public class WbCrBilldetailPK implements Serializable
     @Override
     public String toString()
     {
-        return "model.WbCrBilldetailPK[ cityId=" + cityId + ", clientId=" + clientId + ", billId=" + billId + ", articleId=" + articleId + " ]";
+        return "model.WbCrBilldetailPK[ articleId=" + articleId + ", billId=" + billId + " ]";
     }
     
 }

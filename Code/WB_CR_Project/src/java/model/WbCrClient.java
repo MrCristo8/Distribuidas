@@ -45,20 +45,16 @@ public class WbCrClient implements Serializable
     @NotNull
     @Column(name = "CLIENT_ID")
     private Integer clientId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 10)
+    @Size(max = 10)
     @Column(name = "CLIENT_DNI")
     private String clientDni;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "CLIENT_NAME")
     private String clientName;
     @Size(max = 200)
     @Column(name = "CLIENT_ADDRESS")
     private String clientAddress;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "wbCrClient")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "clientId")
     private Collection<WbCrBill> wbCrBillCollection;
 
     public WbCrClient()
@@ -70,19 +66,14 @@ public class WbCrClient implements Serializable
         this.clientId = clientId;
     }
 
-    public WbCrClient(Integer clientId, String clientDni, String clientName)
+    public WbCrClient(Integer clientId, String clientDni, String clientName, String clientAddress)
     {
-        this.clientId = clientId;
-        this.clientDni = clientDni;
-        this.clientName = clientName;
-    }
-
-    public WbCrClient(Integer clientId, String clientDni, String clientName, String clientAddress) {
         this.clientId = clientId;
         this.clientDni = clientDni;
         this.clientName = clientName;
         this.clientAddress = clientAddress;
     }
+
 
     public Integer getClientId()
     {

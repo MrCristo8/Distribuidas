@@ -42,19 +42,13 @@ public class WbCrUser implements Serializable
     @NotNull
     @Column(name = "USER_ID")
     private Integer userId;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 50)
+    @Size(max = 50)
     @Column(name = "USER_NAME")
     private String userName;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 60)
+    @Size(max = 60)
     @Column(name = "USER_PASSWORD")
     private String userPassword;
-    @Basic(optional = false)
-    @NotNull
-    @Size(min = 1, max = 200)
+    @Size(max = 200)
     @Column(name = "USER_PERMISSION")
     private String userPermission;
 
@@ -67,7 +61,15 @@ public class WbCrUser implements Serializable
         this.userId = userId;
     }
 
-    public WbCrUser(String userName, String userPassword) {
+    public WbCrUser(Integer userId, String userName, String userPassword)
+    {
+        this.userId = userId;
+        this.userName = userName;
+        this.userPassword = userPassword;
+    }
+
+    public WbCrUser(String userName, String userPassword)
+    {
         this.userName = userName;
         this.userPassword = userPassword;
     }
@@ -79,6 +81,8 @@ public class WbCrUser implements Serializable
         this.userPassword = userPassword;
         this.userPermission = userPermission;
     }
+
+   
 
     public Integer getUserId()
     {
@@ -121,30 +125,42 @@ public class WbCrUser implements Serializable
     }
 
     @Override
-    public int hashCode() {
-        int hash = 3;
-        hash = 17 * hash + Objects.hashCode(this.userName);
-        hash = 17 * hash + Objects.hashCode(this.userPassword);
+    public int hashCode()
+    {
+        int hash = 7;
+        hash = 53 * hash + Objects.hashCode(this.userName);
+        hash = 53 * hash + Objects.hashCode(this.userPassword);
         return hash;
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
+    public boolean equals(Object obj)
+    {
+        if (this == obj)
+        {
             return true;
         }
-        if (obj == null) {
+        if (obj == null)
+        {
             return false;
         }
-        if (getClass() != obj.getClass()) {
+        if (getClass() != obj.getClass())
+        {
             return false;
         }
         final WbCrUser other = (WbCrUser) obj;
-        if (!Objects.equals(this.userName, other.userName)) {
+        if (!Objects.equals(this.userName, other.userName))
+        {
             return false;
         }
-        return Objects.equals(this.userPassword, other.userPassword);
+        if (!Objects.equals(this.userPassword, other.userPassword))
+        {
+            return false;
+        }
+        return true;
     }
+
+
 
     @Override
     public String toString()

@@ -6,17 +6,14 @@
 package model;
 
 import java.io.Serializable;
-import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -29,10 +26,8 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries(
 {
     @NamedQuery(name = "WbCrBilldetail.findAll", query = "SELECT w FROM WbCrBilldetail w")
-    , @NamedQuery(name = "WbCrBilldetail.findByCityId", query = "SELECT w FROM WbCrBilldetail w WHERE w.wbCrBilldetailPK.cityId = :cityId")
-    , @NamedQuery(name = "WbCrBilldetail.findByClientId", query = "SELECT w FROM WbCrBilldetail w WHERE w.wbCrBilldetailPK.clientId = :clientId")
-    , @NamedQuery(name = "WbCrBilldetail.findByBillId", query = "SELECT w FROM WbCrBilldetail w WHERE w.wbCrBilldetailPK.billId = :billId")
     , @NamedQuery(name = "WbCrBilldetail.findByArticleId", query = "SELECT w FROM WbCrBilldetail w WHERE w.wbCrBilldetailPK.articleId = :articleId")
+    , @NamedQuery(name = "WbCrBilldetail.findByBillId", query = "SELECT w FROM WbCrBilldetail w WHERE w.wbCrBilldetailPK.billId = :billId")
     , @NamedQuery(name = "WbCrBilldetail.findByDetailAmount", query = "SELECT w FROM WbCrBilldetail w WHERE w.detailAmount = :detailAmount")
 })
 public class WbCrBilldetail implements Serializable
@@ -41,19 +36,12 @@ public class WbCrBilldetail implements Serializable
     private static final long serialVersionUID = 1L;
     @EmbeddedId
     protected WbCrBilldetailPK wbCrBilldetailPK;
-    @Basic(optional = false)
-    @NotNull
     @Column(name = "DETAIL_AMOUNT")
-    private int detailAmount;
+    private Integer detailAmount;
     @JoinColumn(name = "ARTICLE_ID", referencedColumnName = "ARTICLE_ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private WbCrArticle wbCrArticle;
-    @JoinColumns(
-    {
-        @JoinColumn(name = "CITY_ID", referencedColumnName = "CITY_ID", insertable = false, updatable = false)
-        , @JoinColumn(name = "CLIENT_ID", referencedColumnName = "CLIENT_ID", insertable = false, updatable = false)
-        , @JoinColumn(name = "BILL_ID", referencedColumnName = "BILL_ID", insertable = false, updatable = false)
-    })
+    @JoinColumn(name = "BILL_ID", referencedColumnName = "BILL_ID", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private WbCrBill wbCrBill;
 
@@ -66,15 +54,9 @@ public class WbCrBilldetail implements Serializable
         this.wbCrBilldetailPK = wbCrBilldetailPK;
     }
 
-    public WbCrBilldetail(WbCrBilldetailPK wbCrBilldetailPK, int detailAmount)
+    public WbCrBilldetail(int articleId, int billId)
     {
-        this.wbCrBilldetailPK = wbCrBilldetailPK;
-        this.detailAmount = detailAmount;
-    }
-
-    public WbCrBilldetail(int cityId, int clientId, int billId, int articleId)
-    {
-        this.wbCrBilldetailPK = new WbCrBilldetailPK(cityId, clientId, billId, articleId);
+        this.wbCrBilldetailPK = new WbCrBilldetailPK(articleId, billId);
     }
 
     public WbCrBilldetailPK getWbCrBilldetailPK()
@@ -87,12 +69,12 @@ public class WbCrBilldetail implements Serializable
         this.wbCrBilldetailPK = wbCrBilldetailPK;
     }
 
-    public int getDetailAmount()
+    public Integer getDetailAmount()
     {
         return detailAmount;
     }
 
-    public void setDetailAmount(int detailAmount)
+    public void setDetailAmount(Integer detailAmount)
     {
         this.detailAmount = detailAmount;
     }
