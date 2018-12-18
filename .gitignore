@@ -9,3 +9,6 @@
 /Code/WB_CR_Project/dist/
 Code/WB_CR_Project/src/conf/persistence.xml
 Code/WB_CR_Project/web/WEB-INF/glassfish-resources.xml
+Code/WB_CR_Project/src/java/project/xml/hibernate.cfg.xml
+Code/WB_CR_Project/src/conf/persistence.xml
+Code/WB_CR_Project/web/WEB-INF/glassfish-resources.xml
