@@ -141,4 +141,13 @@ body, html {
 .forgot-password:focus{
     color: rgb(12, 97, 33);
 }
-
+.wrapper{
+    width: 800px;
+    margin: 0 auto;
+}
+.page-header h2{
+    margin-top: 0;
+}
+table tr td:last-child a{
+    margin-right: 15px;
+}
