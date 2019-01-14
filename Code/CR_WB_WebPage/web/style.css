@@ -142,7 +142,8 @@ body, html {
     color: rgb(12, 97, 33);
 }
 .wrapper{
-    width: 800px;
+    width: auto;
+    padding: 4em 16em 1em 16em;
     margin: 0 auto;
 }
 .page-header h2{

@@ -18,35 +18,53 @@
         <script src="../script.js"></script>
     </head>
     <body>
-        <div class="wrapper">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="page-header">
-                            <h2>Update Client</h2>
+        <div class=wrapper>
+            <div class=container-fluid>
+                <div class=row>
+                    <div class=col-md-12>
+                        <div class=page-header clearfix>
+                            <h2 class=pull-left>Client Details</h2>
+                            <form action="ClientSave" method="post">
+                                <input type="submit" class="btn btn-success float-right" value="Save Changes">
+                            </form>
                         </div>
-                        <p>Edit Client</p>
-                        <form action="/CR_WB_Project/ClientUpdate" method="post">
-                            <div class="form-group">
-                                <label>Client Name</label>
-                                <input type="text" name="name" class="form-control" value="${client.client_name}">
-                                <span class="help-block"></span>
-                            </div>
-                            <div class="form-group">
-                                <label>Client DNI</label>
-                                <input type="text" name="dni" class="form-control" value="${client.client_dni}">
-                                <span class="help-block"></span>
-                            </div>
-                            <div class="form-group">
-                                <label>Client Address</label>
-                                <input type="text" name="addr" class="form-control" value="${client.client_address}">
-                                <span class="help-block"></span>
-                            </div>
-
-                            <input type="hidden" name="id" value="${client.client_id}"/>
-                            <input type="submit" class="btn btn-primary" value="Submit">
-                            <a href="/CR_WB_Project/ClientServlet" class="btn btn-default">Cancel</a>
-                        </form>
+                        <br><br>
+                        <form action="/CR_WB_Project/ClientInsert" method="post">
+                            <table class='table table-bordered table-striped'>
+                                <thead>
+                                    <tr>
+                                        <th>Client ID</th>
+                                        <th>Client DNI</th>
+                                        <th>Client Name</th>
+                                        <th>Client Adress</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>  
+                                <c:forEach items="${objList}" var="x">
+                                    <c:if test="${x.state!='DELETED'}">
+                                        <tr>      
+                                            <td>  ${x.client_id}  </td>
+                                            <td>  ${x.client_dni}  </td>
+                                            <td>  ${x.client_name} </td>
+                                            <td>  ${x.client_address}</td>
+                                            <td>                                        
+                                                <a href='/CR_WB_Project/ClientUpdate?client_id=${x.client_id}' title='Update Record' 
+                                                   data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
+                                                <a href='/CR_WB_Project/ClientDelete?client_id=${x.client_id}' title='Delete Record' 
+                                                   data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>  
+                                <tr>
+                                    <td></td>
+                                    <td><input type="text" class="form-control" name="dni"></td>
+                                    <td><input type="text" class="form-control" name="name"></td>
+                                    <td><input type="text" class="form-control" name="address"></td>
+                                    <td><input type="submit" class="btn btn-primary" value="Add"></td>
+                                </tr>
+                            </table>
+                        </form>                        
                     </div>
                 </div>        
             </div>

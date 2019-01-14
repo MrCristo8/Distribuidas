@@ -1,6 +1,6 @@
 <%-- 
     Document   : list
-    Created on : Jan 14, 2019, 3:18:58 PM
+    Created on : Jan 14, 2019, 5:38:05 PM
     Author     : csrm1
 --%>
 
@@ -9,7 +9,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>City</title>
+        <title>Article</title>
         <link rel="stylesheet" href="../style.css"/>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
@@ -23,41 +23,48 @@
                 <div class=row>
                     <div class=col-md-12>
                         <div class=page-header clearfix>
-                            <h2 class="pull-left">City Details</h2>
-                            <form action="CitySave" method="post">
+                            <h2 class=pull-left>Article Details</h2>
+                            <form action="/CR_WB_Project/ArticleSave" method="post">
                                 <input type="submit" class="btn btn-success float-right" value="Save Changes">
                             </form>
                         </div>
                         <br><br>
-                        <form action="/CR_WB_Project/CityInsert" method="post">
+                        <form action="/CR_WB_Project/ArticleInsert" method="post">
                             <table class='table table-bordered table-striped'>
                                 <thead>
                                     <tr>
-                                        <th>City ID</th>
-                                        <th>City Name</th>                                    
+                                        <th>Article ID</th>
+                                        <th>Article Name</th>
+                                        <th>Article Price</th>
+                                        <th>Article Stock</th>
                                         <th>Actions</th>
                                     </tr>
-                                </thead>
+                                </thead>   
                                 <c:forEach items="${objList}" var="x">
                                     <c:if test="${x.state!='DELETED'}">
                                         <tr>      
-                                            <td> ${x.city_id} </td>
-                                            <td> ${x.city_name} </td>                                    
+                                            <td>  ${x.article_id}  </td>
+                                            <td>  ${x.article_name}  </td>
+                                            <td>  ${x.article_price} </td>
+                                            <td>  ${x.article_stock}</td>
                                             <td>                                        
-                                                <a href='/CR_WB_Project/CityUpdate?city_id=${x.city_id}' title='Update Record' 
+                                                <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
                                                    data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
-                                                <a href='/CR_WB_Project/CityDelete?city_id=${x.city_id}' title='Delete Record' 
+                                                <a href='/CR_WB_Project/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
                                                    data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
                                             </td>
                                         </tr>
                                     </c:if>
-                                </c:forEach>    
+                                </c:forEach>   
                                 <tr>
                                     <td></td>
                                     <td><input type="text" class="form-control" name="name"></td>
+                                    <td><input type="text" class="form-control" name="price"></td>
+                                    <td><input type="text" class="form-control" name="stock"></td>
                                     <td><input type="submit" class="btn btn-primary" value="Add"></td>
                                 </tr>
-                            </table>                        
+                            </table>                      
+
                         </form>
                     </div>
                 </div>        
