@@ -27,15 +27,10 @@ public class WB_CR_BILL extends CR_WB_Model implements Serializable
     private WB_CR_CLIENT client;
     @ManyToOne(Table = "WB_CR_CITY", Column = "city_id")
     private WB_CR_CITY city;
-
-    public WB_CR_BILL(int bill_id, Date bill_date, WB_CR_CLIENT client, WB_CR_CITY city, String state)
-    {
-        this.bill_id = bill_id;
-        this.bill_date = bill_date;
-        this.client = client;
-        this.city = city;
-        this.state = state;
-    }
+    @RelatedColumn("client_id")
+    private int client_id;
+    @RelatedColumn("city_id")
+    private int city_id;
 
     public WB_CR_BILL()
     {
@@ -85,6 +80,35 @@ public class WB_CR_BILL extends CR_WB_Model implements Serializable
     public void setCity(WB_CR_CITY city)
     {
         this.city = city;
+    }
+
+    public int getClient_id()
+    {
+        return client_id;
+    }
+
+    public void setClient_id(int client_id)
+    {
+        this.client_id = client_id;
+    }
+
+    public int getCity_id()
+    {
+        return city_id;
+    }
+
+    public void setCity_id(int city_id)
+    {
+        this.city_id = city_id;
+    }
+
+    public WB_CR_BILL(int bill_id, Date bill_date, int client_id, int city_id, String state)
+    {
+        this.bill_id = bill_id;
+        this.bill_date = bill_date;
+        this.client_id = client_id;
+        this.city_id = city_id;
+        this.state = state;
     }
 
     @Override
