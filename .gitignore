@@ -20,3 +20,7 @@
 *.rar
 /Code/CR_WB_WebPage/dist/
 /Code/CR_WB_WebPage/build/
+/Code/RMI_Contract/build/
+/Code/CustomPersistanceUnit/build/
+/Code/RMI_Contract/dist/
+/Code/InventoryRMI_API/dist/
