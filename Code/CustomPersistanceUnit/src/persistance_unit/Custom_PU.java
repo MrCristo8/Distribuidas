@@ -13,8 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.postgresql.ds.PGSimpleDataSource;
 
 /**
@@ -170,49 +168,48 @@ public class Custom_PU
             }
 
             System.out.println(query_string);
-            PreparedStatement stmt = conn.prepareStatement(query_string);
-            int index = 1;
-            int value = 0;
-            int value_fk = 0;
-            for (Field field : obj_update.getClass().getDeclaredFields())
+            try (PreparedStatement stmt = conn.prepareStatement(query_string))
             {
-                field.setAccessible(true);
-                if (field.isAnnotationPresent(TableID.class))
+                int index = 1;
+                int value = 0;
+                int value_fk = 0;
+                for (Field field : obj_update.getClass().getDeclaredFields())
                 {
-                    value = (Integer) field.get(obj_update);
-                    continue;
-                } else if (field.isAnnotationPresent(ManyToMany.class))
-                {
-                    value_fk = (Integer) field.get(obj_update);
-                    continue;
-                } else if (field.isAnnotationPresent(RelatedColumn.class))
-                {
-                    if (field.getType().equals(String.class))
+                    field.setAccessible(true);
+                    if (field.isAnnotationPresent(TableID.class))
                     {
-                        stmt.setString(index, (String) field.get(obj_update));
-                    } else if (field.getType().equals(Integer.class))
+                        value = (Integer) field.get(obj_update);
+                    } else if (field.isAnnotationPresent(ManyToMany.class))
                     {
-                        stmt.setInt(index, (Integer) field.get(obj_update));
-                    } else if (field.getType().equals(Date.class))
+                        value_fk = (Integer) field.get(obj_update);
+                    } else if (field.isAnnotationPresent(RelatedColumn.class))
                     {
-                        stmt.setDate(index, (java.sql.Date) (Date) field.get(obj_update));
-                    } else if (field.getType().equals(Double.class))
-                    {
-                        stmt.setDouble(index, (double) field.get(obj_update));
-                    } else if (field.getType().equals(Float.class))
-                    {
-                        stmt.setFloat(index, (float) field.get(obj_update));
+                        if (field.getType().equals(String.class))
+                        {
+                            stmt.setString(index, (String) field.get(obj_update));
+                        } else if (field.getType().equals(Integer.class))
+                        {
+                            stmt.setInt(index, (Integer) field.get(obj_update));
+                        } else if (field.getType().equals(Date.class))
+                        {
+                            stmt.setDate(index, (java.sql.Date) (Date) field.get(obj_update));
+                        } else if (field.getType().equals(Double.class))
+                        {
+                            stmt.setDouble(index, (double) field.get(obj_update));
+                        } else if (field.getType().equals(Float.class))
+                        {
+                            stmt.setFloat(index, (float) field.get(obj_update));
+                        }
+                        index++;
                     }
-                    index++;
                 }
+                stmt.setInt(index, value);
+                if (is_many_to_many)
+                {
+                    stmt.setInt(index + 1, value_fk);
+                }
+                update = stmt.executeUpdate();
             }
-            stmt.setInt(index, value);
-            if (is_many_to_many)
-            {
-                stmt.setInt(index + 1, value_fk);
-            }
-            update = stmt.executeUpdate();
-            stmt.close();
         } catch (Exception e)
         {
             System.out.println(e.getMessage() + " " + e.getCause());
@@ -242,7 +239,6 @@ public class Custom_PU
                     column_name = field.getAnnotation(TableID.class).value();
 
                     id_value = (Integer) field.get(obj_delete);
-                    continue;
 
                 } else if (field.isAnnotationPresent(ManyToMany.class))
                 {
@@ -255,21 +251,27 @@ public class Custom_PU
                 System.out.println(ex.getMessage());
             }
         }
-        String query_string = "";
+        String query_string = "DELETE FROM " + related_table + " WHERE " + column_name;
         if (is_manytoMany)
         {
-            query_string = "DELETE FROM " + related_table + " WHERE " + column_name + "=? and " + seccond_column + "=?";
+            query_string = query_string + "=? and " + seccond_column + "=?";
         } else
         {
-            query_string = "DELETE FROM " + related_table + " WHERE " + column_name + "=?";
+            query_string = query_string + "=?";
         }
         System.out.println(query_string);
 
         try (Connection conn = ods.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query_string);)
         {
-            stmt.setInt(1, id_value);
-            stmt.setInt(2, seccond_id_value);
+            if (is_manytoMany)
+            {
+                stmt.setInt(1, id_value);
+                stmt.setInt(2, seccond_id_value);
+            } else
+            {
+                stmt.setInt(1, id_value);
+            }
             stmt.executeUpdate();
         } catch (Exception e)
         {
