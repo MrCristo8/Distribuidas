@@ -20,7 +20,7 @@ public class WB_CR_BILL extends CR_WB_Model implements Serializable
 
     @TableID("bill_id")
     @RelatedColumn("bill_id")
-    private int bill_id;
+    private Integer bill_id;
     @RelatedColumn("bill_date")
     private Date bill_date;
     @ManyToOne(Table = "WB_CR_CLIENT", Column = "client_id")
@@ -28,26 +28,26 @@ public class WB_CR_BILL extends CR_WB_Model implements Serializable
     @ManyToOne(Table = "WB_CR_CITY", Column = "city_id")
     private WB_CR_CITY city;
     @RelatedColumn("client_id")
-    private int client_id;
+    private Integer client_id;
     @RelatedColumn("city_id")
-    private int city_id;
+    private Integer city_id;
 
     public WB_CR_BILL()
     {
         this.state = "PERSISTED";
     }
 
-    public WB_CR_BILL(int bill_id)
+    public WB_CR_BILL(Integer bill_id)
     {
         this.bill_id = bill_id;
     }
 
-    public int getBill_id()
+    public Integer getBill_id()
     {
         return bill_id;
     }
 
-    public void setBill_id(int bill_id)
+    public void setBill_id(Integer bill_id)
     {
         this.bill_id = bill_id;
     }
@@ -82,27 +82,27 @@ public class WB_CR_BILL extends CR_WB_Model implements Serializable
         this.city = city;
     }
 
-    public int getClient_id()
+    public Integer getClient_id()
     {
         return client_id;
     }
 
-    public void setClient_id(int client_id)
+    public void setClient_id(Integer client_id)
     {
         this.client_id = client_id;
     }
 
-    public int getCity_id()
+    public Integer getCity_id()
     {
         return city_id;
     }
 
-    public void setCity_id(int city_id)
+    public void setCity_id(Integer city_id)
     {
         this.city_id = city_id;
     }
 
-    public WB_CR_BILL(int bill_id, Date bill_date, int client_id, int city_id, String state)
+    public WB_CR_BILL(Integer bill_id, Date bill_date, Integer client_id, Integer city_id, String state)
     {
         this.bill_id = bill_id;
         this.bill_date = bill_date;
@@ -114,7 +114,7 @@ public class WB_CR_BILL extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 5;
+        Integer hash = 5;
         hash = 79 * hash + this.bill_id;
         return hash;
     }

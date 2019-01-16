@@ -18,7 +18,7 @@ public class WB_CR_MOVEMENT extends CR_WB_Model implements Serializable
 
     @TableID("MOVEMENT_ID")
     @RelatedColumn("MOVEMENT_ID")
-    private int movement_id;
+    private Integer movement_id;
     @RelatedColumn("MOVEMENT_NAME")
     private String movement_name;
     @RelatedColumn("MOVEMENT_DIRECTION")
@@ -29,7 +29,7 @@ public class WB_CR_MOVEMENT extends CR_WB_Model implements Serializable
         this.state = "PERSISTED";
     }
 
-    public WB_CR_MOVEMENT(int movement_id, String movement_name, String movement_direction, String state)
+    public WB_CR_MOVEMENT(Integer movement_id, String movement_name, String movement_direction, String state)
     {
         this.movement_id = movement_id;
         this.movement_name = movement_name;
@@ -37,17 +37,17 @@ public class WB_CR_MOVEMENT extends CR_WB_Model implements Serializable
         this.state = state;
     }
 
-    public WB_CR_MOVEMENT(int movement_id)
+    public WB_CR_MOVEMENT(Integer movement_id)
     {
         this.movement_id = movement_id;
     }
 
-    public int getMovement_id()
+    public Integer getMovement_id()
     {
         return movement_id;
     }
 
-    public void setMovement_id(int movement_id)
+    public void setMovement_id(Integer movement_id)
     {
         this.movement_id = movement_id;
     }
@@ -75,7 +75,7 @@ public class WB_CR_MOVEMENT extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 7;
+        Integer hash = 7;
         hash = 89 * hash + this.movement_id;
         return hash;
     }

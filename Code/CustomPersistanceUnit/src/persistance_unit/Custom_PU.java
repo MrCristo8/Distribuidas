@@ -130,15 +130,26 @@ public class Custom_PU
 
     public static String UpdateObject(Object obj_update, String related_table) throws SQLException
     {
+        ods = new PGSimpleDataSource();
+        ods.setURL(URL);
+        ods.setUser(USER);
+        ods.setPassword(PWD);
         String query_string = "UPDATE " + related_table + " SET ";
         int update = 0;
         try (Connection conn = ods.getConnection();)
         {
             String table_id = "";
+            String table_id_fk = "";
+            boolean is_many_to_many = false;
             for (Field field : obj_update.getClass().getDeclaredFields())
             {
                 field.setAccessible(true);
-                if (field.isAnnotationPresent(TableID.class))
+                if (field.isAnnotationPresent(ManyToMany.class))
+                {
+                    table_id = field.getAnnotation(ManyToMany.class).FirstFK();
+                    table_id_fk = field.getAnnotation(ManyToMany.class).SeccondFK();
+                    is_many_to_many = true;
+                } else if (field.isAnnotationPresent(TableID.class))
                 {
                     table_id = field.getAnnotation(TableID.class).value();
 
@@ -150,17 +161,29 @@ public class Custom_PU
 
             }
             query_string = query_string.substring(0, query_string.length() - 2);
-            query_string += " WHERE " + table_id + "=?";
+            if (is_many_to_many)
+            {
+                query_string += " WHERE " + table_id + "=? and " + table_id_fk + "=?";
+            } else
+            {
+                query_string += " WHERE " + table_id + "=?";
+            }
+
             System.out.println(query_string);
             PreparedStatement stmt = conn.prepareStatement(query_string);
             int index = 1;
             int value = 0;
+            int value_fk = 0;
             for (Field field : obj_update.getClass().getDeclaredFields())
             {
                 field.setAccessible(true);
                 if (field.isAnnotationPresent(TableID.class))
                 {
                     value = (Integer) field.get(obj_update);
+                    continue;
+                } else if (field.isAnnotationPresent(ManyToMany.class))
+                {
+                    value_fk = (Integer) field.get(obj_update);
                     continue;
                 } else if (field.isAnnotationPresent(RelatedColumn.class))
                 {
@@ -183,8 +206,11 @@ public class Custom_PU
                     index++;
                 }
             }
-            //System.out.println(index);
             stmt.setInt(index, value);
+            if (is_many_to_many)
+            {
+                stmt.setInt(index + 1, value_fk);
+            }
             update = stmt.executeUpdate();
             stmt.close();
         } catch (Exception e)
@@ -197,30 +223,53 @@ public class Custom_PU
 
     public static String DeleteObject(Object obj_delete, String related_table)
     {
+        ods = new PGSimpleDataSource();
+        ods.setURL(URL);
+        ods.setUser(USER);
+        ods.setPassword(PWD);
         int id_value = 0;
+        int seccond_id_value = 0;
+        boolean is_manytoMany = false;
         String column_name = "";
+        String seccond_column = "";
         for (Field field : obj_delete.getClass().getDeclaredFields())
         {
             field.setAccessible(true);
-            if (field.isAnnotationPresent(TableID.class))
+            try
             {
-                column_name = field.getAnnotation(TableID.class).value();
-                try
+                if (field.isAnnotationPresent(TableID.class))
                 {
-                    id_value = (Integer) field.get(obj_delete);
-                    break;
+                    column_name = field.getAnnotation(TableID.class).value();
 
-                } catch (IllegalArgumentException | IllegalAccessException ex)
+                    id_value = (Integer) field.get(obj_delete);
+                    continue;
+
+                } else if (field.isAnnotationPresent(ManyToMany.class))
                 {
-                    Logger.getLogger(Custom_PU.class.getName()).log(Level.SEVERE, null, ex);
+                    is_manytoMany = true;
+                    seccond_column = field.getAnnotation(ManyToMany.class).SeccondFK();
+                    seccond_id_value = (Integer) field.get(obj_delete);
                 }
+            } catch (IllegalArgumentException | IllegalAccessException ex)
+            {
+                System.out.println(ex.getMessage());
             }
         }
-        String query_string = "DELETE " + related_table + " WHERE " + column_name + "=?";
+        String query_string = "";
+        if (is_manytoMany)
+        {
+            query_string = "DELETE FROM " + related_table + " WHERE " + column_name + "=? and " + seccond_column + "=?";
+        } else
+        {
+            query_string = "DELETE FROM " + related_table + " WHERE " + column_name + "=?";
+        }
+        System.out.println(query_string);
+
         try (Connection conn = ods.getConnection();
                 PreparedStatement stmt = conn.prepareStatement(query_string);)
         {
             stmt.setInt(1, id_value);
+            stmt.setInt(2, seccond_id_value);
             stmt.executeUpdate();
         } catch (Exception e)
         {
@@ -292,8 +341,7 @@ public class Custom_PU
         } catch (SQLException | IllegalArgumentException
                 | IllegalAccessException ex)
         {
-            System.out.println(ex.getMessage());
+            return ex.getMessage();
         }
-        return "Success!!";
     }
 }

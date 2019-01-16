@@ -20,9 +20,9 @@ public class WB_CR_INVENTORY extends CR_WB_Model implements Serializable
 
     @TableID("inventory_id")
     @RelatedColumn("inventory_id")
-    private int inventory_id;
+    private Integer inventory_id;
     @RelatedColumn("movement_id")
-    private int movement_id;
+    private Integer movement_id;
     @RelatedColumn("inventory_date")
     private Date inventory_date;
     @ManyToOne(Table = "WB_CR_MOVEMENT", Column = "movement_id")
@@ -33,12 +33,12 @@ public class WB_CR_INVENTORY extends CR_WB_Model implements Serializable
         this.state = "PERSISTED";
     }
 
-    public WB_CR_INVENTORY(int inventory_id)
+    public WB_CR_INVENTORY(Integer inventory_id)
     {
         this.inventory_id = inventory_id;
     }
 
-    public WB_CR_INVENTORY(int inventory_id, int movement_id, Date inventory_date, String state)
+    public WB_CR_INVENTORY(Integer inventory_id, Integer movement_id, Date inventory_date, String state)
     {
         this.inventory_id = inventory_id;
         this.movement_id = movement_id;
@@ -46,22 +46,22 @@ public class WB_CR_INVENTORY extends CR_WB_Model implements Serializable
         this.state = state;
     }
 
-    public int getInventory_id()
+    public Integer getInventory_id()
     {
         return inventory_id;
     }
 
-    public void setInventory_id(int inventory_id)
+    public void setInventory_id(Integer inventory_id)
     {
         this.inventory_id = inventory_id;
     }
 
-    public int getMovement_id()
+    public Integer getMovement_id()
     {
         return movement_id;
     }
 
-    public void setMovement_id(int movement_id)
+    public void setMovement_id(Integer movement_id)
     {
         this.movement_id = movement_id;
     }
@@ -89,7 +89,7 @@ public class WB_CR_INVENTORY extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 3;
+        Integer hash = 3;
         hash = 89 * hash + this.inventory_id;
         return hash;
     }

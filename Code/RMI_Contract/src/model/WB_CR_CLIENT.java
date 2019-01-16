@@ -108,7 +108,7 @@ public class WB_CR_CLIENT extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 7;
+        Integer hash = 7;
         hash = 11 * hash + Objects.hashCode(this.client_id);
         return hash;
     }

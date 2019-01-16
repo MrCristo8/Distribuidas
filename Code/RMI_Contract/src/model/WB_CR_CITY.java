@@ -65,7 +65,7 @@ public class WB_CR_CITY extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 7;
+        Integer hash = 7;
         hash = 47 * hash + Objects.hashCode(this.city_id);
         return hash;
     }

@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import persistance_unit.ManyToMany;
 import persistance_unit.ManyToOne;
 import persistance_unit.RelatedColumn;
 import persistance_unit.TableID;
@@ -19,11 +20,12 @@ public class WB_CR_INVENTORY_DETAIL extends CR_WB_Model implements Serializable
 
     @TableID("inventory_id")
     @RelatedColumn("inventory_id")
-    private int inventory_id;
+    private Integer inventory_id;
+    @ManyToMany(FirstFK = "inventory_id", SeccondFK = "article_id")
     @RelatedColumn("article_id")
-    private int article_id;
+    private Integer article_id;
     @RelatedColumn("article_ammount")
-    private int article_ammount;
+    private Integer article_ammount;
     @ManyToOne(Table = "WB_CR_ARTICLE", Column = "article_id")
     private WB_CR_ARTICLE article;
     @ManyToOne(Table = "WB_CR_INVENTORY", Column = "inventory_id")
@@ -33,7 +35,7 @@ public class WB_CR_INVENTORY_DETAIL extends CR_WB_Model implements Serializable
     {
     }
 
-    public WB_CR_INVENTORY_DETAIL(int inventory_id, int article_id, int article_ammount, String state)
+    public WB_CR_INVENTORY_DETAIL(Integer inventory_id, Integer article_id, Integer article_ammount, String state)
     {
         this.inventory_id = inventory_id;
         this.article_id = article_id;
@@ -41,38 +43,38 @@ public class WB_CR_INVENTORY_DETAIL extends CR_WB_Model implements Serializable
         this.state = state;
     }
 
-    public WB_CR_INVENTORY_DETAIL(int inventory_id, int article_id)
+    public WB_CR_INVENTORY_DETAIL(Integer inventory_id, Integer article_id)
     {
         this.inventory_id = inventory_id;
         this.article_id = article_id;
     }
 
-    public int getInventory_id()
+    public Integer getInventory_id()
     {
         return inventory_id;
     }
 
-    public void setInventory_id(int inventory_id)
+    public void setInventory_id(Integer inventory_id)
     {
         this.inventory_id = inventory_id;
     }
 
-    public int getArticle_id()
+    public Integer getArticle_id()
     {
         return article_id;
     }
 
-    public void setArticle_id(int article_id)
+    public void setArticle_id(Integer article_id)
     {
         this.article_id = article_id;
     }
 
-    public int getArticle_ammount()
+    public Integer getArticle_ammount()
     {
         return article_ammount;
     }
 
-    public void setArticle_ammount(int article_ammount)
+    public void setArticle_ammount(Integer article_ammount)
     {
         this.article_ammount = article_ammount;
     }
@@ -100,7 +102,7 @@ public class WB_CR_INVENTORY_DETAIL extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 5;
+        Integer hash = 5;
         hash = 59 * hash + this.inventory_id;
         hash = 59 * hash + this.article_id;
         return hash;

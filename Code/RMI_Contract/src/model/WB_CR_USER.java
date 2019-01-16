@@ -19,7 +19,7 @@ public class WB_CR_USER extends CR_WB_Model implements Serializable
 
     @TableID("user_id")
     @RelatedColumn("user_id")
-    private int user_id;
+    private Integer user_id;
     @RelatedColumn("user_name")
     private String user_name;
     @RelatedColumn("user_password")
@@ -38,12 +38,12 @@ public class WB_CR_USER extends CR_WB_Model implements Serializable
         this.state = "PERSISTED";
     }
 
-    public int getUser_id()
+    public Integer getUser_id()
     {
         return user_id;
     }
 
-    public void setUser_id(int user_id)
+    public void setUser_id(Integer user_id)
     {
         this.user_id = user_id;
     }
@@ -81,7 +81,7 @@ public class WB_CR_USER extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 7;
+        Integer hash = 7;
         hash = 61 * hash + Objects.hashCode(this.user_name);
         hash = 61 * hash + Objects.hashCode(this.user_password);
         return hash;

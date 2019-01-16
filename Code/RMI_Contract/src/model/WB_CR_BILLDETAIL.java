@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import persistance_unit.ManyToMany;
 import persistance_unit.ManyToOne;
 import persistance_unit.RelatedColumn;
 import persistance_unit.TableID;
@@ -19,22 +20,23 @@ public class WB_CR_BILLDETAIL extends CR_WB_Model implements Serializable
 
     @TableID("bill_id")
     @RelatedColumn("bill_id")
-    private int bill_id;
+    private Integer bill_id;
     @ManyToOne(Table = "WB_CR_ARTICLE", Column = "article_id")
     private WB_CR_ARTICLE article;
     @ManyToOne(Table = "WB_CR_BILL", Column = "bill_id")
     private WB_CR_BILL bill;
-    @RelatedColumn("detail_ammount")
-    private int detail_ammount;
+    @RelatedColumn("detail_amount")
+    private Integer detail_ammount;
+    @ManyToMany(FirstFK = "bill_id", SeccondFK = "article_id")
     @RelatedColumn("article_id")
-    private int article_id;
+    private Integer article_id;
 
-    public int getBill_id()
+    public Integer getBill_id()
     {
         return bill_id;
     }
 
-    public void setBill_id(int bill_id)
+    public void setBill_id(Integer bill_id)
     {
         this.bill_id = bill_id;
     }
@@ -59,27 +61,27 @@ public class WB_CR_BILLDETAIL extends CR_WB_Model implements Serializable
         this.bill = bill;
     }
 
-    public int getDetail_ammount()
+    public Integer getDetail_ammount()
     {
         return detail_ammount;
     }
 
-    public void setDetail_ammount(int detail_ammount)
+    public void setDetail_ammount(Integer detail_ammount)
     {
         this.detail_ammount = detail_ammount;
     }
 
-    public int getArticle_id()
+    public Integer getArticle_id()
     {
         return article_id;
     }
 
-    public void setArticle_id(int article_id)
+    public void setArticle_id(Integer article_id)
     {
         this.article_id = article_id;
     }
 
-    public WB_CR_BILLDETAIL(int bill_id, int article_id)
+    public WB_CR_BILLDETAIL(Integer bill_id, Integer article_id)
     {
         this.bill_id = bill_id;
         this.article_id = article_id;
@@ -90,7 +92,7 @@ public class WB_CR_BILLDETAIL extends CR_WB_Model implements Serializable
         this.state = "PERSISTED";
     }
 
-    public WB_CR_BILLDETAIL(int bill_id, int detail_ammount, int article_id, String state)
+    public WB_CR_BILLDETAIL(Integer bill_id, Integer detail_ammount, Integer article_id, String state)
     {
         this.bill_id = bill_id;
         this.detail_ammount = detail_ammount;
@@ -101,7 +103,7 @@ public class WB_CR_BILLDETAIL extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 7;
+        Integer hash = 7;
         hash = 47 * hash + this.bill_id;
         hash = 47 * hash + this.article_id;
         return hash;

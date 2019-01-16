@@ -27,12 +27,12 @@ public class WB_CR_ARTICLE extends CR_WB_Model implements Serializable
     @RelatedColumn("ARTICLE_STOCK")
     private Integer article_stock;
 
-    public int getArticle_id()
+    public Integer getArticle_id()
     {
         return article_id;
     }
 
-    public void setArticle_id(int article_id)
+    public void setArticle_id(Integer article_id)
     {
         this.article_id = article_id;
     }
@@ -57,12 +57,12 @@ public class WB_CR_ARTICLE extends CR_WB_Model implements Serializable
         this.article_price = article_price;
     }
 
-    public int getArticle_stock()
+    public Integer getArticle_stock()
     {
         return article_stock;
     }
 
-    public void setArticle_stock(int article_stock)
+    public void setArticle_stock(Integer article_stock)
     {
         this.article_stock = article_stock;
     }
@@ -83,7 +83,7 @@ public class WB_CR_ARTICLE extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        int hash = 5;
+        Integer hash = 5;
         hash = 41 * hash + Objects.hashCode(this.article_id);
         return hash;
     }
