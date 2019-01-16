@@ -5,11 +5,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  *
  * @author wason
  */
-public class CR_WB_Model
+public class CR_WB_Model implements Serializable
 {
 
     protected String state;
