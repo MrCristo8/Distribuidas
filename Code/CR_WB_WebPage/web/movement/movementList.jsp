@@ -10,12 +10,29 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Movement</title>
-        <link rel="stylesheet" href="../style.css"/>
+        <style type=text/css>
+            .wrapper{
+                width: auto;
+                padding: 4em 16em 1em 16em;
+                margin: 0 auto;
+            }
+            .page-header h2{
+                margin-top: 0;
+            }
+            table tr td:last-child a{
+                margin-right: 15px;
+            }
+        </style>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-        <script src="../script.js"></script>
+        <script type=text/javascript>
+            $(document).ready(function () {
+            $('[data-toggle=tooltip]').tooltip();
+            });
+        </script>
     </head>
     <body>
         <div class=wrapper>
@@ -47,9 +64,9 @@
                                             <td>  ${x.movement_direction}</td>
                                             <td>                                        
                                                 <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.movement_id}' title='Update Record' 
-                                                   data-toggle='tooltip'><span class='glyphicon glyphicon-pencil'></span></a>
+                                                   data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">edit</i></a>
                                                 <a href='/CR_WB_Project/ArticleDelete?article_id=${x.movement_id}' title='Delete Record' 
-                                                   data-toggle='tooltip'><span class='glyphicon glyphicon-trash'></span></a>
+                                                   data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
                                             </td>
                                         </tr>
                                     </c:if>

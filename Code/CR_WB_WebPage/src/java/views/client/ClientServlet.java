@@ -7,6 +7,7 @@ package views.client;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.rmi.RemoteException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,6 +23,19 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ClientServlet", urlPatterns = {"/ClientServlet"})
 public class ClientServlet extends HttpServlet {
 
+    
+    public ClientServlet()
+    {
+        if(persistance.ClientPersistance.getInstance().getObjectList().isEmpty())
+        {
+            try {
+                persistance.ClientPersistance.getInstance().loadObjectList();
+            } catch (RemoteException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }        
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
