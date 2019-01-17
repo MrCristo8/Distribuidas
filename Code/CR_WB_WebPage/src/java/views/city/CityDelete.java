@@ -63,7 +63,7 @@ public class CityDelete extends HttpServlet {
             throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("city_id"));
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("city/cityDelete.jsp");
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/city/cityDelete.jsp");
         request.setAttribute("city_id", id);
         if (dispatcher != null) {
             dispatcher.forward(request, response);

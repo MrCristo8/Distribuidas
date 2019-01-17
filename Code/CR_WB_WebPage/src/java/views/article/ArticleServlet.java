@@ -7,6 +7,7 @@ package views.article;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.rmi.RemoteException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -22,6 +23,19 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "ArticleServlet", urlPatterns = {"/ArticleServlet"})
 public class ArticleServlet extends HttpServlet {
 
+    
+    public ArticleServlet()
+    {
+        if(persistance.ArticlePersistance.getInstance().getObjectList().isEmpty())
+        {
+            try {
+                persistance.ArticlePersistance.getInstance().loadObjectList();
+            } catch (RemoteException ex) {
+                System.out.println(ex.getMessage());
+            }
+        }        
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -64,7 +78,6 @@ public class ArticleServlet extends HttpServlet {
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/article/articleList.jsp");
         request.setAttribute("objList",
                 persistance.ArticlePersistance.getInstance().getObjectList());
-        //persistance.ArticlePersistance.getInstnace().UpdateOnDatabase();
         if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
