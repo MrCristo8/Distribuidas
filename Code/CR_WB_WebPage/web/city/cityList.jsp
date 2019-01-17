@@ -31,7 +31,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script type=text/javascript>
             $(document).ready(function () {
-            $('[data-toggle=tooltip]').tooltip();
+                $('[data-toggle=tooltip]').tooltip();
             });
         </script>
     </head>
@@ -77,6 +77,36 @@
                                 </tr>
                             </table>                        
                         </form>
+                        <br>
+                        <h2 class=pull-left>City Filtered List</h2>
+                        <br>
+                        <form action="CityServlet" method="post">
+                            <div class ="form-row">  
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="Search Parammeter" name = "search_string">
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="submit" class="btn btn-primary">Search</button>        
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <table class='table table-bordered table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>City ID</th>
+                                    <th>City Name</th>
+                                </tr>
+                            </thead>   
+                            <c:forEach items="${objSearchList}" var="y">
+                                <c:if test="${y.state!='DELETED'}">
+                                    <tr>      
+                                        <td> ${y.city_id} </td>
+                                        <td> ${y.city_name} </td>                                            
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </table>                        
                     </div>
                 </div>        
             </div>

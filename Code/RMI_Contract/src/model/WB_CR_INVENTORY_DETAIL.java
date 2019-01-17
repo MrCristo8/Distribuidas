@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import persistance_unit.ManyToMany;
 import persistance_unit.ManyToOne;
 import persistance_unit.RelatedColumn;
@@ -102,9 +103,9 @@ public class WB_CR_INVENTORY_DETAIL extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        Integer hash = 5;
-        hash = 59 * hash + this.inventory_id;
-        hash = 59 * hash + this.article_id;
+        int hash = 3;
+        hash = 73 * hash + Objects.hashCode(this.inventory_id);
+        hash = 73 * hash + Objects.hashCode(this.article_id);
         return hash;
     }
 
@@ -124,11 +125,11 @@ public class WB_CR_INVENTORY_DETAIL extends CR_WB_Model implements Serializable
             return false;
         }
         final WB_CR_INVENTORY_DETAIL other = (WB_CR_INVENTORY_DETAIL) obj;
-        if (this.inventory_id != other.inventory_id)
+        if (!Objects.equals(this.inventory_id, other.inventory_id))
         {
             return false;
         }
-        return this.article_id == other.article_id;
+        return Objects.equals(this.article_id, other.article_id);
     }
 
     @Override

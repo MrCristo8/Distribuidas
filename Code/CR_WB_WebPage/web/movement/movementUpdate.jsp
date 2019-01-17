@@ -27,7 +27,7 @@
                             <h2>Update Movement</h2>
                         </div>
                         <p>Edit Movement</p>
-                        <form action="/CR_WB_WebPage/ClientUpdate" method="post">
+                        <form action="/CR_WB_WebPage/MovementUpdate" method="post">
                             <div class="form-group">
                                 <label>Movement Name</label>
                                 <input type="text" name="name" class="form-control" value="${movement.movement_name}">
@@ -40,7 +40,7 @@
                             </div>
                             <input type="hidden" name="id" value="${movemnet.movement_id}"/>
                             <input type="submit" class="btn btn-primary" value="Submit">
-                            <a href="/CR_WB_WebPage/ClientServlet" class="btn btn-default">Cancel</a>
+                            <a href="/CR_WB_WebPage/MovementServlet" class="btn btn-default">Cancel</a>
                         </form>
                     </div>
                 </div>        

@@ -20,8 +20,12 @@ import model.WB_CR_MOVEMENT;
  *
  * @author csrm1
  */
-@WebServlet(name = "MovementDelete", urlPatterns = {"/MovementDelete"})
-public class MovementDelete extends HttpServlet {
+@WebServlet(name = "MovementDelete", urlPatterns =
+{
+    "/MovementDelete"
+})
+public class MovementDelete extends HttpServlet
+{
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -33,9 +37,11 @@ public class MovementDelete extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter())
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -60,12 +66,14 @@ public class MovementDelete extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         Integer id = Integer.parseInt(request.getParameter("movement_id"));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/movement/movementDelete.jsp");
         request.setAttribute("movement_id", id);
-        if (dispatcher != null) {
+        if (dispatcher != null)
+        {
             dispatcher.forward(request, response);
         }
     }
@@ -80,13 +88,16 @@ public class MovementDelete extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         Integer id = Integer.parseInt(request.getParameter("movement_id"));
-        int pos = persistance.MovementPersistance.getInstance().getObjectList().indexOf(new WB_CR_MOVEMENT(id));
+        Integer pos = persistance.MovementPersistance.getInstance().getObjectList().indexOf(new WB_CR_MOVEMENT(id));
         String state = "DELETED";
-        if (persistance.MovementPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED")) {
+        if (persistance.MovementPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED"))
+        {
             persistance.MovementPersistance.getInstance().getObjectList().remove(pos);
-        } else {
+        } else
+        {
             persistance.MovementPersistance.getInstance().getObjectList().get(pos).setState(state);
         }
         response.sendRedirect("/CR_WB_WebPage/MovementServlet");
@@ -98,7 +109,8 @@ public class MovementDelete extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 

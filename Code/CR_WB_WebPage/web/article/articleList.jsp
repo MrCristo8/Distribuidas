@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,7 +31,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script type=text/javascript>
             $(document).ready(function () {
-            $('[data-toggle=tooltip]').tooltip();
+                $('[data-toggle=tooltip]').tooltip();
             });
         </script>
     </head>
@@ -80,9 +81,43 @@
                                     <td><input type="text" class="form-control" name="stock"></td>
                                     <td><input type="submit" class="btn btn-primary" value="Add"></td>
                                 </tr>
-                            </table>                      
+                            </table>                    
 
                         </form>
+                        <br>
+                        <h2 class=pull-left>Article Filtered List</h2>
+                        <br>
+                        <form action="ArticleServlet" method="post">
+                            <div class ="form-row">  
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="Search Parammeter" name = "search_string">
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="submit" class="btn btn-primary">Search</button>        
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <table class='table table-bordered table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Article ID</th>
+                                    <th>Article Name</th>
+                                    <th>Article Price</th>
+                                    <th>Article Stock</th>
+                                </tr>
+                            </thead>   
+                            <c:forEach items="${objSearchList}" var="y">
+                                <c:if test="${y.state!='DELETED'}">
+                                    <tr>      
+                                        <td>  ${y.article_id}  </td>
+                                        <td>  ${y.article_name}  </td>
+                                        <td>  ${y.article_price} </td>
+                                        <td>  ${y.article_stock}</td>                                            
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </table>
                     </div>
                 </div>        
             </div>

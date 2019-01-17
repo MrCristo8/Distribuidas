@@ -6,6 +6,7 @@
 package model;
 
 import java.io.Serializable;
+import java.util.Objects;
 import persistance_unit.RelatedColumn;
 import persistance_unit.TableID;
 
@@ -75,8 +76,8 @@ public class WB_CR_MOVEMENT extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        Integer hash = 7;
-        hash = 89 * hash + this.movement_id;
+        int hash = 3;
+        hash = 23 * hash + Objects.hashCode(this.movement_id);
         return hash;
     }
 
@@ -96,7 +97,7 @@ public class WB_CR_MOVEMENT extends CR_WB_Model implements Serializable
             return false;
         }
         final WB_CR_MOVEMENT other = (WB_CR_MOVEMENT) obj;
-        return this.movement_id == other.movement_id;
+        return Objects.equals(this.movement_id, other.movement_id);
     }
 
     @Override

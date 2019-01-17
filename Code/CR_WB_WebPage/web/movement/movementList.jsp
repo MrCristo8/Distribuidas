@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -30,7 +31,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script type=text/javascript>
             $(document).ready(function () {
-            $('[data-toggle=tooltip]').tooltip();
+                $('[data-toggle=tooltip]').tooltip();
             });
         </script>
     </head>
@@ -41,7 +42,7 @@
                     <div class=col-md-12>
                         <div class=page-header clearfix>
                             <h2 class=pull-left>Movement Details</h2>
-                            <form action="/CR_WB_WebPage/MovementSave" method="post">
+                            <form action="MovementSave" method="post">
                                 <input type="submit" class="btn btn-success float-right" value="Save Changes">
                             </form>
                         </div>
@@ -63,9 +64,9 @@
                                             <td>  ${x.movement_name}  </td>
                                             <td>  ${x.movement_direction}</td>
                                             <td>                                        
-                                                <a href='/CR_WB_Project/ArticleUpdate?article_id=${x.movement_id}' title='Update Record' 
+                                                <a href='/CR_WB_WebPage/MovementUpdate?movement_id=${x.movement_id}' title='Update Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">edit</i></a>
-                                                <a href='/CR_WB_Project/ArticleDelete?article_id=${x.movement_id}' title='Delete Record' 
+                                                <a href='/CR_WB_WebPage/MovementDelete?movement_id=${x.movement_id}' title='Delete Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
                                             </td>
                                         </tr>
@@ -77,9 +78,41 @@
                                     <td><input type="text" class="form-control" name="direction"></td>
                                     <td><input type="submit" class="btn btn-primary" value="Add"></td>
                                 </tr>
-                            </table>                      
-
+                            </table>  
                         </form>
+
+                        <br>
+                        <h2 class=pull-left>Movement Filtered List</h2>
+                        <br>
+                        <form action="MovementServlet" method="post">
+                            <div class ="form-row">  
+                                <div class="col-md-11">
+                                    <input type="text" class="form-control" placeholder="Search Parammeter" name = "search_string">
+                                </div>
+                                <div class="col-md-1">
+                                    <button type="submit" class="btn btn-primary">Search</button>        
+                                </div>
+                            </div>
+                        </form>
+                        <br>
+                        <table class='table table-bordered table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Movement ID</th>
+                                    <th>Movement Name</th>
+                                    <th>Movement Direction</th>
+                                </tr>
+                            </thead>   
+                            <c:forEach items="${objSearchList}" var="y">
+                                <c:if test="${y.state!='DELETED'}">
+                                    <tr>      
+                                        <td>  ${y.movement_id}  </td>
+                                        <td>  ${y.movement_name}  </td>
+                                        <td>  ${y.movement_direction}</td>                                         
+                                    </tr>
+                                </c:if>
+                            </c:forEach>
+                        </table>
                     </div>
                 </div>        
             </div>

@@ -7,6 +7,7 @@ package model;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Objects;
 import persistance_unit.ManyToOne;
 import persistance_unit.RelatedColumn;
 import persistance_unit.TableID;
@@ -114,8 +115,8 @@ public class WB_CR_BILL extends CR_WB_Model implements Serializable
     @Override
     public int hashCode()
     {
-        Integer hash = 5;
-        hash = 79 * hash + this.bill_id;
+        int hash = 3;
+        hash = 29 * hash + Objects.hashCode(this.bill_id);
         return hash;
     }
 
@@ -135,7 +136,7 @@ public class WB_CR_BILL extends CR_WB_Model implements Serializable
             return false;
         }
         final WB_CR_BILL other = (WB_CR_BILL) obj;
-        return this.bill_id == other.bill_id;
+        return Objects.equals(this.bill_id, other.bill_id);
     }
 
     @Override
