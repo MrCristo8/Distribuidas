@@ -104,21 +104,21 @@ public class ArticleUpdate extends HttpServlet {
                             getObjectList().remove(pos);
                     persistance.ArticlePersistance.getInstance().
                             getObjectList().add(pos, updated_record);
-                    response.sendRedirect("/CR_WB_Project/ArticleServlet");
+                    response.sendRedirect("/CR_WB_WebPage/ArticleServlet");
                 } else {
                     response.setContentType("text/html");
                     out.println("<script> alert('No se puede ingresar un sock negativo'); </script>");
-                    response.sendRedirect("/CR_WB_Project/ArticleUpdate?article_id="+id);
+                    response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id="+id);
                 }
             } catch (NumberFormatException e) {
                 response.setContentType("text/html");
                 out.println("<script> alert(" + e.getMessage() + "); </script>");
-                response.sendRedirect("/CR_WB_Project/ArticleUpdate?article_id="+id);
+                response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id="+id);
             }
         } else {
             response.setContentType("text/html");
             out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_Project/ArticleUpdate?article_id="+id);
+            response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id="+id);
         }
     }
 

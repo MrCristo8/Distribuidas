@@ -101,11 +101,11 @@ public class ClientUpdate extends HttpServlet {
                     getObjectList().remove(pos);
             persistance.ClientPersistance.getInstance().
                     getObjectList().add(pos, updated_record);
-            response.sendRedirect("/CR_WB_Project/ClientServlet");
+            response.sendRedirect("/CR_WB_WebPage/ClientServlet");
         } else {
             response.setContentType("text/html");
             out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_Project/ClientUpdate?client_id="+id);
+            response.sendRedirect("/CR_WB_WebPage/ClientUpdate?client_id="+id);
         }
     }
 

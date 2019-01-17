@@ -24,12 +24,12 @@
                     <div class=col-md-12>
                         <div class=page-header clearfix>
                             <h2 class=pull-left>Article Details</h2>
-                            <form action="/CR_WB_Project/ArticleSave" method="post">
+                            <form action="/CR_WB_WebPage/ArticleSave" method="post">
                                 <input type="submit" class="btn btn-success float-right" value="Save Changes">
                             </form>
                         </div>
                         <br><br>
-                        <form action="/CR_WB_Project/ArticleInsert" method="post">
+                        <form action="/CR_WB_WebPage/ArticleInsert" method="post">
                             <table class='table table-bordered table-striped'>
                                 <thead>
                                     <tr>

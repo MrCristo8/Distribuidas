@@ -89,7 +89,7 @@ public class ArticleDelete extends HttpServlet {
         } else {
             persistance.ArticlePersistance.getInstance().getObjectList().get(pos).setState(state);
         }
-        response.sendRedirect("/CR_WB_Project/ArticleServlet");
+        response.sendRedirect("/CR_WB_WebPage/ArticleServlet");
     }
 
     /**

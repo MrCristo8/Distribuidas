@@ -46,7 +46,7 @@
                             </form>
                         </div>
                         <br><br>
-                        <form action="/CR_WB_Project/CityInsert" method="post">
+                        <form action="/CR_WB_WebPage/CityInsert" method="post">
                             <table class='table table-bordered table-striped'>
                                 <thead>
                                     <tr>

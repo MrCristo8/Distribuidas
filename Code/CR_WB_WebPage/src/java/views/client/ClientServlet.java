@@ -60,7 +60,13 @@ public class ClientServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        ServletContext sc = getServletContext();
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/client/clientList.jsp");
+        request.setAttribute("objList",
+                persistance.ClientPersistance.getInstance().getObjectList());
+        if (dispatcher != null) {
+            dispatcher.forward(request, response);
+        }
     }
 
     /**
@@ -74,13 +80,7 @@ public class ClientServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/client/clientList.jsp");
-        request.setAttribute("objList",
-                persistance.ClientPersistance.getInstance().getObjectList());
-        if (dispatcher != null) {
-            dispatcher.forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
