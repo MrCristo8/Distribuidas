@@ -6,9 +6,14 @@
 package inventoryrmi_api;
 
 import api.ArticleApi;
+import api.BillApi;
+import api.BillDetailApi;
 import api.CityApi;
 import api.ClientApi;
+import api.InventoryApi;
+import api.InventoryDetailApi;
 import api.MovementApi;
+import api.UserApi;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
@@ -29,6 +34,11 @@ public class InventoryRMI_API
             reg.rebind("rmi://localhost:1099/CityAPI", new CityApi());
             reg.rebind("rmi://localhost:1099/ClientAPI", new ClientApi());
             reg.rebind("rmi://localhost:1099/MovementAPI", new MovementApi());
+            reg.rebind("rmi://localhost:1099/BillAPI", new BillApi());
+            reg.rebind("rmi://localhost:1099/InventoryAPI", new InventoryApi());
+            reg.rebind("rmi://localhost:1099/InventoryDetailAPI", new InventoryDetailApi());
+            reg.rebind("rmi://localhost:1099/BillDetailAPI", new BillDetailApi());
+            reg.rebind("rmi://localhost:1099/UserAPI", new UserApi());
             System.out.println("Active Server");
         } catch (RemoteException e)
         {
