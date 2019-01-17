@@ -75,7 +75,7 @@ public class MovementSave extends HttpServlet {
             throws ServletException, IOException {
         MovementPersistance.getInstance().updateOnDatabase();
         MovementPersistance.getInstance().loadObjectList();
-        response.sendRedirect("/CR_WB_Project/MovementServlet");
+        response.sendRedirect("/CR_WB_WebPage/MovementServlet");
     }
 
     /**

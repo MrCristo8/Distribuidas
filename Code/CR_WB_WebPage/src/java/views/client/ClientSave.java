@@ -75,7 +75,7 @@ public class ClientSave extends HttpServlet {
             throws ServletException, IOException {
         ClientPersistance.getInstance().updateOnDatabase();
         ClientPersistance.getInstance().loadObjectList();
-        response.sendRedirect("/CR_WB_Project/ClientServlet");
+        response.sendRedirect("/CR_WB_WebPage/ClientServlet");
     }
 
     /**

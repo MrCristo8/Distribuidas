@@ -75,7 +75,7 @@ public class CityServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/city/list.jsp");
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/city/cityList.jsp");
         request.setAttribute("objList",
                 persistance.CityPersistance.getInstance().getObjectList());
         //persistance.ArticlePersistance.getInstnace().UpdateOnDatabase();

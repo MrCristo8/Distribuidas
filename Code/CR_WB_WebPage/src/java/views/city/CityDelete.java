@@ -89,7 +89,7 @@ public class CityDelete extends HttpServlet {
         } else {
             persistance.CityPersistance.getInstance().getObjectList().get(pos).setState(state);
         }
-        response.sendRedirect("/CR_WB_Project/CityServlet");
+        response.sendRedirect("/CR_WB_WebPage/CityServlet");
     }
 
     /**

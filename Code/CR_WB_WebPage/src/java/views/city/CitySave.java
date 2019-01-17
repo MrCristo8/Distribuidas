@@ -75,7 +75,7 @@ public class CitySave extends HttpServlet {
             throws ServletException, IOException {
         CityPersistance.getInstance().updateOnDatabase();
         CityPersistance.getInstance().loadObjectList();
-        response.sendRedirect("/CR_WB_Project/CityServlet");
+        response.sendRedirect("/CR_WB_WebPage/CityServlet");
     }
 
     /**

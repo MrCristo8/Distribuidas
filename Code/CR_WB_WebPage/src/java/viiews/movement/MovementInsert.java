@@ -13,7 +13,6 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.WB_CR_ARTICLE;
 import model.WB_CR_MOVEMENT;
 import persistance.MovementPersistance;
 
@@ -92,16 +91,16 @@ public class MovementInsert extends HttpServlet {
                         request.getParameter("direction"),
                         "CREATED");
                 persistance.MovementPersistance.getInstance().getObjectList().add(inserted_record);
-                response.sendRedirect("/CR_WB_Project/MovementServlet");
+                response.sendRedirect("/CR_WB_WebPage/MovementServlet");
             } catch (IOException | NumberFormatException e) {
                 response.setContentType("text/html");
                 out.println("<script> alert(" + e.getMessage() + "); </script>");
-                response.sendRedirect("/CR_WB_Project/MovementServlet");
+                response.sendRedirect("/CR_WB_WebPage/MovementServlet");
             }
         } else {
             response.setContentType("text/html");
             out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_Project/MovementServlet");
+            response.sendRedirect("/CR_WB_WebPage/MovementServlet");
         }
     }
 

@@ -99,11 +99,11 @@ public class CityUpdate extends HttpServlet {
                     getObjectList().remove(pos);
             persistance.CityPersistance.getInstance().
                     getObjectList().add(pos, updated_record);
-            response.sendRedirect("/CR_WB_Project/CityServlet");
+            response.sendRedirect("/CR_WB_WebPage/CityServlet");
         } else {
             response.setContentType("text/html");
             out.println("<script> alert('Debes ingresar un nombre antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_Project/CityUpdate?city_id=" + id);
+            response.sendRedirect("/CR_WB_WebPage/CityUpdate?city_id=" + id);
         }
     }
 

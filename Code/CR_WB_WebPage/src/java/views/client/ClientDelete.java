@@ -92,7 +92,7 @@ public class ClientDelete extends HttpServlet {
         {
             persistance.ClientPersistance.getInstance().getObjectList().get(pos).setState(state);
         }
-        response.sendRedirect("/CR_WB_Project/ClientServlet");
+        response.sendRedirect("/CR_WB_WebPage/ClientServlet");
     }
 
     /**

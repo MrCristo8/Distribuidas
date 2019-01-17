@@ -25,7 +25,7 @@ public class Custom_PU
     private static final String BASE_URL = "jdbc:postgresql://localhost:5432/";
     private static String URL = "";
     private static final String USER = "postgres";
-    private static final String PWD = "ROOT";
+    private static final String PWD = "Crsdb008.";
     private static PGSimpleDataSource ods;
 
     public static void setDB(String db)

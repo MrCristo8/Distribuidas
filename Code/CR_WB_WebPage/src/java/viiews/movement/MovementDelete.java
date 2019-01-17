@@ -89,7 +89,7 @@ public class MovementDelete extends HttpServlet {
         } else {
             persistance.MovementPersistance.getInstance().getObjectList().get(pos).setState(state);
         }
-        response.sendRedirect("/CR_WB_Project/MovementServlet");
+        response.sendRedirect("/CR_WB_WebPage/MovementServlet");
     }
 
     /**

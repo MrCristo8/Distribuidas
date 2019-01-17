@@ -75,7 +75,7 @@ public class ArticleSave extends HttpServlet {
             throws ServletException, IOException {
         ArticlePersistance.getInstance().updateOnDatabase();
         ArticlePersistance.getInstance().loadObjectList();
-        response.sendRedirect("/CR_WB_Project/ArticleServlet");
+        response.sendRedirect("/CR_WB_WebPage/ArticleServlet");
     }
 
     /**
