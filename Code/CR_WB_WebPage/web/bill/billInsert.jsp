@@ -44,15 +44,16 @@
                             <h2 class="pull-left">Bill Details</h2>                            
                         </div>
                         <br><br>
-                        <form>
+                        <form  action="/CR_WB_WebPage/BillInsert" method="post">
+                            <input type="hidden" name="bill_id" value="${bill_id}"/>                            
                             <div class="form-row">                                
                                 <div class="col">
                                     <label for="bill_date">Bill Date</label>
-                                    <input id="bill_date" type="date" class="form-control">
+                                    <input id="bill_date" name ="bill_date" type="date" class="form-control">
                                 </div>
                                 <div class="col">
                                     <label for="client">Client DNI</label>
-                                    <select class="form-control" id="client">
+                                    <select class="form-control" name="client">
                                         <c:forEach items="${client_arr}" var="x">
                                             <option value="${x.client_id}"> ${x.client_dni}</option>
                                         </c:forEach>
@@ -60,44 +61,54 @@
                                 </div>
                                 <div class="col">
                                     <label for="city">City</label>
-                                    <select class="form-control" id="city">
+                                    <select class="form-control" name="city">
                                         <c:forEach items="${city_arr}" var="x">
                                             <option value="${x.city_id}"> ${x.city_name}</option>
                                         </c:forEach>
                                     </select>
                                 </div>
+                                <div class = "col-md-2">
+                                    <label for="submit_bill">Actions</label>
+                                    <input id="submit_bill" type="submit" class="form-control btn-success" value="Submit Bill">
+                                </div>
                             </div>
                         </form>
                         <br>
-                        <table class='table table-bordered table-striped'>
-                            <thead>
-                                <tr>
-                                    <th>Article Name</th>
-                                    <th>Article Ammount</th>   
-                                    <th></th>                                    
-                                </tr>
-                            </thead>   
-                            <c:forEach items="${detail_arr}" var="y">
-                                <c:if test="${y.state!='DELETED'}">
-                                    <tr>      
-                                        <td> ${y.article.article_name} </td>
-                                        <td> ${y.detail_ammount} </td>
-                                        <td> ${y.article.article_price} </td>                                                                                  
+                        <form action="/CR_WB_WebPage/BillDetailInsert" method="post">
+                            <input type="hidden" name="bill_id" value="${bill_id}"/>
+                            <table class='table table-bordered table-striped'>
+                                <thead>
+                                    <tr>
+                                        <th>Article Name</th>
+                                        <th>Article Ammount</th>   
+                                        <th>Actions</th>                                    
                                     </tr>
-                                </c:if>
-                            </c:forEach>
-                            <tr>
-                                <td>
-                                    <select class="form-control" id="client">
-                                        <c:forEach items="${article_arr}" var="x">
-                                            <option value="${x.article_id}"> ${x.article_name}</option>
-                                        </c:forEach>
-                                    </select>
-                                </td>
-                                <td><input type="text" class="form-control" name="detail_amount"></td>
-                                <td><input type="submit" class="btn btn-primary" value="Add"></td>
-                            </tr>
-                        </table>
+                                </thead>   
+                                <c:forEach items="${detail_arr}" var="y">
+                                    <c:if test="${y.state!='DELETED'}">
+                                        <tr>      
+                                            <td> ${y.article.article_name} </td>
+                                            <td> ${y.detail_ammount} </td>
+                                            <td>
+                                                <a href='/CR_WB_WebPage/BillDetailDelete?bill_id=${y.article_id}' title='Delete Record' 
+                                                   data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+                                <tr>
+                                    <td>
+                                        <select class="form-control" name="article">
+                                            <c:forEach items="${article_arr}" var="x">
+                                                <option value="${x.article_id}"> ${x.article_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" name="detail_amount"></td>
+                                    <td><input type="submit" class="form-control btn-primary" value="Add"></td>
+                                </tr>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>

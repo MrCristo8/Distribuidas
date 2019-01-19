@@ -7,6 +7,10 @@ package views.bill;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Objects;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -14,6 +18,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.WB_CR_BILL;
+import model.WB_CR_BILLDETAIL;
 
 /**
  *
@@ -73,6 +79,16 @@ public class BillInsert extends HttpServlet
         request.setAttribute("client_arr", persistance.ClientPersistance.getInstance().getObjectList());
         request.setAttribute("article_arr", persistance.ArticlePersistance.getInstance().getObjectList());
         request.setAttribute("detail_arr", logic.TempArrays.getInstance().getTempBillDetailArr());
+        Integer id = 1;
+        for (WB_CR_BILL bill : persistance.BillPersistance.getInstance().getObjectList())
+        {
+            if (!Objects.equals(bill.getBill_id(), id))
+            {
+                break;
+            }
+            id++;
+        }
+        request.setAttribute("bill_id", id);
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);
@@ -91,7 +107,53 @@ public class BillInsert extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        try
+        {
+            Date bill_date = new Date(request.getParameter("bill_date").replace("-", "/"));
+            Integer bill_id = Integer.parseInt(request.getParameter("bill_id"));
+            Integer client_id = Integer.parseInt(request.getParameter("client"));
+            Integer city_id = Integer.parseInt(request.getParameter("city"));
+            
+            HashMap<Integer, model.WB_CR_BILLDETAIL> detail_list = new HashMap<>();
+            logic.TempArrays.getInstance().getTempBillDetailArr().forEach(x ->
+            {
+                if (!detail_list.containsKey(x.getArticle_id()))
+                {
+                    detail_list.put(x.getArticle_id(), x);
+                } else
+                {
+                    model.WB_CR_BILLDETAIL temp = detail_list.get(x.getArticle_id());
+                    temp.setDetail_ammount(temp.getDetail_ammount()
+                            + x.getDetail_ammount());
+                    detail_list.replace(x.getArticle_id(), temp);
+                }
+            });
+            WB_CR_BILL bill_item = new WB_CR_BILL(bill_id, bill_date, client_id, city_id, "CREATED");
+            int pos = persistance.ClientPersistance.getInstance().getObjectList().indexOf(new model.WB_CR_CLIENT(client_id));
+            bill_item.setClient(persistance.ClientPersistance.getInstance().getObjectList().get(pos));
+            pos = persistance.CityPersistance.getInstance().getObjectList().indexOf(new model.WB_CR_CITY(city_id));
+            bill_item.setCity(persistance.CityPersistance.getInstance().getObjectList().get(pos));
+            persistance.BillPersistance.getInstance().getObjectList().add(
+                    bill_item);
+            detail_list.entrySet().forEach((Map.Entry<Integer, WB_CR_BILLDETAIL> me) ->
+            {
+                WB_CR_BILLDETAIL detail_item = me.getValue();
+                detail_item.setState("CREATED");
+                persistance.BillDetailPersistance.getInstance().getObjectList().add(
+                        detail_item);
+            });
+            logic.TempArrays.getInstance().getTempBillDetailArr().clear();
+            response.sendRedirect("/CR_WB_WebPage/BillServlet");
+            
+        } catch (IOException | NumberFormatException ex)
+        {
+            PrintWriter out = response.getWriter();
+            System.out.println(ex.getMessage());
+            response.setContentType("text/html");
+            out.println("<script> alert('Debes ingresar un valor valido antes de continuar'); </script>");
+            response.sendRedirect("/CR_WB_WebPage/BillServlet");
+        }
+        
     }
 
     /**

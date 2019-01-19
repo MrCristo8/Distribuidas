@@ -3,28 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.city;
+package views.billdetail;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Objects;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.WB_CR_CITY;
-import persistance.CityPersistance;
+import model.WB_CR_ARTICLE;
+import model.WB_CR_BILLDETAIL;
 
 /**
  *
- * @author csrm1
+ * @author wason
  */
-@WebServlet(name = "CityInsert", urlPatterns =
+@WebServlet(name = "BillDetailInsert", urlPatterns =
 {
-    "/CityInsert"
+    "/BillDetailInsert"
 })
-public class CityInsert extends HttpServlet
+public class BillDetailInsert extends HttpServlet
 {
 
     /**
@@ -46,10 +45,10 @@ public class CityInsert extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet CityInsert</title>");
+            out.println("<title>Servlet BillDetailInsert</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet CityInsert at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BillDetailInsert at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -83,30 +82,28 @@ public class CityInsert extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        PrintWriter out = response.getWriter();
-        Integer id = 1;
-        if (!request.getParameter("name").equals(""))
+        Integer article_id = Integer.parseInt(request.getParameter("article"));
+        Integer bill_id = Integer.parseInt(request.getParameter("bill_id"));
+        Integer detail_ammount = 0;
+        try
         {
-            for (WB_CR_CITY city : CityPersistance.getInstance().getObjectList())
-            {
-                if (!Objects.equals(city.getCity_id(), id))
-                {
-                    break;
-                }
-                id++;
-            }
-            WB_CR_CITY inserted_record = new WB_CR_CITY(
-                    id,
-                    request.getParameter("name"),
-                    "CREATED");
-            persistance.CityPersistance.getInstance().getObjectList().add(inserted_record);
-            response.sendRedirect("/CR_WB_WebPage/CityServlet");
-        } else
+            detail_ammount = Integer.parseInt(request.getParameter("detail_amount"));
+            WB_CR_BILLDETAIL detail_entry = new WB_CR_BILLDETAIL(bill_id, detail_ammount, article_id, "CREATED");
+            model.WB_CR_ARTICLE article = new WB_CR_ARTICLE(article_id);
+            int pos = persistance.ArticlePersistance.getInstance().getObjectList().indexOf(article);
+            article = persistance.ArticlePersistance.getInstance().getObjectList().get(pos);
+            detail_entry.setArticle(article);
+            logic.TempArrays.getInstance().getTempBillDetailArr().add(detail_entry);
+            response.sendRedirect("/CR_WB_WebPage/BillInsert");
+        } catch (NumberFormatException ex)
         {
+            PrintWriter out = response.getWriter();
             response.setContentType("text/html");
-            out.println("<script> alert('Debes ingresar un nombre antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_WebPage/CityServlet");
+            out.println("<script> alert('Debes ingresar un valor antes de continuar'); </script>");
+            response.sendRedirect("/CR_WB_WebPage/BillInsert");
+            System.out.println(ex.getMessage());
         }
+
     }
 
     /**
