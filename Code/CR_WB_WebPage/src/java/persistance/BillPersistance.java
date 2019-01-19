@@ -47,6 +47,16 @@ public class BillPersistance
 
     public ArrayList<model.WB_CR_BILL> getObjectList()
     {
+        if (object_list.isEmpty())
+        {
+            try
+            {
+                loadObjectList();
+            } catch (RemoteException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }
         return object_list;
     }
 

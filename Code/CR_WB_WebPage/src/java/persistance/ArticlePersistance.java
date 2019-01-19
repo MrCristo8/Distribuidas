@@ -11,6 +11,8 @@ import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -47,6 +49,16 @@ public class ArticlePersistance
 
     public ArrayList<model.WB_CR_ARTICLE> getObjectList()
     {
+        if (object_list.isEmpty())
+        {
+            try
+            {
+                loadObjectList();
+            } catch (RemoteException ex)
+            {
+                System.out.println(ex.getMessage());
+            }
+        }
         return object_list;
     }
 
