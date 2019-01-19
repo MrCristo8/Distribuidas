@@ -76,10 +76,10 @@
                                     </tr>
                                 </c:if>
                             </c:forEach> 
-                        </table>
-                        <br>
-                        <a href="/CR_WB_WebPage/BillInsert" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Add new bill</a>
-                        <br>
+                        </table>                        
+                        <a href="/CR_WB_WebPage/BillInsert" class="btn btn-primary float-right" role="button" aria-pressed="true">Add new bill</a>
+                        <br>                        
+                        <hr>
                         <h2 class=pull-left>Bill Filtered List</h2>
                         <br>
                         <form action="BillServlet" method="post">

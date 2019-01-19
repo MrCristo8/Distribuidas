@@ -113,7 +113,7 @@ public class BillInsert extends HttpServlet
             Integer bill_id = Integer.parseInt(request.getParameter("bill_id"));
             Integer client_id = Integer.parseInt(request.getParameter("client"));
             Integer city_id = Integer.parseInt(request.getParameter("city"));
-            
+
             HashMap<Integer, model.WB_CR_BILLDETAIL> detail_list = new HashMap<>();
             logic.TempArrays.getInstance().getTempBillDetailArr().forEach(x ->
             {
@@ -138,13 +138,24 @@ public class BillInsert extends HttpServlet
             detail_list.entrySet().forEach((Map.Entry<Integer, WB_CR_BILLDETAIL> me) ->
             {
                 WB_CR_BILLDETAIL detail_item = me.getValue();
-                detail_item.setState("CREATED");
-                persistance.BillDetailPersistance.getInstance().getObjectList().add(
-                        detail_item);
+                model.WB_CR_ARTICLE article_from_detail = detail_item.getArticle();
+                Integer updated_stock = article_from_detail.getArticle_stock() - detail_item.getDetail_ammount();
+                if (updated_stock >= 0)
+                {
+                    article_from_detail.setArticle_stock(updated_stock);
+                    article_from_detail.setState("UPDATED");
+                    int art_pos = persistance.ArticlePersistance.getInstance().getObjectList().indexOf(article_from_detail);
+                    persistance.ArticlePersistance.getInstance().getObjectList().remove(art_pos);
+                    persistance.ArticlePersistance.getInstance().getObjectList().add(art_pos, article_from_detail);
+                    detail_item.setState("CREATED");
+                    persistance.BillDetailPersistance.getInstance().getObjectList().add(
+                            detail_item);
+                }
+
             });
             logic.TempArrays.getInstance().getTempBillDetailArr().clear();
             response.sendRedirect("/CR_WB_WebPage/BillServlet");
-            
+
         } catch (IOException | NumberFormatException ex)
         {
             PrintWriter out = response.getWriter();
@@ -153,7 +164,7 @@ public class BillInsert extends HttpServlet
             out.println("<script> alert('Debes ingresar un valor valido antes de continuar'); </script>");
             response.sendRedirect("/CR_WB_WebPage/BillServlet");
         }
-        
+
     }
 
     /**
