@@ -7,26 +7,21 @@ package views.bill;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.WB_CR_BILL;
-import model.WB_CR_USER;
-import persistance.UserPersistance;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "BillDelete", urlPatterns =
+@WebServlet(name = "BillSave", urlPatterns =
 {
-    "/BillDelete"
+    "/BillSave"
 })
-public class BillDelete extends HttpServlet
+public class BillSave extends HttpServlet
 {
 
     /**
@@ -48,10 +43,10 @@ public class BillDelete extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BillDelete</title>");
+            out.println("<title>Servlet BillSave</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BillDelete at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BillSave at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,30 +65,7 @@ public class BillDelete extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        Integer id = Integer.parseInt(request.getParameter("bill_id"));
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billDelete.jsp");
-        request.setAttribute("bill_id", id);
-        int current = 0;
-        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
-            if (user.getState().equals("CURRENT")) {
-                break;
-            }
-            current++;
-        }
-        if (current < UserPersistance.getInstance().getObjectList().size()) {
-            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
-            request.setAttribute("user", permission);
-        } else {
-            if (dispatcher != null) {
-                dispatcher.forward(request, response);
-            }
-            response.sendRedirect("/CR_WB_WebPage/UserServlet");
-        }
-        if (dispatcher != null)
-        {
-            dispatcher.forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -108,29 +80,13 @@ public class BillDelete extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        Integer id = Integer.parseInt(request.getParameter("bill_id"));
-        String state = "DELETED";
-        int count = persistance.BillDetailPersistance.getInstance().getObjectList().size();
-        for (int i = 0; i < count; i++)
-        {
-            model.WB_CR_BILLDETAIL temp_bill_item = persistance.BillDetailPersistance.getInstance().getObjectList().get(i);
-            if (temp_bill_item.getState().equals("CREATED") && temp_bill_item.getBill_id().equals(id))
-            {
-                persistance.BillDetailPersistance.getInstance().getObjectList().remove(i);
-            } else if (temp_bill_item.getBill_id().equals(id))
-            {
-                persistance.BillDetailPersistance.getInstance().getObjectList().get(i).setState(state);
-            }
-        }
-        int pos = persistance.BillPersistance.getInstance().getObjectList().indexOf(new WB_CR_BILL(id));
-
-        if (persistance.BillPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED"))
-        {
-            persistance.BillPersistance.getInstance().getObjectList().remove(pos);
-        } else
-        {
-            persistance.BillPersistance.getInstance().getObjectList().get(pos).setState(state);
-        }
+        persistance.BillPersistance.getInstance().updateOnDatabase();
+        persistance.BillDetailPersistance.getInstance().updateOnDatabase();
+        persistance.BillPersistance.getInstance().updateOnDatabase();
+        persistance.BillDetailPersistance.getInstance().loadObjectList();
+        persistance.BillPersistance.getInstance().loadObjectList();
+        persistance.ArticlePersistance.getInstance().updateOnDatabase();
+        persistance.ArticlePersistance.getInstance().loadObjectList();
         response.sendRedirect("/CR_WB_WebPage/BillServlet");
     }
 
