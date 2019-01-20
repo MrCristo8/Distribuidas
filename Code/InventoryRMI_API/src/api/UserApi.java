@@ -19,7 +19,7 @@ import persistance_unit.Custom_PU;
 public class UserApi extends UnicastRemoteObject implements contract.Contract<model.WB_CR_USER>
 {
 
-    private static final String TABLE_NAME = "WB_CR_BILLDETAIL";
+    private static final String TABLE_NAME = "WB_CR_USER";
 
     public UserApi() throws RemoteException
     {

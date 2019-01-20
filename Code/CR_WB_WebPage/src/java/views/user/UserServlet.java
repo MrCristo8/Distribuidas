@@ -3,12 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.bill;
+package views.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,18 +20,15 @@ import persistance.UserPersistance;
 
 /**
  *
- * @author wason
+ * @author csrm1
  */
-@WebServlet(name = "BillServlet", urlPatterns
-        = {
-            "/BillServlet"
-        })
-public class BillServlet extends HttpServlet {
-
-    public BillServlet() {
-        if (persistance.BillPersistance.getInstance().getObjectList().isEmpty()) {
+@WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet"})
+public class UserServlet extends HttpServlet {
+    
+    public UserServlet() {
+        if (persistance.UserPersistance.getInstance().getObjectList().isEmpty()) {
             try {
-                persistance.BillPersistance.getInstance().loadObjectList();
+                persistance.UserPersistance.getInstance().loadObjectList();
             } catch (RemoteException ex) {
                 System.out.println(ex.getMessage());
             }
@@ -56,10 +52,10 @@ public class BillServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BillServlet</title>");
+            out.println("<title>Servlet UserServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BillServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UserServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,25 +74,7 @@ public class BillServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billList.jsp");
-        request.setAttribute("objList",
-                persistance.BillPersistance.getInstance().getObjectList());
-        int current = 0;
-        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
-            if (user.getState().equals("CURRENT")) {
-                break;
-            }
-            current++;
-        }
-        if (current < UserPersistance.getInstance().getObjectList().size()) {
-            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
-            request.setAttribute("user", permission);
-        } else {
-            if (dispatcher != null) {
-                dispatcher.forward(request, response);
-            }
-            response.sendRedirect("/CR_WB_WebPage/UserServlet");
-        }
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/index.jsp");
         if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
@@ -113,21 +91,23 @@ public class BillServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billList.jsp");
-        ArrayList<model.WB_CR_BILL> filtered_list = new ArrayList<>();
-        persistance.BillPersistance.getInstance().getObjectList().forEach(x
-                -> {
-            if (x.getClient().getClient_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
-                filtered_list.add(x);
+        PrintWriter out = response.getWriter();
+        Integer id = 1;
+        if (!request.getParameter("usrname").equals("") && !request.getParameter("pswd").equals("")) {
+            WB_CR_USER user = new WB_CR_USER(request.getParameter("usrname"), request.getParameter("pswd"));
+            if (UserPersistance.getInstance().getObjectList().contains(user)) {
+                id = UserPersistance.getInstance().getObjectList().indexOf(user);
+                UserPersistance.getInstance().getObjectList().get(id).setState("CURRENT");
+                response.sendRedirect("/CR_WB_WebPage/LayoutServlet");
+            } else {
+                response.setContentType("text/html");
+                out.println("<script> alert('Usuario no encontrado'); </script>");
+                response.sendRedirect("/CR_WB_WebPage/UserServlet");
             }
-        });
-        request.setAttribute("objSearchList",
-                filtered_list);
-        request.setAttribute("objList",
-                persistance.BillPersistance.getInstance().getObjectList());
-        if (dispatcher != null) {
-            dispatcher.forward(request, response);
+        } else {
+            response.setContentType("text/html");
+            out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
+            response.sendRedirect("/CR_WB_WebPage/UserServlet");
         }
     }
 

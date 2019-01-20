@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.WB_CR_BILL;
+import model.WB_CR_USER;
+import persistance.UserPersistance;
 
 /**
  *
@@ -72,6 +74,22 @@ public class BillDelete extends HttpServlet
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billDelete.jsp");
         request.setAttribute("bill_id", id);
+        int current = 0;
+        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
+            if (user.getState().equals("CURRENT")) {
+                break;
+            }
+            current++;
+        }
+        if (current < UserPersistance.getInstance().getObjectList().size()) {
+            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
+            request.setAttribute("user", permission);
+        } else {
+            if (dispatcher != null) {
+                dispatcher.forward(request, response);
+            }
+            response.sendRedirect("/CR_WB_WebPage/UserServlet");
+        }
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);

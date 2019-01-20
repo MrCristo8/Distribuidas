@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.bill;
+package view;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -21,23 +19,10 @@ import persistance.UserPersistance;
 
 /**
  *
- * @author wason
+ * @author csrm1
  */
-@WebServlet(name = "BillServlet", urlPatterns
-        = {
-            "/BillServlet"
-        })
-public class BillServlet extends HttpServlet {
-
-    public BillServlet() {
-        if (persistance.BillPersistance.getInstance().getObjectList().isEmpty()) {
-            try {
-                persistance.BillPersistance.getInstance().loadObjectList();
-            } catch (RemoteException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
+@WebServlet(name = "LayoutServlet", urlPatterns = {"/LayoutServlet"})
+public class LayoutServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -56,10 +41,10 @@ public class BillServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BillServlet</title>");
+            out.println("<title>Servlet LayoutServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BillServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet LayoutServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -78,25 +63,16 @@ public class BillServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billList.jsp");
-        request.setAttribute("objList",
-                persistance.BillPersistance.getInstance().getObjectList());
-        int current = 0;
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/layout.jsp");
+        int id = 0;
         for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
             if (user.getState().equals("CURRENT")) {
                 break;
             }
-            current++;
+            id++;
         }
-        if (current < UserPersistance.getInstance().getObjectList().size()) {
-            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
-            request.setAttribute("user", permission);
-        } else {
-            if (dispatcher != null) {
-                dispatcher.forward(request, response);
-            }
-            response.sendRedirect("/CR_WB_WebPage/UserServlet");
-        }
+        String[] permission = UserPersistance.getInstance().getObjectList().get(id).getUser_permission().split(",");
+        request.setAttribute("user", permission);
         if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
@@ -113,22 +89,7 @@ public class BillServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billList.jsp");
-        ArrayList<model.WB_CR_BILL> filtered_list = new ArrayList<>();
-        persistance.BillPersistance.getInstance().getObjectList().forEach(x
-                -> {
-            if (x.getClient().getClient_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
-                filtered_list.add(x);
-            }
-        });
-        request.setAttribute("objSearchList",
-                filtered_list);
-        request.setAttribute("objList",
-                persistance.BillPersistance.getInstance().getObjectList());
-        if (dispatcher != null) {
-            dispatcher.forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
