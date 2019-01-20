@@ -3,27 +3,30 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.billdetail;
+package views.bill;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.WB_CR_ARTICLE;
+import model.WB_CR_BILL;
 import model.WB_CR_BILLDETAIL;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "BillDetailInsert", urlPatterns =
+@WebServlet(name = "BillUpdate", urlPatterns =
 {
-    "/BillDetailInsert"
+    "/BillUpdate"
 })
-public class BillDetailInsert extends HttpServlet
+public class BillUpdate extends HttpServlet
 {
 
     /**
@@ -45,10 +48,10 @@ public class BillDetailInsert extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BillDetailInsert</title>");
+            out.println("<title>Servlet BillUpdate</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BillDetailInsert at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BillUpdate at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -67,7 +70,26 @@ public class BillDetailInsert extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        Integer id = Integer.parseInt(request.getParameter("bill_id"));
+        int pos = persistance.BillPersistance.getInstance().getObjectList().indexOf(new WB_CR_BILL(id));
+        ServletContext sc = getServletContext();
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billUpdate.jsp");
+        request.setAttribute("bill", persistance.BillPersistance.getInstance().getObjectList().get(pos));
+        request.setAttribute("city_arr", persistance.CityPersistance.getInstance().getObjectList());
+        request.setAttribute("client_arr", persistance.ClientPersistance.getInstance().getObjectList());
+        request.setAttribute("article_arr", persistance.ArticlePersistance.getInstance().getObjectList());
+        persistance.BillDetailPersistance.getInstance().getObjectList().forEach(x ->
+        {
+            if (x.getBill_id().equals(id) && !logic.TempArrays.getInstance().getTempBillDetailArr().contains(x))
+            {
+                logic.TempArrays.getInstance().getTempBillDetailArr().add(x);
+            }
+        });
+        request.setAttribute("detail_arr", logic.TempArrays.getInstance().getTempBillDetailArr());
+        if (dispatcher != null)
+        {
+            dispatcher.forward(request, response);
+        }
     }
 
     /**
@@ -82,36 +104,7 @@ public class BillDetailInsert extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        Integer article_id = Integer.parseInt(request.getParameter("article"));
-        Integer bill_id = Integer.parseInt(request.getParameter("bill_id"));
-        Integer detail_ammount = 0;
-        String op = request.getParameter("operation");
-        if (op.equals("insert"))
-        {
-            op = "BillInsert";
-        } else if (op.equals("update"))
-        {
-            op = "BillUpdate?bill_id=" + bill_id;
-        }
-        try
-        {
-            detail_ammount = Integer.parseInt(request.getParameter("detail_amount"));
-            WB_CR_BILLDETAIL detail_entry = new WB_CR_BILLDETAIL(bill_id, detail_ammount, article_id, "CREATED");
-            model.WB_CR_ARTICLE article = new WB_CR_ARTICLE(article_id);
-            int pos = persistance.ArticlePersistance.getInstance().getObjectList().indexOf(article);
-            article = persistance.ArticlePersistance.getInstance().getObjectList().get(pos);
-            detail_entry.setArticle(article);
-            logic.TempArrays.getInstance().getTempBillDetailArr().add(detail_entry);
-            response.sendRedirect("/CR_WB_WebPage/" + op);
-        } catch (NumberFormatException ex)
-        {
-            PrintWriter out = response.getWriter();
-            response.setContentType("text/html");
-            out.println("<script> alert('Debes ingresar un valor antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_WebPage/" + op);
-            System.out.println(ex.getMessage());
-        }
-
+        processRequest(request, response);
     }
 
     /**

@@ -76,6 +76,7 @@
                         <br>
                         <form action="/CR_WB_WebPage/BillDetailInsert" method="post">
                             <input type="hidden" name="bill_id" value="${bill_id}"/>
+                            <input type="hidden" name="operation" value="insert"/>
                             <table class='table table-bordered table-striped'>
                                 <thead>
                                     <tr>
@@ -90,7 +91,7 @@
                                             <td> ${y.article.article_name} </td>
                                             <td> ${y.detail_ammount} </td>
                                             <td>
-                                                <a href='/CR_WB_WebPage/BillDetailDelete?bill_id=${y.article_id}' title='Delete Record' 
+                                                <a href='/CR_WB_WebPage/BillDetailDelete?article_id=${y.article_id}' title='Delete Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
                                             </td>
                                         </tr>
