@@ -16,27 +16,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.WB_CR_USER;
+import persistance.UserPersistance;
 
 /**
  *
  * @author csrm1
  */
-@WebServlet(name = "ClientServlet", urlPatterns =
-{
-    "/ClientServlet"
-})
-public class ClientServlet extends HttpServlet
-{
+@WebServlet(name = "ClientServlet", urlPatterns
+        = {
+            "/ClientServlet"
+        })
+public class ClientServlet extends HttpServlet {
 
-    public ClientServlet()
-    {
-        if (persistance.ClientPersistance.getInstance().getObjectList().isEmpty())
-        {
-            try
-            {
+    public ClientServlet() {
+        if (persistance.ClientPersistance.getInstance().getObjectList().isEmpty()) {
+            try {
                 persistance.ClientPersistance.getInstance().loadObjectList();
-            } catch (RemoteException ex)
-            {
+            } catch (RemoteException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -52,11 +49,9 @@ public class ClientServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -81,14 +76,27 @@ public class ClientServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/client/clientList.jsp");
-        request.setAttribute("objList",
-                persistance.ClientPersistance.getInstance().getObjectList());
-        if (dispatcher != null)
-        {
+        request.setAttribute("objList", persistance.ClientPersistance.getInstance().getObjectList());
+        int current = 0;
+        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
+            if (user.getState().equals("CURRENT")) {
+                break;
+            }
+            current++;
+        }
+        if (current < UserPersistance.getInstance().getObjectList().size()) {
+            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
+            request.setAttribute("user", permission);
+        } else {
+            if (dispatcher != null) {
+                dispatcher.forward(request, response);
+            }
+            response.sendRedirect("/CR_WB_WebPage/UserServlet");
+        }
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -103,15 +111,13 @@ public class ClientServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/client/clientList.jsp");
         ArrayList<model.WB_CR_CLIENT> filtered_list = new ArrayList<>();
-        persistance.ClientPersistance.getInstance().getObjectList().forEach(x ->
-        {
-            if (x.getClient_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase()))
-            {
+        persistance.ClientPersistance.getInstance().getObjectList().forEach(x
+                -> {
+            if (x.getClient_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
                 filtered_list.add(x);
             }
         });
@@ -119,8 +125,7 @@ public class ClientServlet extends HttpServlet
                 filtered_list);
         request.setAttribute("objList",
                 persistance.ClientPersistance.getInstance().getObjectList());
-        if (dispatcher != null)
-        {
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -131,8 +136,7 @@ public class ClientServlet extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

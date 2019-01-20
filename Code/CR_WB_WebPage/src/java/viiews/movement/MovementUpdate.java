@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import model.WB_CR_MOVEMENT;
+import model.WB_CR_USER;
+import persistance.UserPersistance;
 
 /**
  *
@@ -40,7 +42,7 @@ public class MovementUpdate extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet MovementUpdate</title>");            
+            out.println("<title>Servlet MovementUpdate</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet MovementUpdate at " + request.getContextPath() + "</h1>");
@@ -66,6 +68,22 @@ public class MovementUpdate extends HttpServlet {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/movement/movementUpdate.jsp");
         request.setAttribute("movement", persistance.ClientPersistance.getInstance().getObjectList().get(pos));
+        int current = 0;
+        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
+            if (user.getState().equals("CURRENT")) {
+                break;
+            }
+            current++;
+        }
+        if (current < UserPersistance.getInstance().getObjectList().size()) {
+            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
+            request.setAttribute("user", permission);
+        } else {
+            if (dispatcher != null) {
+                dispatcher.forward(request, response);
+            }
+            response.sendRedirect("/CR_WB_WebPage/UserServlet");
+        }
         if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
@@ -82,7 +100,7 @@ public class MovementUpdate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-         PrintWriter out = response.getWriter();
+        PrintWriter out = response.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
         if (!request.getParameter("name").equals("") && !request.getParameter("direction").equals("")) {
             String state = "UPDATED";
@@ -102,7 +120,7 @@ public class MovementUpdate extends HttpServlet {
         } else {
             response.setContentType("text/html");
             out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_WebPage/ClientUpdate?client_id="+id);
+            response.sendRedirect("/CR_WB_WebPage/ClientUpdate?client_id=" + id);
         }
     }
 

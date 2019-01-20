@@ -16,27 +16,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.WB_CR_USER;
+import persistance.UserPersistance;
 
 /**
  *
  * @author csrm1
  */
-@WebServlet(name = "CityServlet", urlPatterns =
-{
-    "/CityServlet"
-})
-public class CityServlet extends HttpServlet
-{
+@WebServlet(name = "CityServlet", urlPatterns
+        = {
+            "/CityServlet"
+        })
+public class CityServlet extends HttpServlet {
 
-    public CityServlet()
-    {
-        if (persistance.CityPersistance.getInstance().getObjectList().isEmpty())
-        {
-            try
-            {
+    public CityServlet() {
+        if (persistance.CityPersistance.getInstance().getObjectList().isEmpty()) {
+            try {
                 persistance.CityPersistance.getInstance().loadObjectList();
-            } catch (RemoteException ex)
-            {
+            } catch (RemoteException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -52,11 +49,9 @@ public class CityServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -81,15 +76,27 @@ public class CityServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/city/cityList.jsp");
-        request.setAttribute("objList",
-                persistance.CityPersistance.getInstance().getObjectList());
-        //persistance.ArticlePersistance.getInstnace().UpdateOnDatabase();
-        if (dispatcher != null)
-        {
+        request.setAttribute("objList", persistance.CityPersistance.getInstance().getObjectList());
+        int current = 0;
+        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
+            if (user.getState().equals("CURRENT")) {
+                break;
+            }
+            current++;
+        }
+        if (current < UserPersistance.getInstance().getObjectList().size()) {
+            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
+            request.setAttribute("user", permission);
+        } else {
+            if (dispatcher != null) {
+                dispatcher.forward(request, response);
+            }
+            response.sendRedirect("/CR_WB_WebPage/UserServlet");
+        }
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -104,15 +111,13 @@ public class CityServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/city/cityList.jsp");
         ArrayList<model.WB_CR_CITY> filtered_list = new ArrayList<>();
-        persistance.CityPersistance.getInstance().getObjectList().forEach(x ->
-        {
-            if (x.getCity_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase()))
-            {
+        persistance.CityPersistance.getInstance().getObjectList().forEach(x
+                -> {
+            if (x.getCity_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
                 filtered_list.add(x);
             }
         });
@@ -120,8 +125,7 @@ public class CityServlet extends HttpServlet
                 filtered_list);
         request.setAttribute("objList",
                 persistance.CityPersistance.getInstance().getObjectList());
-        if (dispatcher != null)
-        {
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -132,8 +136,7 @@ public class CityServlet extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

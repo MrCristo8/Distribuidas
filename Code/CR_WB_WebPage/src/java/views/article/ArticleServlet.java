@@ -16,27 +16,24 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import model.WB_CR_USER;
+import persistance.UserPersistance;
 
 /**
  *
  * @author csrm1
  */
-@WebServlet(name = "ArticleServlet", urlPatterns =
-{
-    "/ArticleServlet"
-})
-public class ArticleServlet extends HttpServlet
-{
+@WebServlet(name = "ArticleServlet", urlPatterns
+        = {
+            "/ArticleServlet"
+        })
+public class ArticleServlet extends HttpServlet {
 
-    public ArticleServlet()
-    {
-        if (persistance.ArticlePersistance.getInstance().getObjectList().isEmpty())
-        {
-            try
-            {
+    public ArticleServlet() {
+        if (persistance.ArticlePersistance.getInstance().getObjectList().isEmpty()) {
+            try {
                 persistance.ArticlePersistance.getInstance().loadObjectList();
-            } catch (RemoteException ex)
-            {
+            } catch (RemoteException ex) {
                 System.out.println(ex.getMessage());
             }
         }
@@ -52,11 +49,9 @@ public class ArticleServlet extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -81,14 +76,28 @@ public class ArticleServlet extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/article/articleList.jsp");
         request.setAttribute("objList",
                 persistance.ArticlePersistance.getInstance().getObjectList());
-        if (dispatcher != null)
-        {
+        int current = 0;
+        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
+            if (user.getState().equals("CURRENT")) {
+                break;
+            }
+            current++;
+        }
+        if (current < UserPersistance.getInstance().getObjectList().size()) {
+            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
+            request.setAttribute("user", permission);
+        } else {
+            if (dispatcher != null) {
+                dispatcher.forward(request, response);
+            }
+            response.sendRedirect("/CR_WB_WebPage/UserServlet");
+        }
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -103,24 +112,19 @@ public class ArticleServlet extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/article/articleList.jsp");
         ArrayList<model.WB_CR_ARTICLE> filtered_list = new ArrayList<>();
-        persistance.ArticlePersistance.getInstance().getObjectList().forEach(x ->
-        {
-            if (x.getArticle_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase()))
-            {
+        persistance.ArticlePersistance.getInstance().getObjectList().forEach(x
+                -> {
+            if (x.getArticle_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
                 filtered_list.add(x);
             }
         });
-        request.setAttribute("objSearchList",
-                filtered_list);
-        request.setAttribute("objList",
-                persistance.ArticlePersistance.getInstance().getObjectList());
-        if (dispatcher != null)
-        {
+        request.setAttribute("objSearchList", filtered_list);
+        request.setAttribute("objList", persistance.ArticlePersistance.getInstance().getObjectList());
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -131,8 +135,7 @@ public class ArticleServlet extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 
