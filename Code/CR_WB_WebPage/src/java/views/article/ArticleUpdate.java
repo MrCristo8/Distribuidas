@@ -14,9 +14,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.TempArrays;
 import model.WB_CR_ARTICLE;
 import model.WB_CR_USER;
-import persistance.UserPersistance;
 
 /**
  *
@@ -68,21 +68,11 @@ public class ArticleUpdate extends HttpServlet {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/article/articleUpdate.jsp");
         request.setAttribute("article", persistance.ArticlePersistance.getInstance().getObjectList().get(pos));
-        int current = 0;
-        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
-            if (user.getState().equals("CURRENT")) {
-                break;
-            }
-            current++;
-        }
-        if (current < UserPersistance.getInstance().getObjectList().size()) {
-            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
-            request.setAttribute("user", permission);
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            request.setAttribute("permission", permission);
         } else {
-            if (dispatcher != null) {
-                dispatcher.forward(request, response);
-            }
-            response.sendRedirect("/CR_WB_WebPage/UserServlet");
+            request.setAttribute("permission", new String[]{});
         }
         if (dispatcher != null) {
             dispatcher.forward(request, response);
@@ -126,17 +116,17 @@ public class ArticleUpdate extends HttpServlet {
                 } else {
                     response.setContentType("text/html");
                     out.println("<script> alert('No se puede ingresar un sock negativo'); </script>");
-                    response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id="+id);
+                    response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id=" + id);
                 }
             } catch (NumberFormatException e) {
                 response.setContentType("text/html");
                 out.println("<script> alert(" + e.getMessage() + "); </script>");
-                response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id="+id);
+                response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id=" + id);
             }
         } else {
             response.setContentType("text/html");
             out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id="+id);
+            response.sendRedirect("/CR_WB_WebPage/ArticleUpdate?article_id=" + id);
         }
     }
 

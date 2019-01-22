@@ -7,37 +7,20 @@ package views.user;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.TempArrays;
-import model.WB_CR_USER;
+import persistance.UserPersistance;
 
 /**
  *
  * @author csrm1
  */
-@WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet"})
-public class UserServlet extends HttpServlet {
+@WebServlet(name = "UserSave", urlPatterns = {"/UserSave"})
+public class UserSave extends HttpServlet {
 
-    
-    public UserServlet() {
-        if (persistance.UserPersistance.getInstance().getObjectList().isEmpty()) {
-            try {
-                persistance.UserPersistance.getInstance().loadObjectList();
-            } catch (RemoteException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
-    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -55,10 +38,10 @@ public class UserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserServlet</title>");            
+            out.println("<title>Servlet UserSave</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UserSave at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -76,22 +59,7 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/user/userList.jsp");
-        List<WB_CR_USER> obj=persistance.UserPersistance.getInstance().getObjectList();
-        obj.stream().filter((user) -> (user.getState().equals("CURRENT"))).forEachOrdered((user) -> {
-            obj.remove(user);
-        });
-        request.setAttribute("objList", obj);
-        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
-            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
-            request.setAttribute("permission", permission);
-        } else {
-            request.setAttribute("permission", new String[]{});
-        }
-        if (dispatcher != null) {
-            dispatcher.forward(request, response);
-        }
+        processRequest(request, response);
     }
 
     /**
@@ -105,22 +73,9 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/user/userList.jsp");
-        ArrayList<model.WB_CR_USER> filtered_list = new ArrayList<>();
-        persistance.UserPersistance.getInstance().getObjectList().forEach(x
-                -> {
-            if (x.getUser_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
-                filtered_list.add(x);
-            }
-        });
-        request.setAttribute("objSearchList",
-                filtered_list);
-        request.setAttribute("objList",
-                persistance.UserPersistance.getInstance().getObjectList());
-        if (dispatcher != null) {
-            dispatcher.forward(request, response);
-        }
+        UserPersistance.getInstance().updateOnDatabase();
+        UserPersistance.getInstance().loadObjectList();
+        response.sendRedirect("/CR_WB_WebPage/UserServlet");
     }
 
     /**

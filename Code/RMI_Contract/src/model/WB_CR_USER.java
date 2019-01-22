@@ -33,6 +33,14 @@ public class WB_CR_USER extends CR_WB_Model implements Serializable
         this.user_password = user_password;
     }
 
+    public WB_CR_USER(Integer user_id, String user_name, String user_password, String user_permission, String state) {
+        this.user_id = user_id;
+        this.user_name = user_name;
+        this.user_password = user_password;
+        this.user_permission = user_permission;
+        this.state=state;
+    }
+
     public WB_CR_USER()
     {
         this.state = "PERSISTED";

@@ -21,7 +21,7 @@
             <div class="card card-container">
                 <img id="profile-img" class="profile-img-card" src="//ssl.gstatic.com/accounts/ui/avatar_2x.png" />
                 <h1 class="profile-name-card">Login</h1> 
-                <form class="form-signin" action="/CR_WB_WebPage/UserServlet" method="POST">
+                <form class="form-signin" action="/CR_WB_WebPage/UserLogin" method="POST">
                     <br></br>
                     <input class="form-control" placeholder="Username" name="usrname" type="text" autofocus>
                     <input class="form-control" placeholder="Password" name="pswd" type="password" value="">

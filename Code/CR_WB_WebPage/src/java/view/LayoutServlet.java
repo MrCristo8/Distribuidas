@@ -14,8 +14,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.TempArrays;
 import model.WB_CR_USER;
-import persistance.UserPersistance;
 
 /**
  *
@@ -64,15 +64,12 @@ public class LayoutServlet extends HttpServlet {
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/layout.jsp");
-        int id = 0;
-        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
-            if (user.getState().equals("CURRENT")) {
-                break;
-            }
-            id++;
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            request.setAttribute("permission", permission);
+        } else {
+            request.setAttribute("permission", new String[]{});
         }
-        String[] permission = UserPersistance.getInstance().getObjectList().get(id).getUser_permission().split(",");
-        request.setAttribute("user", permission);
         if (dispatcher != null) {
             dispatcher.forward(request, response);
         }

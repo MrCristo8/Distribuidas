@@ -37,44 +37,44 @@
     </head>
     <body>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-            <d:forEach items="${permission}"  var="x">
+            <c:forEach items="${permission}"  var="x">
                 <ul class="navbar-nav">
-                    <d:if test="${x=='Clients'}">
+                    <c:if test="${x=='Clients'}">
                         <li class="nav-item">
                             <a class="nav-link" href="/CR_WB_WebPage/ClientServlet">Clients</a>
                         </li>
-                    </d:if>
-                    <d:if test="${x=='Articles'}">
+                    </c:if>
+                    <c:if test="${x=='Articles'}">
                         <li class="nav-item">
                             <a class="nav-link" href="/CR_WB_WebPage/ArticleServlet">Articles</a>
                         </li>
-                    </d:if>
-                    <d:if test="${x=='Movements'}">
+                    </c:if>
+                    <c:if test="${x=='Movements'}">
                         <li class="nav-item">
                             <a class="nav-link" href="/CR_WB_WebPage/MovementServlet">Movements</a>
                         </li>
-                    </d:if>
-                    <d:if test="${x=='Cities'}">
+                    </c:if>
+                    <c:if test="${x=='Cities'}">
                         <li class="nav-item">
                             <a class="nav-link" href="/CR_WB_WebPage/CityServlet">Cities</a>
                         </li>
-                    </d:if>
-                    <d:if test="${x=='Users'}">
+                    </c:if>
+                    <c:if test="${x=='Users'}">
                         <li class="nav-item">
                             <a class="nav-link" href="/CR_WB_WebPage/UserServlet">Users</a>
                         </li>
-                    </d:if>
-                    <d:if test="${x=='Inventory'}">
+                    </c:if>
+                    <c:if test="${x=='Inventory'}">
                         <li class="nav-item">
                             <a class="nav-link" href="/CR_WB_WebPage/InventoryServlet">Inventory</a>
                         </li>
-                    </d:if>
-                    <d:if test="${x=='Bills'}">
+                    </c:if>
+                    <c:if test="${x=='Bills'}">
                         <li class="nav-item">
                             <a class="nav-link" href="/CR_WB_WebPage/BillServlet">Bills</a>
                         </li>
-                    </d:if>
-                    <d:if test="${x=='Reports'}">
+                    </c:if>
+                    <c:if test="${x=='Reports'}">
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Reports</a>
                             <div class="dropdown-menu">
@@ -84,13 +84,13 @@
                                 <a class="dropdown-item" href="/CR_WB_WebPage/SalesPerCity.jsp">Sales Per City</a>
                             </div>
                         </li>
-                    </d:if>
+                    </c:if>
                 </ul>
-            </d:forEach>
+            </c:forEach>
             <navbar-nav class="ml-md-auto d-md-flex">
                 <ul class="navbar-nav">
                     <li class="nav-item" id="logout">
-                        <a class="nav-link" href="/CR_WB_WebPage/UserServlet">Log Out</a>
+                        <a class="nav-link" href="/CR_WB_WebPage/UserLogin">Log Out</a>
                     </li>
                 </ul>
             </navbar-nav>

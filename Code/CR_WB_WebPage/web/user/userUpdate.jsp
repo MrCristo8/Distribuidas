@@ -1,6 +1,6 @@
 <%-- 
-    Document   : cityDelete
-    Created on : Jan 16, 2019, 6:39:20 PM
+    Document   : userUpdate
+    Created on : Jan 21, 2019, 4:03:58 PM
     Author     : csrm1
 --%>
 
@@ -10,11 +10,8 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Delete City</title>
+        <title>Update Record</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
-        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <style type="text/css">
             .wrapper{
                 width: 500px;
@@ -87,17 +84,30 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="page-header">
-                            <h1>Delete City</h1>
+                            <h2>Update User</h2>
                         </div>
-                        <form action="/CR_WB_WebPage/CityDelete" method="post">
-                            <div class="alert alert-danger alert-dismissible fade show">                            
-                                <input type="hidden" name="city_id" value="${city_id}"/>
-                                <p>Are you shure you want to delete this city?</p><br>
-                                <p>
-                                    <input type="submit" value="Yes" class="btn btn-danger">
-                                    <a href="/CR_WB_WebPage/CityServlet" class="btn btn-default">No</a>
-                                </p>
+                        <p>Update User</p>
+                        <form action="/CR_WB_WebPage/UserUpdate" method="post">
+                            <div class="form-group">
+                                <label>User Name</label>
+                                <input type="text" name="name" class="form-control" value="${user.user_name}">
+                                <span class="help-block"></span>
                             </div>
+                            <div class="form-group">
+                                <label>User Password</label>
+                                <input type="password" name="pwd" class="form-control" value="${user.user_password}">
+                                <span class="help-block"></span>
+                            </div>
+                            <div class="form-group">
+                                <label>User Permission</label>
+                                <input type="text" name="permission" class="form-control" value="${user.user_permission}">
+                                <span class="help-block"></span>
+                            </div>
+                            <input type="hidden" name="name" value="${user.user_name}"/>
+                            <input type="hidden" name="password" value="${user.user_password}"/>
+                            <input type="hidden" name="permission" value="${user.user_permission}"/>
+                            <input type="submit" class="btn btn-primary" value="Submit">
+                            <a href="/CR_WB_WebPage/UserServlet" class="btn btn-default">Cancel</a>
                         </form>
                     </div>
                 </div>        

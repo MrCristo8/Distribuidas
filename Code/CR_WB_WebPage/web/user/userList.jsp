@@ -1,6 +1,6 @@
 <%-- 
-    Document   : list
-    Created on : Jan 14, 2019, 5:38:05 PM
+    Document   : userList
+    Created on : Jan 21, 2019, 4:03:07 PM
     Author     : csrm1
 --%>
 
@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Article</title>
+        <title>Client</title>
         <style type=text/css>
             .wrapper{
                 width: auto;
@@ -100,53 +100,52 @@
                 <div class=row>
                     <div class=col-md-12>
                         <div class=page-header clearfix>
-                            <h2 class=pull-left>Article Details</h2>
-                            <form action="ArticleSave" method="post">
+                            <h2 class=pull-left>Client Details</h2>
+                            <form action="UserSave" method="post">
                                 <input type="submit" class="btn btn-success float-right" value="Save Changes">
                             </form>
                         </div>
                         <br><br>
-                        <form action="/CR_WB_WebPage/ArticleInsert" method="post">
+                        <form action="/CR_WB_WebPage/UserInsert" method="post">
                             <table class='table table-bordered table-striped'>
                                 <thead>
                                     <tr>
-                                        <th>Article ID</th>
-                                        <th>Article Name</th>
-                                        <th>Article Price</th>
-                                        <th>Article Stock</th>
+                                        <th>User ID</th>
+                                        <th>Username</th>
+                                        <th>Password</th>
+                                        <th>User permission</th>
                                         <th>Actions</th>
                                     </tr>
-                                </thead>   
+                                </thead>  
                                 <c:forEach items="${objList}" var="x">
                                     <c:if test="${x.state!='DELETED'}">
                                         <tr>      
-                                            <td>  ${x.article_id}  </td>
-                                            <td>  ${x.article_name}  </td>
-                                            <td>  ${x.article_price} </td>
-                                            <td>  ${x.article_stock}</td>
+                                            <td>  ${x.user_id}  </td>
+                                            <td>  ${x.user_name}  </td>
+                                            <td> XXXXXXXX </td>
+                                            <td>  ${x.user_permission} </td>
                                             <td>                                        
-                                                <a href='/CR_WB_WebPage/ArticleUpdate?article_id=${x.article_id}' title='Update Record' 
+                                                <a href='/CR_WB_WebPage/UserUpdate?user_name=${x.user_name}&user_password=${x.user_password}' title='Update Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">edit</i></a>
-                                                <a href='/CR_WB_WebPage/ArticleDelete?article_id=${x.article_id}' title='Delete Record' 
+                                                <a href='/CR_WB_WebPage/UserDelete?user_name=${x.user_name}&user_password=${x.user_password}' title='Delete Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
                                             </td>
                                         </tr>
                                     </c:if>
-                                </c:forEach>   
+                                </c:forEach>  
                                 <tr>
                                     <td></td>
-                                    <td><input type="text" class="form-control" name="name"></td>
-                                    <td><input type="text" class="form-control" name="price"></td>
-                                    <td><input type="text" class="form-control" name="stock"></td>
+                                    <td><input type="text" class="form-control" name="username"></td>
+                                    <td><input type="password" class="form-control" name="pwd"></td>
+                                    <td><input type="text" class="form-control" name="permission"></td>
                                     <td><input type="submit" class="btn btn-primary" value="Add"></td>
                                 </tr>
-                            </table>                    
-
-                        </form>
+                            </table>
+                        </form>    
                         <br>
-                        <h2 class=pull-left>Article Filtered List</h2>
+                        <h2 class=pull-left>User Filtered List</h2>
                         <br>
-                        <form action="ArticleServlet" method="post">
+                        <form action="UserServlet" method="post">
                             <div class ="form-row">  
                                 <div class="col-md-11">
                                     <input type="text" class="form-control" placeholder="Search Parammeter" name = "search_string">
@@ -160,19 +159,17 @@
                         <table class='table table-bordered table-striped'>
                             <thead>
                                 <tr>
-                                    <th>Article ID</th>
-                                    <th>Article Name</th>
-                                    <th>Article Price</th>
-                                    <th>Article Stock</th>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>User Permission</th>
                                 </tr>
                             </thead>   
                             <c:forEach items="${objSearchList}" var="y">
                                 <c:if test="${y.state!='DELETED'}">
                                     <tr>      
-                                        <td>  ${y.article_id}  </td>
-                                        <td>  ${y.article_name}  </td>
-                                        <td>  ${y.article_price} </td>
-                                        <td>  ${y.article_stock}</td>                                            
+                                        <td>  ${y.user_id}  </td>
+                                        <td>  ${y.user_name}  </td>
+                                        <td>  ${y.user_permission} </td>                                       
                                     </tr>
                                 </c:if>
                             </c:forEach>

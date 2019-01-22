@@ -14,9 +14,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.TempArrays;
 import model.WB_CR_CLIENT;
 import model.WB_CR_USER;
-import persistance.UserPersistance;
 
 /**
  *
@@ -67,21 +67,11 @@ public class ClientDelete extends HttpServlet {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/client/clientDelete.jsp");
         request.setAttribute("client_id", id);
-        int current = 0;
-        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
-            if (user.getState().equals("CURRENT")) {
-                break;
-            }
-            current++;
-        }
-        if (current < UserPersistance.getInstance().getObjectList().size()) {
-            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
-            request.setAttribute("user", permission);
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            request.setAttribute("permission", permission);
         } else {
-            if (dispatcher != null) {
-                dispatcher.forward(request, response);
-            }
-            response.sendRedirect("/CR_WB_WebPage/UserServlet");
+            request.setAttribute("permission", new String[]{});
         }
         if (dispatcher != null) {
             dispatcher.forward(request, response);
@@ -102,12 +92,9 @@ public class ClientDelete extends HttpServlet {
         Integer id = Integer.parseInt(request.getParameter("client_id"));
         int pos = persistance.ClientPersistance.getInstance().getObjectList().indexOf(new WB_CR_CLIENT(id));
         String state = "DELETED";
-        if(persistance.ClientPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED"))
-        {
+        if (persistance.ClientPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED")) {
             persistance.ClientPersistance.getInstance().getObjectList().remove(pos);
-        }
-        else            
-        {
+        } else {
             persistance.ClientPersistance.getInstance().getObjectList().get(pos).setState(state);
         }
         response.sendRedirect("/CR_WB_WebPage/ClientServlet");

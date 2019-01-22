@@ -7,7 +7,6 @@ package views.bill;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,19 +14,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.TempArrays;
 import model.WB_CR_BILL;
-import model.WB_CR_BILLDETAIL;
+import model.WB_CR_USER;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "BillUpdate", urlPatterns =
-{
-    "/BillUpdate"
-})
-public class BillUpdate extends HttpServlet
-{
+@WebServlet(name = "BillUpdate", urlPatterns
+        = {
+            "/BillUpdate"
+        })
+public class BillUpdate extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,11 +38,9 @@ public class BillUpdate extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -68,8 +65,7 @@ public class BillUpdate extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("bill_id"));
         int pos = persistance.BillPersistance.getInstance().getObjectList().indexOf(new WB_CR_BILL(id));
         ServletContext sc = getServletContext();
@@ -78,16 +74,20 @@ public class BillUpdate extends HttpServlet
         request.setAttribute("city_arr", persistance.CityPersistance.getInstance().getObjectList());
         request.setAttribute("client_arr", persistance.ClientPersistance.getInstance().getObjectList());
         request.setAttribute("article_arr", persistance.ArticlePersistance.getInstance().getObjectList());
-        persistance.BillDetailPersistance.getInstance().getObjectList().forEach(x ->
-        {
-            if (x.getBill_id().equals(id) && !logic.TempArrays.getInstance().getTempBillDetailArr().contains(x))
-            {
+        persistance.BillDetailPersistance.getInstance().getObjectList().forEach(x
+                -> {
+            if (x.getBill_id().equals(id) && !logic.TempArrays.getInstance().getTempBillDetailArr().contains(x)) {
                 logic.TempArrays.getInstance().getTempBillDetailArr().add(x);
             }
         });
         request.setAttribute("detail_arr", logic.TempArrays.getInstance().getTempBillDetailArr());
-        if (dispatcher != null)
-        {
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            request.setAttribute("permission", permission);
+        } else {
+            request.setAttribute("permission", new String[]{});
+        }
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -102,8 +102,7 @@ public class BillUpdate extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         processRequest(request, response);
     }
 
@@ -113,8 +112,7 @@ public class BillUpdate extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

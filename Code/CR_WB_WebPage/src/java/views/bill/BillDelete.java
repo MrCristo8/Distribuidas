@@ -14,20 +14,19 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.TempArrays;
 import model.WB_CR_BILL;
 import model.WB_CR_USER;
-import persistance.UserPersistance;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "BillDelete", urlPatterns =
-{
-    "/BillDelete"
-})
-public class BillDelete extends HttpServlet
-{
+@WebServlet(name = "BillDelete", urlPatterns
+        = {
+            "/BillDelete"
+        })
+public class BillDelete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -39,11 +38,9 @@ public class BillDelete extends HttpServlet
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter())
-        {
+        try (PrintWriter out = response.getWriter()) {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -68,30 +65,18 @@ public class BillDelete extends HttpServlet
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("bill_id"));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billDelete.jsp");
         request.setAttribute("bill_id", id);
-        int current = 0;
-        for (WB_CR_USER user : UserPersistance.getInstance().getObjectList()) {
-            if (user.getState().equals("CURRENT")) {
-                break;
-            }
-            current++;
-        }
-        if (current < UserPersistance.getInstance().getObjectList().size()) {
-            String[] permission = UserPersistance.getInstance().getObjectList().get(current).getUser_permission().split(",");
-            request.setAttribute("user", permission);
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            request.setAttribute("permission", permission);
         } else {
-            if (dispatcher != null) {
-                dispatcher.forward(request, response);
-            }
-            response.sendRedirect("/CR_WB_WebPage/UserServlet");
+            request.setAttribute("permission", new String[]{});
         }
-        if (dispatcher != null)
-        {
+        if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
     }
@@ -106,29 +91,23 @@ public class BillDelete extends HttpServlet
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException
-    {
+            throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("bill_id"));
         String state = "DELETED";
         int count = persistance.BillDetailPersistance.getInstance().getObjectList().size();
-        for (int i = 0; i < count; i++)
-        {
+        for (int i = 0; i < count; i++) {
             model.WB_CR_BILLDETAIL temp_bill_item = persistance.BillDetailPersistance.getInstance().getObjectList().get(i);
-            if (temp_bill_item.getState().equals("CREATED") && temp_bill_item.getBill_id().equals(id))
-            {
+            if (temp_bill_item.getState().equals("CREATED") && temp_bill_item.getBill_id().equals(id)) {
                 persistance.BillDetailPersistance.getInstance().getObjectList().remove(i);
-            } else if (temp_bill_item.getBill_id().equals(id))
-            {
+            } else if (temp_bill_item.getBill_id().equals(id)) {
                 persistance.BillDetailPersistance.getInstance().getObjectList().get(i).setState(state);
             }
         }
         int pos = persistance.BillPersistance.getInstance().getObjectList().indexOf(new WB_CR_BILL(id));
 
-        if (persistance.BillPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED"))
-        {
+        if (persistance.BillPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED")) {
             persistance.BillPersistance.getInstance().getObjectList().remove(pos);
-        } else
-        {
+        } else {
             persistance.BillPersistance.getInstance().getObjectList().get(pos).setState(state);
         }
         response.sendRedirect("/CR_WB_WebPage/BillServlet");
@@ -140,8 +119,7 @@ public class BillDelete extends HttpServlet
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo()
-    {
+    public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
 

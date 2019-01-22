@@ -1,6 +1,6 @@
 <%-- 
-    Document   : cityDelete
-    Created on : Jan 16, 2019, 6:39:20 PM
+    Document   : userDelete
+    Created on : Jan 21, 2019, 4:03:23 PM
     Author     : csrm1
 --%>
 
@@ -10,7 +10,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Delete City</title>
+        <title>Delete User</title>
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
         <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
@@ -87,15 +87,16 @@
                 <div class="row">
                     <div class="col-md-12">
                         <div class="page-header">
-                            <h1>Delete City</h1>
+                            <h1>Delete User</h1>
                         </div>
-                        <form action="/CR_WB_WebPage/CityDelete" method="post">
+                        <form action="/CR_WB_WebPage/UserDelete" method="post">
                             <div class="alert alert-danger alert-dismissible fade show">                            
-                                <input type="hidden" name="city_id" value="${city_id}"/>
-                                <p>Are you shure you want to delete this city?</p><br>
+                                <input type="hidden" name="name" value="${user.user_name}"/>
+                                <input type="hidden" name="pwd" value="${user.user_password}"/>
+                                <p>Are you shure you want to delete this client?</p><br>
                                 <p>
                                     <input type="submit" value="Yes" class="btn btn-danger">
-                                    <a href="/CR_WB_WebPage/CityServlet" class="btn btn-default">No</a>
+                                    <a href="/CR_WB_WebPage/UserServlet" class="btn btn-default">No</a>
                                 </p>
                             </div>
                         </form>

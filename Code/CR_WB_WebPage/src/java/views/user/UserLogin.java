@@ -8,8 +8,6 @@ package views.user;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -19,25 +17,23 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logic.TempArrays;
 import model.WB_CR_USER;
+import persistance.UserPersistance;
 
 /**
  *
  * @author csrm1
  */
-@WebServlet(name = "UserServlet", urlPatterns = {"/UserServlet"})
-public class UserServlet extends HttpServlet {
+@WebServlet(name = "UserLogin", urlPatterns = {"/UserLogin"})
+public class UserLogin extends HttpServlet {
 
-    
-    public UserServlet() {
-        if (persistance.UserPersistance.getInstance().getObjectList().isEmpty()) {
-            try {
-                persistance.UserPersistance.getInstance().loadObjectList();
-            } catch (RemoteException ex) {
-                System.out.println(ex.getMessage());
-            }
+    public UserLogin() {
+        try {
+            persistance.UserPersistance.getInstance().loadObjectList();
+        } catch (RemoteException ex) {
+            System.out.println(ex.getMessage());
         }
     }
-    
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -55,10 +51,10 @@ public class UserServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet UserServlet</title>");            
+            out.println("<title>Servlet UserLogin</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet UserServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet UserLogin at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -77,18 +73,8 @@ public class UserServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/user/userList.jsp");
-        List<WB_CR_USER> obj=persistance.UserPersistance.getInstance().getObjectList();
-        obj.stream().filter((user) -> (user.getState().equals("CURRENT"))).forEachOrdered((user) -> {
-            obj.remove(user);
-        });
-        request.setAttribute("objList", obj);
-        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
-            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
-            request.setAttribute("permission", permission);
-        } else {
-            request.setAttribute("permission", new String[]{});
-        }
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/index.jsp");
+        TempArrays.getInstance().setUser(new WB_CR_USER());
         if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
@@ -105,21 +91,23 @@ public class UserServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/user/userList.jsp");
-        ArrayList<model.WB_CR_USER> filtered_list = new ArrayList<>();
-        persistance.UserPersistance.getInstance().getObjectList().forEach(x
-                -> {
-            if (x.getUser_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
-                filtered_list.add(x);
+        PrintWriter out = response.getWriter();
+        Integer id = 1;
+        if (!request.getParameter("usrname").equals("") && !request.getParameter("pswd").equals("")) {
+            WB_CR_USER user = new WB_CR_USER(request.getParameter("usrname"), request.getParameter("pswd"));
+            if (UserPersistance.getInstance().getObjectList().contains(user)) {
+                id = UserPersistance.getInstance().getObjectList().indexOf(user);
+                TempArrays.getInstance().setUser(UserPersistance.getInstance().getObjectList().get(id));
+                response.sendRedirect("/CR_WB_WebPage/LayoutServlet");
+            } else {
+                response.setContentType("text/html");
+                out.println("<script> alert('Usuario no encontrado'); </script>");
+                response.sendRedirect("/CR_WB_WebPage/UserLogin");
             }
-        });
-        request.setAttribute("objSearchList",
-                filtered_list);
-        request.setAttribute("objList",
-                persistance.UserPersistance.getInstance().getObjectList());
-        if (dispatcher != null) {
-            dispatcher.forward(request, response);
+        } else {
+            response.setContentType("text/html");
+            out.println("<script> alert('Debes ingresar datos antes de continuar'); </script>");
+            response.sendRedirect("/CR_WB_WebPage/UserLogin");
         }
     }
 
