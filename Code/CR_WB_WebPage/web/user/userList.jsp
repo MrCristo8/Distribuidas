@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Client</title>
+        <title>User</title>
         <style type=text/css>
             .wrapper{
                 width: auto;
@@ -100,7 +100,7 @@
                 <div class=row>
                     <div class=col-md-12>
                         <div class=page-header clearfix>
-                            <h2 class=pull-left>Client Details</h2>
+                            <h2 class=pull-left>User Details</h2>
                             <form action="UserSave" method="post">
                                 <input type="submit" class="btn btn-success float-right" value="Save Changes">
                             </form>

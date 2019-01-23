@@ -7,6 +7,7 @@ package views.city;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -69,6 +70,7 @@ public class CityDelete extends HttpServlet {
         request.setAttribute("city_id", id);
         if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            Arrays.sort(permission);
             request.setAttribute("permission", permission);
         } else {
             request.setAttribute("permission", new String[]{});

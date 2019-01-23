@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -85,6 +86,7 @@ public class UserServlet extends HttpServlet {
         request.setAttribute("objList", obj);
         if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            Arrays.sort(permission);
             request.setAttribute("permission", permission);
         } else {
             request.setAttribute("permission", new String[]{});
