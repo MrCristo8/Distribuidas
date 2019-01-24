@@ -25,7 +25,7 @@ public class Custom_PU
     private static final String BASE_URL = "jdbc:postgresql://localhost:5432/";
     private static String URL = "";
     private static final String USER = "postgres";
-    private static final String PWD = "Crsdb008.";
+    private static final String PWD = "ROOT";
     private static PGSimpleDataSource ods;
 
     public static void setDB(String db)
@@ -115,6 +115,53 @@ public class Custom_PU
                             }
                         }
                         field.set(x, inner_x);
+                    }
+                }
+                objList.add(x);
+            }
+        } catch (Exception e)
+        {
+            System.out.println(e.getMessage() + " " + e.getCause());
+        }
+        return objList;
+    }
+
+    public static ArrayList<Object> GetQueryObjectList(Object template, String query) throws SQLException, InstantiationException, IllegalAccessException
+    {
+        ods = new PGSimpleDataSource();
+        ods.setURL(URL);
+        ods.setUser(USER);
+        ods.setPassword(PWD);
+        ArrayList<Object> objList = new ArrayList<>();
+
+        try (Connection conn = ods.getConnection(); Statement stmt = conn.createStatement();
+                ResultSet rset = stmt.executeQuery(query))
+        {
+            while (rset.next())
+            {
+                Object x = template.getClass().newInstance();
+                for (Field field : x.getClass().getDeclaredFields())
+                {
+                    field.setAccessible(true);
+                    if (field.isAnnotationPresent(RelatedColumn.class))
+                    {
+                        String col_name = field.getAnnotation(RelatedColumn.class).value();
+                        if (field.getType().equals(String.class))
+                        {
+                            field.set(x, rset.getString(col_name));
+                        } else if (field.getType().equals(Integer.class))
+                        {
+                            field.set(x, rset.getInt(col_name));
+                        } else if (field.getType().equals(Date.class))
+                        {
+                            field.set(x, rset.getDate(col_name));
+                        } else if (field.getType().equals(Double.class))
+                        {
+                            field.set(x, rset.getDouble(col_name));
+                        } else if (field.getType().equals(Float.class))
+                        {
+                            field.set(x, rset.getFloat(col_name));
+                        }
                     }
                 }
                 objList.add(x);

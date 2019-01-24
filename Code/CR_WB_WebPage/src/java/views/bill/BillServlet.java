@@ -25,16 +25,22 @@ import model.WB_CR_USER;
  * @author wason
  */
 @WebServlet(name = "BillServlet", urlPatterns
-        = {
+        =
+        {
             "/BillServlet"
         })
-public class BillServlet extends HttpServlet {
+public class BillServlet extends HttpServlet
+{
 
-    public BillServlet() {
-        if (persistance.BillPersistance.getInstance().getObjectList().isEmpty()) {
-            try {
+    public BillServlet()
+    {
+        if (persistance.BillPersistance.getInstance().getObjectList().isEmpty())
+        {
+            try
+            {
                 persistance.BillPersistance.getInstance().loadObjectList();
-            } catch (RemoteException ex) {
+            } catch (RemoteException ex)
+            {
                 System.out.println(ex.getMessage());
             }
         }
@@ -50,9 +56,11 @@ public class BillServlet extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter())
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -77,19 +85,28 @@ public class BillServlet extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billList.jsp");
         request.setAttribute("objList",
                 persistance.BillPersistance.getInstance().getObjectList());
-        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER()))
+        {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
             Arrays.sort(permission);
             request.setAttribute("permission", permission);
-        } else {
-            request.setAttribute("permission", new String[]{});
+            request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
+
+        } else
+        {
+            request.setAttribute("permission", new String[]
+            {
+            });
+            request.setAttribute("user_name", "temp_user");
         }
-        if (dispatcher != null) {
+        if (dispatcher != null)
+        {
             dispatcher.forward(request, response);
         }
     }
@@ -104,13 +121,16 @@ public class BillServlet extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billList.jsp");
         ArrayList<model.WB_CR_BILL> filtered_list = new ArrayList<>();
         persistance.BillPersistance.getInstance().getObjectList().forEach(x
-                -> {
-            if (x.getClient().getClient_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
+                ->
+        {
+            if (x.getClient().getClient_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase()))
+            {
                 filtered_list.add(x);
             }
         });
@@ -118,7 +138,8 @@ public class BillServlet extends HttpServlet {
                 filtered_list);
         request.setAttribute("objList",
                 persistance.BillPersistance.getInstance().getObjectList());
-        if (dispatcher != null) {
+        if (dispatcher != null)
+        {
             dispatcher.forward(request, response);
         }
     }
@@ -129,7 +150,8 @@ public class BillServlet extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 

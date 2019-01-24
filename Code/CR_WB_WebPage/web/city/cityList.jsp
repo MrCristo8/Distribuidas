@@ -158,7 +158,7 @@
             <div class="row">
                 <div class="chatbox chatbox22 chatbox--tray">
                     <div class="chatbox__title">
-                        <h5><a href="javascript:void()">Support</a></h5>
+                        <h5><a href="">Support</a></h5>
                         <!--<button class="chatbox__title__tray">
                             <span></span>
                         </button>-->
@@ -172,14 +172,15 @@
                         </button>
                     </div>
                     <div class="chatbox__body">
+                        <input type="hidden" id="user_name" value="${user_name}"/>
                         <div class="chatbox__body__message chatbox__body__message--right" id="msg">
                         </div>
                     </div>
                     <div class="panel-footer">
                         <div class="input-group">
-                            <input id="btn-input" type="text" class="form-control input-sm chat_set_height" placeholder="Type your message here..." tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" contenteditable="true" />
+                            <input id="msg_input" type="text" class="form-control input-sm chat_set_height" placeholder="Type your message here..." tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" contenteditable="true" />
                             <span class="input-group-btn">
-                                <button class="btn bt_bg btn-sm" id="btn-chat">
+                                <button class="btn bt_bg btn-sm" id="btn_chat">
                                     Send</button>
                             </span>
                         </div>
