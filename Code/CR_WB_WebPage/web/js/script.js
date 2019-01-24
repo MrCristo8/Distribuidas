@@ -6,7 +6,9 @@
  * 
  * 
  */
-
+$(document).ready(function () {
+    $('[data-toggle=tooltip]').tooltip();
+});
 (function ($) {
     $(document).ready(function () {
         var url = 'ws://' + window.location.host + '/CR_WB_WebPage/chat';
