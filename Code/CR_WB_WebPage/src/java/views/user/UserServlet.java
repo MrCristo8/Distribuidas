@@ -142,6 +142,20 @@ public class UserServlet extends HttpServlet
                 filtered_list);
         request.setAttribute("objList",
                 persistance.UserPersistance.getInstance().getObjectList());
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER()))
+        {
+            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            Arrays.sort(permission);
+            request.setAttribute("permission", permission);
+            request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
+
+        } else
+        {
+            request.setAttribute("permission", new String[]
+            {
+            });
+            request.setAttribute("user_name", "temp_user");
+        }
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);

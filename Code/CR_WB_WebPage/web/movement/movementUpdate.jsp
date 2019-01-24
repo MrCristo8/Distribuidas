@@ -98,7 +98,7 @@
                                 <input type="text" name="direction" class="form-control" value="${movement.movement_direction}">
                                 <span class="help-block"></span>
                             </div>
-                            <input type="hidden" name="id" value="${movemnet.movement_id}"/>
+                            <input type="hidden" name="id" value="${movement.movement_id}"/>
                             <input type="submit" class="btn btn-primary" value="Submit">
                             <a href="/CR_WB_WebPage/MovementServlet" class="btn btn-default">Cancel</a>
                         </form>

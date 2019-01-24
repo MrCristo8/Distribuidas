@@ -23,8 +23,12 @@ import model.WB_CR_USER;
  *
  * @author csrm1
  */
-@WebServlet(name = "CityUpdate", urlPatterns = {"/CityUpdate"})
-public class CityUpdate extends HttpServlet {
+@WebServlet(name = "CityUpdate", urlPatterns =
+{
+    "/CityUpdate"
+})
+public class CityUpdate extends HttpServlet
+{
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -36,9 +40,11 @@ public class CityUpdate extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter())
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -63,20 +69,26 @@ public class CityUpdate extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         Integer id = Integer.parseInt(request.getParameter("city_id"));
         int pos = persistance.CityPersistance.getInstance().getObjectList().indexOf(new WB_CR_CITY(id));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/city/cityUpdate.jsp");
         request.setAttribute("city", persistance.CityPersistance.getInstance().getObjectList().get(pos));
-        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER()))
+        {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
             Arrays.sort(permission);
             request.setAttribute("permission", permission);
-        } else {
-            request.setAttribute("permission", new String[]{});
+        } else
+        {
+            request.setAttribute("permission", new String[]
+            {
+            });
         }
-        if (dispatcher != null) {
+        if (dispatcher != null)
+        {
             dispatcher.forward(request, response);
         }
     }
@@ -91,14 +103,17 @@ public class CityUpdate extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         PrintWriter out = response.getWriter();
         Integer id = Integer.parseInt(request.getParameter("id"));
-        if (!request.getParameter("name").equals("")) {
+        if (!request.getParameter("name").equals(""))
+        {
             String state = "UPDATED";
             int pos = persistance.CityPersistance.getInstance().
                     getObjectList().indexOf(new WB_CR_CITY(id));
-            if (persistance.CityPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED")) {
+            if (persistance.CityPersistance.getInstance().getObjectList().get(pos).getState().equals("CREATED"))
+            {
                 state = "CREATED";
             }
             WB_CR_CITY updated_record = new WB_CR_CITY(
@@ -110,7 +125,8 @@ public class CityUpdate extends HttpServlet {
             persistance.CityPersistance.getInstance().
                     getObjectList().add(pos, updated_record);
             response.sendRedirect("/CR_WB_WebPage/CityServlet");
-        } else {
+        } else
+        {
             response.setContentType("text/html");
             out.println("<script> alert('Debes ingresar un nombre antes de continuar'); </script>");
             response.sendRedirect("/CR_WB_WebPage/CityUpdate?city_id=" + id);
@@ -123,7 +139,8 @@ public class CityUpdate extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 
