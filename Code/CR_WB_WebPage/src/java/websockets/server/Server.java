@@ -52,7 +52,10 @@ public class Server
         System.out.println(message.getText());
         for (Session peer : peers)
         {
-            peer.getBasicRemote().sendObject(message);
+            if (!peer.getId().equals(session.getId()))
+            {
+                peer.getBasicRemote().sendObject(message);
+            }
         }
     }
 

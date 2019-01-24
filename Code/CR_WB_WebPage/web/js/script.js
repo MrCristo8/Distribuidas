@@ -53,6 +53,10 @@
                 date: new Date().toLocaleString()
             };
 
+            let display = msg.name + ', ' + msg.date + ': ' + msg.text;
+
+            $msg_display.html($msg_display.html() + '</br>' + display);
+
             $message.val("");
 
             ws.send(JSON.stringify(msg));
