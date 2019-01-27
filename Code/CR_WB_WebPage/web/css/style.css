@@ -176,33 +176,17 @@ table tr td:last-child a{
     box-shadow: 1px 1px rgba(100, 100, 100, 0.1);
 }
 
-.chatbox__body__message img {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    border: 2px solid #fcfcfc;
-    position: absolute;
-    top: 15px;
-}
-
 .chatbox__body__message--left p {
     margin-left: 15px;
     padding-left: 30px;
-    text-align: left;padding-top: 25px;
-}
-
-.chatbox__body__message--left img {
-    left: -5px;
+    text-align: left;
+    padding-top: 25px;
 }
 
 .chatbox__body__message--right p {
     margin-right: 15px;
     padding-right: 30px;
     text-align: right;
-}
-
-.chatbox__body__message--right img {
-    right: -5px;
 }
 
 .chatbox__message {
@@ -239,7 +223,7 @@ table tr td:last-child a{
 }
 .chatbox_timing {
     position: absolute;
-    right: 10px;
+    right: 20px;
     font-size: 12px;
     top: 2px;
 }
@@ -263,7 +247,7 @@ table tr td:last-child a{
     text-align: right;
     border-radius: 4px;
     font-size: 14px;
-    background-color: #fff;
+    background-color: rgb(199, 240, 194);
     -webkit-box-shadow: 1px 1px rgba(100, 100, 100, 0.1);
     box-shadow: 1px 1px rgba(100, 100, 100, 0.1);margin-bottom: 15px;
     padding-bottom: 5px;padding-top:15px;
@@ -278,7 +262,7 @@ table tr td:last-child a{
     margin-bottom: 15px;
     border-radius: 4px;
     font-size: 14px;
-    background-color: #fff;
+    background-color: rgb(194, 240, 240);
     -webkit-box-shadow: 1px 1px rgba(100, 100, 100, 0.1);
     box-shadow: 1px 1px rgba(100, 100, 100, 0.1);
 

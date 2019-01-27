@@ -13,7 +13,6 @@
     var ws = new WebSocket(url);
     let msg_display = document.getElementById('msg_display');
     var send_btn = document.getElementById('msg_btn');
-    let username = document.getElementById('user_name');
     let message = document.getElementById('msg_txt');
 
     ws.onopen = onOpen;
@@ -40,9 +39,13 @@
             date: new Date().toLocaleString()
         };
 
-        let display = username.value + ', ' + msg.date + ': ' + msg.text;
-
-        msg_display.innerHTML += '</br>' + display;
+        let display = '<div class="outgoing_msg">'+
+                        '<div class="sent_msg">'+
+                            '<p>'+msg.text+'</p>'+
+                            '<span class="time_date">'+msg.date+'</span>'+
+                        '</div>'+
+                    '</div>';
+        msg_display.innerHTML += display;
 
         ws.send(JSON.stringify(msg));
     }
@@ -50,10 +53,15 @@
     function onMessage(event)
     {
         var obj = JSON.parse(event.data);
-        let msg = obj.name + ', ' + obj.date + ': ' + obj.text;
-
-        msg_display.innerHTML += '</br>' + msg;
-
+        let msg = '<div class="incoming_msg">'+
+                    '<div class="received_msg">'+
+                        '<div class="received_withd_msg">'+
+                             '<p>'+obj.name+': '+obj.text+'</p>'+
+                            '<span class="time_date">'+obj.date+'</span>'+
+                        '</div>'+
+                    '</div>'+
+                  '</div>';
+      
+        msg_display.innerHTML += msg;
     }
-
 })(window, document, JSON);

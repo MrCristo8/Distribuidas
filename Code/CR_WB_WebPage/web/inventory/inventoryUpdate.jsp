@@ -1,7 +1,7 @@
 <%-- 
-    Document   : billView
-    Created on : 18/01/2019, 10:19:24 PM
-    Author     : wason
+    Document   : inventoryUpdate
+    Created on : Jan 27, 2019, 11:48:27 AM
+    Author     : csrm1
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Bill</title>
+        <title>Inventory Update</title>
         <style type=text/css>
             .wrapper{
                 width: auto;
@@ -100,48 +100,76 @@
                 <div class=row>
                     <div class=col-md-12>
                         <div class=page-header clearfix>
-                            <h2 class="pull-left">Bill Details</h2>                            
+                            <h2 class="pull-left">Inventory Details</h2>                            
                         </div>
                         <br><br>
-                        <form>
-                            <div class="form-row">
+                        <form  action="/CR_WB_WebPage/InventoryUpdate" method="post">
+                            <input type="hidden" name="inventory_id" value="${inventory.inventory_id}"/>                            
+                            <div class="form-row">                                
                                 <div class="col">
-                                    <label for="bill_id">Bill ID</label>
-                                    <input  id="bill_id" type="text" readonly class="form-control" value="${bill.bill_id}">
+                                    <label for="inventory_date">Inventory Date</label>
+                                    <input id="bill_date" name ="inventory_date" type="date" class="form-control" value="${inventory.inventory_date}">
                                 </div>
                                 <div class="col">
-                                    <label for="bill_date">Bill Date</label>
-                                    <input id="bill_date" type="text" readonly class="form-control" value="${bill.bill_date}">
+                                    <label for="client">Movement Name</label>
+                                    <select class="form-control" name="movement">
+                                        <c:forEach items="${movement_arr}" var="x">
+                                            <c:choose>
+                                                <c:when test="${inventory.movement_id==x.movement_id}">
+                                                    <option selected value="${x.movement_id}"> ${x.movement_name}</option>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <option value="${x.movement_id}"> ${x.movement_name}</option>
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </c:forEach>
+                                    </select>
                                 </div>
-                                <div class="col">
-                                    <label for="client_id">Client DNI</label>
-                                    <input id="client_id" type="text" readonly class="form-control" value="${bill.client.client_dni}">
-                                </div>
-                                <div class="col">
-                                    <label for="city_name">City</label>
-                                    <input  id="city_name" type="text" readonly class="form-control" value="${bill.city.city_name}">
+                                <div class = "col-md-2">
+                                    <label for="submit_inventory">Actions</label>
+                                    <input id="submit_inventory" type="submit" class="form-control btn-success" value="Submit Inventory">
                                 </div>
                             </div>
                         </form>
                         <br>
-                        <table class='table table-bordered table-striped'>
-                            <thead>
-                                <tr>
-                                    <th>Article Name</th>
-                                    <th>Article Ammount</th>   
-                                    <th>Article Price</th>                                    
-                                </tr>
-                            </thead>   
-                            <c:forEach items="${detail_arr}" var="y">
-                                <c:if test="${y.state!='DELETED'}">
-                                    <tr>      
-                                        <td> ${y.article.article_name} </td>
-                                        <td> ${y.detail_ammount} </td>
-                                        <td> ${y.article.article_price} </td>                                                                                  
+                        <form action="/CR_WB_WebPage/InventoryDetailInsert" method="post">
+                            <input type="hidden" name="inventory_id" value="${inventory.inventory_id}"/>
+                            <input type="hidden" name="operation" value="update"/>
+                            <table class='table table-bordered table-striped'>
+                                <thead>
+                                    <tr>
+                                        <th>Article Name</th>
+                                        <th>Article Ammount</th>   
+                                        <th>Actions</th>                                    
                                     </tr>
-                                </c:if>
-                            </c:forEach>
-                        </table>
+                                </thead>   
+                                <c:forEach items="${detail_arr}" var="y">
+                                    <c:if test="${y.state!='DELETED'}">
+                                        <tr>      
+                                            <td> ${y.article.article_name} </td>
+                                            <td> ${y.detail_ammount} </td>
+                                            <td>
+                                                <a href='/CR_WB_WebPage/InventoryDetailDelete?article_id=${y.article_id}' title='Delete Record' 
+                                                   data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
+                                                <a href='/CR_WB_WebPage/InventoryDetailUpdate?article_id=${y.article_id}' title='Update Record' 
+                                                   data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">edit</i></a>
+                                            </td>
+                                        </tr>
+                                    </c:if>
+                                </c:forEach>
+                                <tr>
+                                    <td>
+                                        <select class="form-control" name="article">
+                                            <c:forEach items="${article_arr}" var="x">
+                                                <option value="${x.article_id}"> ${x.article_name}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </td>
+                                    <td><input type="text" class="form-control" name="detail_amount"></td>
+                                    <td><input type="submit" class="form-control btn-primary" value="Add"></td>
+                                </tr>
+                            </table>
+                        </form>
                     </div>
                 </div>
             </div>

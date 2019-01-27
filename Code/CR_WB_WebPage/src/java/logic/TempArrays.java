@@ -7,6 +7,7 @@ package logic;
 
 import java.util.ArrayList;
 import model.WB_CR_BILLDETAIL;
+import model.WB_CR_INVENTORY_DETAIL;
 import model.WB_CR_USER;
 
 /**
@@ -18,10 +19,12 @@ public class TempArrays {
     private static TempArrays uniqueInstance;
 
     private ArrayList<model.WB_CR_BILLDETAIL> tempBillDetailArr;
+    private ArrayList<model.WB_CR_INVENTORY_DETAIL> tempInventoryDetailArr;
     private WB_CR_USER user;
 
     private TempArrays() {
         tempBillDetailArr = new ArrayList<>();
+        tempInventoryDetailArr=new ArrayList<>();
         user = new WB_CR_USER();
     }
 
@@ -42,6 +45,10 @@ public class TempArrays {
 
     public void setUser(WB_CR_USER user) {
         this.user = user;
+    }
+
+    public ArrayList<WB_CR_INVENTORY_DETAIL> getTempInventoryDetailArr() {
+        return tempInventoryDetailArr;
     }
     
 }

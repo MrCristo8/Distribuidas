@@ -1,7 +1,7 @@
 <%-- 
-    Document   : billView
-    Created on : 18/01/2019, 10:19:24 PM
-    Author     : wason
+    Document   : inventoryView
+    Created on : Jan 27, 2019, 10:46:37 AM
+    Author     : csrm1
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -10,7 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Bill</title>
+        <title>Inventory</title>
         <style type=text/css>
             .wrapper{
                 width: auto;
@@ -100,26 +100,22 @@
                 <div class=row>
                     <div class=col-md-12>
                         <div class=page-header clearfix>
-                            <h2 class="pull-left">Bill Details</h2>                            
+                            <h2 class="pull-left">Inventory Details</h2>                            
                         </div>
                         <br><br>
                         <form>
                             <div class="form-row">
                                 <div class="col">
-                                    <label for="bill_id">Bill ID</label>
-                                    <input  id="bill_id" type="text" readonly class="form-control" value="${bill.bill_id}">
+                                    <label for="inventory_id">Inventory ID</label>
+                                    <input  id="inventory_id" type="text" readonly class="form-control" value="${inventory.inventory_id}">
                                 </div>
                                 <div class="col">
-                                    <label for="bill_date">Bill Date</label>
-                                    <input id="bill_date" type="text" readonly class="form-control" value="${bill.bill_date}">
+                                    <label for="inventory_date">Inventory Date</label>
+                                    <input id="inventory_date" type="text" readonly class="form-control" value="${inventory.inventory_date}">
                                 </div>
                                 <div class="col">
-                                    <label for="client_id">Client DNI</label>
-                                    <input id="client_id" type="text" readonly class="form-control" value="${bill.client.client_dni}">
-                                </div>
-                                <div class="col">
-                                    <label for="city_name">City</label>
-                                    <input  id="city_name" type="text" readonly class="form-control" value="${bill.city.city_name}">
+                                    <label for="movement_name">Movement Name</label>
+                                    <input id="movement_name" type="text" readonly class="form-control" value="${inventory.movement.movement_name}">
                                 </div>
                             </div>
                         </form>

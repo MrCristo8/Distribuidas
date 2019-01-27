@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.bill;
+package views.inventory;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -18,18 +18,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import model.WB_CR_BILL;
-import model.WB_CR_BILLDETAIL;
+import model.WB_CR_INVENTORY;
+import model.WB_CR_INVENTORY_DETAIL;
 
 /**
  *
- * @author wason
+ * @author csrm1
  */
-@WebServlet(name = "BillInsert", urlPatterns
-        = {
-            "/BillInsert"
-        })
-public class BillInsert extends HttpServlet {
+@WebServlet(name = "InventoryInsert", urlPatterns = {"/InventoryInsert"})
+public class InventoryInsert extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -48,10 +45,10 @@ public class BillInsert extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BillInsert</title>");
+            out.println("<title>Servlet InventoryInsert</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BillInsert at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet InventoryInsert at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -70,19 +67,18 @@ public class BillInsert extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billInsert.jsp");
-        request.setAttribute("city_arr", persistance.CityPersistance.getInstance().getObjectList());
-        request.setAttribute("client_arr", persistance.ClientPersistance.getInstance().getObjectList());
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/inventory/inventoryInsert.jsp");
+        request.setAttribute("movement_arr", persistance.MovementPersistance.getInstance().getObjectList());
         request.setAttribute("article_arr", persistance.ArticlePersistance.getInstance().getObjectList());
-        request.setAttribute("detail_arr", logic.TempArrays.getInstance().getTempBillDetailArr());
+        request.setAttribute("detail_arr", logic.TempArrays.getInstance().getTempInventoryDetailArr());
         Integer id = 1;
-        for (WB_CR_BILL bill : persistance.BillPersistance.getInstance().getObjectList()) {
-            if (!Objects.equals(bill.getBill_id(), id)) {
+        for (WB_CR_INVENTORY inventory : persistance.InventoryPersistance.getInstance().getObjectList()) {
+            if (!Objects.equals(inventory.getInventory_id(), id)) {
                 break;
             }
             id++;
         }
-        request.setAttribute("bill_id", id);
+        request.setAttribute("inventory_id", id);
         if (dispatcher != null) {
             dispatcher.forward(request, response);
         }
@@ -100,34 +96,37 @@ public class BillInsert extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
-            Date bill_date = new Date(request.getParameter("bill_date").replace("-", "/"));
-            Integer bill_id = Integer.parseInt(request.getParameter("bill_id"));
-            Integer client_id = Integer.parseInt(request.getParameter("client"));
-            Integer city_id = Integer.parseInt(request.getParameter("city"));
+            Date inventory_date = new Date(request.getParameter("inventory_date").replace("-", "/"));
+            Integer inventory_id = Integer.parseInt(request.getParameter("inventory_id"));
+            Integer movement_id = Integer.parseInt(request.getParameter("movement"));
 
-            HashMap<Integer, model.WB_CR_BILLDETAIL> detail_list = new HashMap<>();
-            logic.TempArrays.getInstance().getTempBillDetailArr().forEach(x
+            HashMap<Integer, model.WB_CR_INVENTORY_DETAIL> detail_list = new HashMap<>();
+            logic.TempArrays.getInstance().getTempInventoryDetailArr().forEach(x
                     -> {
                 if (!detail_list.containsKey(x.getArticle_id())) {
                     detail_list.put(x.getArticle_id(), x);
                 } else {
-                    model.WB_CR_BILLDETAIL temp = detail_list.get(x.getArticle_id());
-                    temp.setDetail_ammount(temp.getDetail_ammount() + x.getDetail_ammount());
+                    model.WB_CR_INVENTORY_DETAIL temp = detail_list.get(x.getArticle_id());
+                    temp.setArticle_ammount(temp.getArticle_ammount() + x.getArticle_ammount());
                     detail_list.replace(x.getArticle_id(), temp);
                 }
             });
-            WB_CR_BILL bill_item = new WB_CR_BILL(bill_id, bill_date, client_id, city_id, "CREATED");
-            int pos = persistance.ClientPersistance.getInstance().getObjectList().indexOf(new model.WB_CR_CLIENT(client_id));
-            bill_item.setClient(persistance.ClientPersistance.getInstance().getObjectList().get(pos));
-            pos = persistance.CityPersistance.getInstance().getObjectList().indexOf(new model.WB_CR_CITY(city_id));
-            bill_item.setCity(persistance.CityPersistance.getInstance().getObjectList().get(pos));
-            persistance.BillPersistance.getInstance().getObjectList().add(
+            WB_CR_INVENTORY bill_item = new WB_CR_INVENTORY(inventory_id, movement_id, inventory_date, "CREATED");
+            int pos = persistance.MovementPersistance.getInstance().getObjectList().indexOf(new model.WB_CR_MOVEMENT(movement_id));
+            bill_item.setMovement(persistance.MovementPersistance.getInstance().getObjectList().get(pos));
+            persistance.InventoryPersistance.getInstance().getObjectList().add(
                     bill_item);
-            detail_list.entrySet().forEach((Map.Entry<Integer, WB_CR_BILLDETAIL> me)
+            detail_list.entrySet().forEach((Map.Entry<Integer, WB_CR_INVENTORY_DETAIL> me)
                     -> {
-                WB_CR_BILLDETAIL detail_item = me.getValue();
+                WB_CR_INVENTORY_DETAIL detail_item = me.getValue();
                 model.WB_CR_ARTICLE article_from_detail = detail_item.getArticle();
-                Integer updated_stock = article_from_detail.getArticle_stock() - detail_item.getDetail_ammount();
+                Integer updated_stock;
+                if (detail_item.getInventory().getMovement().getMovement_direction().equals('-')) {
+                    updated_stock = article_from_detail.getArticle_stock() - detail_item.getArticle_ammount();
+                }
+                else{
+                    updated_stock = article_from_detail.getArticle_stock() + detail_item.getArticle_ammount();
+                }
                 if (updated_stock >= 0) {
                     article_from_detail.setArticle_stock(updated_stock);
                     article_from_detail.setState("UPDATED");
@@ -135,22 +134,21 @@ public class BillInsert extends HttpServlet {
                     persistance.ArticlePersistance.getInstance().getObjectList().remove(art_pos);
                     persistance.ArticlePersistance.getInstance().getObjectList().add(art_pos, article_from_detail);
                     detail_item.setState("CREATED");
-                    persistance.BillDetailPersistance.getInstance().getObjectList().add(
+                    persistance.InventoryDetailPersistance.getInstance().getObjectList().add(
                             detail_item);
                 }
 
             });
-            logic.TempArrays.getInstance().getTempBillDetailArr().clear();
-            response.sendRedirect("/CR_WB_WebPage/BillServlet");
+            logic.TempArrays.getInstance().getTempInventoryDetailArr().clear();
+            response.sendRedirect("/CR_WB_WebPage/InventoryServlet");
 
         } catch (IOException | NumberFormatException ex) {
             PrintWriter out = response.getWriter();
             System.out.println(ex.getMessage());
             response.setContentType("text/html");
             out.println("<script> alert('Debes ingresar un valor valido antes de continuar'); </script>");
-            response.sendRedirect("/CR_WB_WebPage/BillServlet");
+            response.sendRedirect("/CR_WB_WebPage/InventoryServlet");
         }
-
     }
 
     /**
