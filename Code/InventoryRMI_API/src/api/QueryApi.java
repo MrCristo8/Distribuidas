@@ -29,11 +29,10 @@ public class QueryApi extends UnicastRemoteObject implements contract.QueryContr
             + "	wb_cr_movement.movement_id = wb_cr_inventory.movement_id\n"
             + "	GROUP BY wb_cr_movement.movement_id, a.article_name, wb_cr_movement.movement_name";
 
-    private static final String SALES_CITY_QUERY = "select sum(a.ARTICLE_PRICE*b.DETAIL_AMOUNT) as spent_ammount,\n"
-            + " a.ARTICLE_NAME, d.CITY_NAME  from\n"
-            + " WB_CR_ARTICLE a inner join WB_CR_BILLDETAIL b on a.ARTICLE_ID=b.ARTICLE_ID \n"
-            + " inner join WB_CR_BILL c on b.BILL_ID=c.BILL_ID inner join WB_CR_CITY d on c.CITY_ID=d.CITY_ID\n"
-            + " GROUP BY ARTICLE_NAME, CITY_NAME";
+    private static final String SALES_CITY_QUERY = "select sum(a.ARTICLE_PRICE*b.DETAIL_AMOUNT) as spent_ammount, d.CITY_NAME  from\n"
+            + "WB_CR_ARTICLE a inner join WB_CR_BILLDETAIL b on a.ARTICLE_ID=b.ARTICLE_ID\n"
+            + "inner join WB_CR_BILL c on b.BILL_ID=c.BILL_ID inner join WB_CR_CITY d on c.CITY_ID=d.CITY_ID\n"
+            + "GROUP BY CITY_NAME";
 
     private static final String CLIENT_ARTICLE_QUERY = "select a.CLIENT_NAME, d.ARTICLE_NAME, sum(c.DETAIL_AMOUNT*d.ARTICLE_PRICE) TOTAL_SOLD\n"
             + "	from WB_CR_CLIENT a inner join WB_CR_BILL b on a.CLIENT_ID=b.CLIENT_ID\n"

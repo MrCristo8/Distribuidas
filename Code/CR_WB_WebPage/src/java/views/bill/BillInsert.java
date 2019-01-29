@@ -29,10 +29,12 @@ import model.WB_CR_USER;
  * @author wason
  */
 @WebServlet(name = "BillInsert", urlPatterns
-        = {
+        =
+        {
             "/BillInsert"
         })
-public class BillInsert extends HttpServlet {
+public class BillInsert extends HttpServlet
+{
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -44,9 +46,11 @@ public class BillInsert extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
+        try (PrintWriter out = response.getWriter())
+        {
             /* TODO output your page here. You may use following sample code. */
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -71,7 +75,8 @@ public class BillInsert extends HttpServlet {
      */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws ServletException, IOException
+    {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billInsert.jsp");
         request.setAttribute("city_arr", persistance.CityPersistance.getInstance().getObjectList());
@@ -79,24 +84,31 @@ public class BillInsert extends HttpServlet {
         request.setAttribute("article_arr", persistance.ArticlePersistance.getInstance().getObjectList());
         request.setAttribute("detail_arr", logic.TempArrays.getInstance().getTempBillDetailArr());
         Integer id = 1;
-        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER()))
+        {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
             Arrays.sort(permission);
             request.setAttribute("permission", permission);
             request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
 
-        } else {
-            request.setAttribute("permission", new String[]{});
+        } else
+        {
+            request.setAttribute("permission", new String[]
+            {
+            });
             request.setAttribute("user_name", "temp_user");
         }
-        for (WB_CR_BILL bill : persistance.BillPersistance.getInstance().getObjectList()) {
-            if (!Objects.equals(bill.getBill_id(), id)) {
+        for (WB_CR_BILL bill : persistance.BillPersistance.getInstance().getObjectList())
+        {
+            if (!Objects.equals(bill.getBill_id(), id))
+            {
                 break;
             }
             id++;
         }
         request.setAttribute("bill_id", id);
-        if (dispatcher != null) {
+        if (dispatcher != null)
+        {
             dispatcher.forward(request, response);
         }
     }
@@ -111,16 +123,22 @@ public class BillInsert extends HttpServlet {
      */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+            throws ServletException, IOException
+    {
+        try
+        {
+            if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER()))
+            {
                 String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
                 Arrays.sort(permission);
                 request.setAttribute("permission", permission);
                 request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
 
-            } else {
-                request.setAttribute("permission", new String[]{});
+            } else
+            {
+                request.setAttribute("permission", new String[]
+                {
+                });
                 request.setAttribute("user_name", "temp_user");
             }
             Date bill_date = new Date(request.getParameter("bill_date").replace("-", "/"));
@@ -130,10 +148,13 @@ public class BillInsert extends HttpServlet {
 
             HashMap<Integer, model.WB_CR_BILLDETAIL> detail_list = new HashMap<>();
             logic.TempArrays.getInstance().getTempBillDetailArr().forEach(x
-                    -> {
-                if (!detail_list.containsKey(x.getArticle_id())) {
+                    ->
+            {
+                if (!detail_list.containsKey(x.getArticle_id()))
+                {
                     detail_list.put(x.getArticle_id(), x);
-                } else {
+                } else
+                {
                     model.WB_CR_BILLDETAIL temp = detail_list.get(x.getArticle_id());
                     temp.setDetail_ammount(temp.getDetail_ammount() + x.getDetail_ammount());
                     detail_list.replace(x.getArticle_id(), temp);
@@ -147,11 +168,13 @@ public class BillInsert extends HttpServlet {
             persistance.BillPersistance.getInstance().getObjectList().add(
                     bill_item);
             detail_list.entrySet().forEach((Map.Entry<Integer, WB_CR_BILLDETAIL> me)
-                    -> {
+                    ->
+            {
                 WB_CR_BILLDETAIL detail_item = me.getValue();
                 model.WB_CR_ARTICLE article_from_detail = detail_item.getArticle();
                 Integer updated_stock = article_from_detail.getArticle_stock() - detail_item.getDetail_ammount();
-                if (updated_stock >= 0) {
+                if (updated_stock >= 0)
+                {
                     article_from_detail.setArticle_stock(updated_stock);
                     article_from_detail.setState("UPDATED");
                     int art_pos = persistance.ArticlePersistance.getInstance().getObjectList().indexOf(article_from_detail);
@@ -166,7 +189,8 @@ public class BillInsert extends HttpServlet {
             logic.TempArrays.getInstance().getTempBillDetailArr().clear();
             response.sendRedirect("/CR_WB_WebPage/BillServlet");
 
-        } catch (IOException | NumberFormatException ex) {
+        } catch (IOException | NumberFormatException ex)
+        {
             PrintWriter out = response.getWriter();
             System.out.println(ex.getMessage());
             response.setContentType("text/html");
@@ -182,7 +206,8 @@ public class BillInsert extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo()
+    {
         return "Short description";
     }// </editor-fold>
 

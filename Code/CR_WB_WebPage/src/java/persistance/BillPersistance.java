@@ -28,8 +28,8 @@ public class BillPersistance
         try
         {
             object_list = new ArrayList<>();
-            Registry reg = LocateRegistry.getRegistry("127.0.0.1", 1099);
-            iface = (Contract) reg.lookup("rmi://localhost:1099/BillAPI");
+            Registry reg = LocateRegistry.getRegistry(util.Strings.IP, 1099);
+            iface = (Contract) reg.lookup("rmi://" + util.Strings.IP + ":1099/BillAPI");
         } catch (RemoteException | NotBoundException ex)
         {
             System.out.println(ex.getMessage());

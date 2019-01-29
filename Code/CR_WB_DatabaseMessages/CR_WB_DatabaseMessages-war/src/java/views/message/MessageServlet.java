@@ -3,12 +3,16 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.bill;
+package views.message;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
+import javax.annotation.Resource;
+import javax.jms.Connection;
+import javax.jms.JMSException;
+import javax.jms.MapMessage;
+import javax.jms.MessageProducer;
+import javax.jms.Session;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -16,22 +20,22 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.TempArrays;
-import model.WB_CR_BILL;
-import model.WB_CR_BILLDETAIL;
-import model.WB_CR_USER;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "BillView", urlPatterns
-        =
-        {
-            "/BillView"
-        })
-public class BillView extends HttpServlet
+@WebServlet(name = "MessageServlet", urlPatterns =
 {
+    "/MessageServlet"
+})
+public class MessageServlet extends HttpServlet
+{
+
+    @Resource(mappedName = "conection_jms")
+    javax.jms.QueueConnectionFactory queueConnection;
+    @Resource(mappedName = "destiny_jms")
+    javax.jms.Queue queue;
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,10 +56,10 @@ public class BillView extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BillView</title>");
+            out.println("<title>Servlet MessageServlet</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BillView at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet MessageServlet at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -74,32 +78,8 @@ public class BillView extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        Integer id = Integer.parseInt(request.getParameter("bill_id"));
-        int pos = persistance.BillPersistance.getInstance().getObjectList().indexOf(new WB_CR_BILL(id));
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billView.jsp");
-        request.setAttribute("bill", persistance.BillPersistance.getInstance().getObjectList().get(pos));
-        ArrayList<WB_CR_BILLDETAIL> detail_arr = new ArrayList<>();
-
-        persistance.BillDetailPersistance.getInstance().getObjectList().forEach(x ->
-        {
-            if (x.getBill_id().equals(id))
-            {
-                detail_arr.add(x);
-            }
-        });
-        request.setAttribute("detail_arr", detail_arr);
-        if ((!TempArrays.getInstance().getUser().equals(new WB_CR_USER())))
-        {
-            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
-            Arrays.sort(permission);
-            request.setAttribute("permission", permission);
-        } else
-        {
-            request.setAttribute("permission", new String[]
-            {
-            });
-        }
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/message/messageSend.jsp");
         if (dispatcher != null)
         {
             dispatcher.forward(request, response);
@@ -118,7 +98,29 @@ public class BillView extends HttpServlet
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        processRequest(request, response);
+        String message_from = request.getParameter("message_from");
+        String message_body = request.getParameter("message_body");
+
+        try (Connection connection = queueConnection.createConnection();
+                Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+                MessageProducer producer = session.createProducer(queue))
+        {
+            MapMessage message = session.createMapMessage();
+            message.setString("message_from", message_from);
+            message.setString("message_body", message_body);
+            producer.send(message);
+        } catch (JMSException ex)
+        {
+            System.out.println(ex.getMessage());
+        }
+
+        ServletContext sc = getServletContext();
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/message/messageSend.jsp");
+        if (dispatcher != null)
+        {
+            dispatcher.forward(request, response);
+        }
+
     }
 
     /**
