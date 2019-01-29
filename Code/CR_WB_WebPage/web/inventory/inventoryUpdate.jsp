@@ -108,7 +108,7 @@
                             <div class="form-row">                                
                                 <div class="col">
                                     <label for="inventory_date">Inventory Date</label>
-                                    <input id="bill_date" name ="inventory_date" type="date" class="form-control" value="${inventory.inventory_date}">
+                                    <input id="inventory_date" name ="inventory_date" type="date" class="form-control" value="${inventory.inventory_date}">
                                 </div>
                                 <div class="col">
                                     <label for="client">Movement Name</label>
@@ -147,7 +147,7 @@
                                     <c:if test="${y.state!='DELETED'}">
                                         <tr>      
                                             <td> ${y.article.article_name} </td>
-                                            <td> ${y.detail_ammount} </td>
+                                            <td> ${y.article_ammount} </td>
                                             <td>
                                                 <a href='/CR_WB_WebPage/InventoryDetailDelete?article_id=${y.article_id}' title='Delete Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>

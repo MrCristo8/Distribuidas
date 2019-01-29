@@ -37,7 +37,7 @@ public class InventorySave extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InventorySave</title>");            
+            out.println("<title>Servlet InventorySave</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet InventorySave at " + request.getContextPath() + "</h1>");

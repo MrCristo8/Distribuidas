@@ -37,7 +37,7 @@ $(document).ready(function () {
         ws.onclose = function () {
             console.log('Disconected Client');
         };
-        ws.onmessage = function ()
+        ws.onmessage = function (event)
         {
             var obj = JSON.parse(event.data);
             let msg = '<div class="chatbox__body__message chatbox__body__message--right">'+		

@@ -120,7 +120,7 @@
                                 </div>
                                 <div class = "col-md-2">
                                     <label for="submit_inventory">Actions</label>
-                                    <input id="submit_bill" type="submit" class="form-control btn-success" value="Submit Inventory">
+                                    <input id="submit_inventory" type="submit" class="form-control btn-success" value="Submit Inventory">
                                 </div>
                             </div>
                         </form>
@@ -140,7 +140,7 @@
                                     <c:if test="${y.state!='DELETED'}">
                                         <tr>      
                                             <td> ${y.article.article_name} </td>
-                                            <td> ${y.detail_ammount} </td>
+                                            <td> ${y.article_ammount} </td>
                                             <td>
                                                 <a href='/CR_WB_WebPage/InventoryDetailDelete?article_id=${y.article_id}' title='Delete Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
