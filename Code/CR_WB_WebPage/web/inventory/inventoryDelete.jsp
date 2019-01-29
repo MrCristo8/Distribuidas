@@ -91,7 +91,7 @@
                         </div>
                         <form action="/CR_WB_WebPage/InventoryDelete" method="post">
                             <div class="alert alert-danger alert-dismissible fade show">                            
-                                <input type="hidden" name="bill_id" value="${bill_id}"/>
+                                <input type="hidden" name="inventory_id" value="${inventory_id}"/>
                                 <p>Are you shure you want to delete this inventory?</p><br>
                                 <p>
                                     <input type="submit" value="Yes" class="btn btn-danger">

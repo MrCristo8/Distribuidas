@@ -7,6 +7,7 @@ package views.bill;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,8 +19,10 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import logic.TempArrays;
 import model.WB_CR_BILL;
 import model.WB_CR_BILLDETAIL;
+import model.WB_CR_USER;
 
 /**
  *
@@ -76,6 +79,16 @@ public class BillInsert extends HttpServlet {
         request.setAttribute("article_arr", persistance.ArticlePersistance.getInstance().getObjectList());
         request.setAttribute("detail_arr", logic.TempArrays.getInstance().getTempBillDetailArr());
         Integer id = 1;
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            Arrays.sort(permission);
+            request.setAttribute("permission", permission);
+            request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
+
+        } else {
+            request.setAttribute("permission", new String[]{});
+            request.setAttribute("user_name", "temp_user");
+        }
         for (WB_CR_BILL bill : persistance.BillPersistance.getInstance().getObjectList()) {
             if (!Objects.equals(bill.getBill_id(), id)) {
                 break;
@@ -100,6 +113,16 @@ public class BillInsert extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try {
+            if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+                String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+                Arrays.sort(permission);
+                request.setAttribute("permission", permission);
+                request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
+
+            } else {
+                request.setAttribute("permission", new String[]{});
+                request.setAttribute("user_name", "temp_user");
+            }
             Date bill_date = new Date(request.getParameter("bill_date").replace("-", "/"));
             Integer bill_id = Integer.parseInt(request.getParameter("bill_id"));
             Integer client_id = Integer.parseInt(request.getParameter("client"));

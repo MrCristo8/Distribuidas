@@ -85,7 +85,7 @@
                     <div class=col-md-12>
                         <div class=page-header clearfix>
                             <h2 class="pull-left">Inventory Details</h2>
-                            <form action="BillSave" method="post">
+                            <form action="InventorySave" method="post">
                                 <input type="submit" class="btn btn-success float-right" value="Save Changes">
                             </form>
                         </div>

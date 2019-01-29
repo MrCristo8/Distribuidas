@@ -65,7 +65,7 @@ public class InventoryUpdate extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         Integer id = Integer.parseInt(request.getParameter("inventory_id"));
-        int pos = persistance.InventoryDetailPersistance.getInstance().getObjectList().indexOf(new WB_CR_INVENTORY(id));
+        int pos = persistance.InventoryPersistance.getInstance().getObjectList().indexOf(new WB_CR_INVENTORY(id));
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/inventory/inventoryUpdate.jsp");
         request.setAttribute("inventory", persistance.InventoryPersistance.getInstance().getObjectList().get(pos));

@@ -128,11 +128,11 @@
                                     <th>Article Price</th>                                    
                                 </tr>
                             </thead>   
-                            <c:forEach items="${detail_arr}" var="y">
+                            <c:forEach items="${inventory_arr}" var="y">
                                 <c:if test="${y.state!='DELETED'}">
                                     <tr>      
                                         <td> ${y.article.article_name} </td>
-                                        <td> ${y.detail_ammount} </td>
+                                        <td> ${y.article_ammount} </td>
                                         <td> ${y.article.article_price} </td>                                                                                  
                                     </tr>
                                 </c:if>
