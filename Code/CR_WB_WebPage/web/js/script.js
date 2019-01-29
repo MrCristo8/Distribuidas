@@ -37,26 +37,26 @@ $(document).ready(function () {
         ws.onclose = function () {
             console.log('Disconected Client');
         };
-        ws.onmessage = function ()
+        ws.onmessage = function (event)
         {
             var obj = JSON.parse(event.data);
-            let msg = '<div class="chatbox__body__message chatbox__body__message--right">'+		
-                        '<div class="chatbox_timing">'+
-                            '<ul>'+
-                                '<li><a href="#"><i class="fa fa-calendar"></i>'+obj.date+'</a></li>'+
-                            '</ul>'+
-                        '</div>'+
-			'<div class="ul_section_full">'+
-                            '<ul class="ul_msg">'+
-                                '<li><strong>'+obj.name+'</strong></li>'+
-                            '<li>'+obj.text+'</li>'+
-                            '</ul>'+
-                            '<ul class="ul_msg2">'+
-                                '<li><a href="#"><i class="fa fa-pencil"></i> </a></li>'+
-                                '<li><a href="#"><i class="fa fa-trash chat-trash"></i></a></li>'+
-                            '</ul>'+
-			'</div>'+
-                      '</div>';
+            let msg = '<div class="chatbox__body__message chatbox__body__message--right">' +
+                    '<div class="chatbox_timing">' +
+                    '<ul>' +
+                    '<li><a href="#"><i class="fa fa-calendar"></i>' + obj.date + '</a></li>' +
+                    '</ul>' +
+                    '</div>' +
+                    '<div class="ul_section_full">' +
+                    '<ul class="ul_msg">' +
+                    '<li><strong>' + obj.name + '</strong></li>' +
+                    '<li>' + obj.text + '</li>' +
+                    '</ul>' +
+                    '<ul class="ul_msg2">' +
+                    '<li><a href="#"><i class="fa fa-pencil"></i> </a></li>' +
+                    '<li><a href="#"><i class="fa fa-trash chat-trash"></i></a></li>' +
+                    '</ul>' +
+                    '</div>' +
+                    '</div>';
             if (obj.name === $username.val())
             {
                 $msg_display.html($msg_display.html() + msg);
@@ -70,23 +70,23 @@ $(document).ready(function () {
                 date: new Date().toLocaleString()
             };
 
-            let display = '<div class="chatbox__body__message chatbox__body__message--left">'+		
-                            '<div class="chatbox_timing">'+
-                                '<ul>'+
-                                    '<li><a href="#"><i class="fa fa-calendar"></i>'+msg.date+'</a></li>'+
-                                '</ul>'+
-                            '</div>'+
-                            '<div class="ul_section_full">'+
-                                '<ul class="ul_msg">'+
-                                    '<li><strong>'+msg.name+'</strong></li>'+
-                                    '<li>'+msg.text+'</li>'+
-                                '</ul>'+
-                                '<ul class="ul_msg2">'+
-                                    '<li><a href="#"><i class="fa fa-pencil"></i> </a></li>'+
-                                    '<li><a href="#"><i class="fa fa-trash chat-trash"></i></a></li>'+
-                                '</ul>'+
-                            '</div>'+
-                           '</div>';
+            let display = '<div class="chatbox__body__message chatbox__body__message--left">' +
+                    '<div class="chatbox_timing">' +
+                    '<ul>' +
+                    '<li><a href="#"><i class="fa fa-calendar"></i>' + msg.date + '</a></li>' +
+                    '</ul>' +
+                    '</div>' +
+                    '<div class="ul_section_full">' +
+                    '<ul class="ul_msg">' +
+                    '<li><strong>' + msg.name + '</strong></li>' +
+                    '<li>' + msg.text + '</li>' +
+                    '</ul>' +
+                    '<ul class="ul_msg2">' +
+                    '<li><a href="#"><i class="fa fa-pencil"></i> </a></li>' +
+                    '<li><a href="#"><i class="fa fa-trash chat-trash"></i></a></li>' +
+                    '</ul>' +
+                    '</div>' +
+                    '</div>';
 
             $msg_display.html($msg_display.html() + display);
 

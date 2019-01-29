@@ -39,12 +39,12 @@
             date: new Date().toLocaleString()
         };
 
-        let display = '<div class="outgoing_msg">'+
-                        '<div class="sent_msg">'+
-                            '<p>'+msg.text+'</p>'+
-                            '<span class="time_date">'+msg.date+'</span>'+
-                        '</div>'+
-                    '</div>';
+        let display = '<div class="outgoing_msg">' +
+                '<div class="sent_msg">' +
+                '<p>' + msg.text + '</p>' +
+                '<span class="time_date">' + msg.date + '</span>' +
+                '</div>' +
+                '</div>';
         msg_display.innerHTML += display;
 
         ws.send(JSON.stringify(msg));
@@ -53,15 +53,15 @@
     function onMessage(event)
     {
         var obj = JSON.parse(event.data);
-        let msg = '<div class="incoming_msg">'+
-                    '<div class="received_msg">'+
-                        '<div class="received_withd_msg">'+
-                             '<p>'+obj.name+': '+obj.text+'</p>'+
-                            '<span class="time_date">'+obj.date+'</span>'+
-                        '</div>'+
-                    '</div>'+
-                  '</div>';
-      
+        let msg = '<div class="incoming_msg">' +
+                '<div class="received_msg">' +
+                '<div class="received_withd_msg">' +
+                '<p>' + obj.name + ': ' + obj.text + '</p>' +
+                '<span class="time_date">' + obj.date + '</span>' +
+                '</div>' +
+                '</div>' +
+                '</div>';
+
         msg_display.innerHTML += msg;
     }
 })(window, document, JSON);
