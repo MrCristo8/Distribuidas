@@ -5,6 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -70,6 +71,11 @@
                     </c:if>
                 </ul>
             </c:forEach>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/CR_WB_DatabaseMessages-war/MessageServlet">Petition</a>
+                </li>
+            </ul>
             <navbar-nav class="ml-md-auto d-md-flex">
                 <ul class="navbar-nav">
                     <li class="nav-item" id="logout">
@@ -78,5 +84,35 @@
                 </ul>
             </navbar-nav>
         </nav>
+        <div class=wrapper>
+            <div class=container-fluid>
+                <div class=row>
+                    <div class=col-md-12>
+                        <div class=page-header clearfix>
+                            <h2 class=pull-left>Article Details</h2>
+                        </div>
+                        <br><br>
+                        <table class='table table-bordered table-striped'>
+                            <thead>
+                                <tr>
+                                    <th>Client Name</th>
+                                    <th>Article Name</th>
+                                    <th>Total Sold</th>
+                                </tr>
+                            </thead>   
+                            <c:forEach items="${objList}" var="x">
+                                <c:if test="${x.state!='DELETED'}">
+                                    <tr> 
+                                        <td>  ${x.client_name}</td>
+                                        <td>  ${x.article_name}</td>
+                                        <td>  ${x.total_sold}</td>
+                                    </tr>
+                                </c:if>
+                            </c:forEach>   
+                        </table>  
+                    </div>
+                </div>        
+            </div>
+        </div>
     </body>
 </html>

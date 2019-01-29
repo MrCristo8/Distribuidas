@@ -40,7 +40,7 @@
                                 <span class="help-block"></span>
                             </div>                                                       
                             <input type="submit" class="btn btn-primary" value="Submit">
-                            <a href="#" class="btn btn-default">Cancel</a>
+                            <a href="http://localhost:8080/CR_WB_WebPage/LayoutServlet" class="btn btn-default">Cancel</a>
                         </form>
                     </div>
                 </div>        

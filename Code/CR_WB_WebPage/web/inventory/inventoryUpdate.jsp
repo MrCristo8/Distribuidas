@@ -89,6 +89,11 @@
                     </c:if>
                 </ul>
             </c:forEach>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/CR_WB_DatabaseMessages-war/MessageServlet">Petition</a>
+                </li>
+            </ul>
             <navbar-nav class="ml-md-auto d-md-flex">
                 <ul class="navbar-nav">
                     <li class="nav-item" id="logout">
@@ -110,26 +115,15 @@
                             <div class="form-row">                                
                                 <div class="col">
                                     <label for="inventory_date">Inventory Date</label>
-                                    <input id="inventory_date" name ="inventory_date" type="date" class="form-control" value="${inventory.inventory_date}">
+                                    <input id="inventory_date" readonly name ="inventory_date" type="date" class="form-control" value="${inventory.inventory_date}">
                                 </div>
                                 <div class="col">
-                                    <label for="client">Movement Name</label>
-                                    <select class="form-control" name="movement">
-                                        <c:forEach items="${movement_arr}" var="x">
-                                            <c:choose>
-                                                <c:when test="${inventory.movement_id==x.movement_id}">
-                                                    <option selected value="${x.movement_id}"> ${x.movement_name}</option>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <option value="${x.movement_id}"> ${x.movement_name}</option>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </select>
+                                    <label for="movement">Movement</label>
+                                    <input id="movement" readonly name ="movement" type="text" class="form-control" value="${inventory.movement.movement_name}">
                                 </div>
                                 <div class = "col-md-2">
                                     <label for="submit_inventory">Actions</label>
-                                    <input id="submit_inventory" type="submit" class="form-control btn-success" value="Submit Inventory">
+                                    <input id="submit_inventory" type="submit" class="form-control btn-success" value="Update Inventory">
                                 </div>
                             </div>
                         </form>
@@ -151,10 +145,8 @@
                                             <td> ${y.article.article_name} </td>
                                             <td> ${y.article_ammount} </td>
                                             <td>
-                                                <a href='/CR_WB_WebPage/InventoryDetailDelete?article_id=${y.article_id}' title='Delete Record' 
+                                                <a href='/CR_WB_WebPage/InventoryDetailDelete?article_id=${y.article_id}&inventory_id=${inventory.inventory_id}&op=update' title='Delete Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
-                                                <a href='/CR_WB_WebPage/InventoryDetailUpdate?article_id=${y.article_id}' title='Update Record' 
-                                                   data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">edit</i></a>
                                             </td>
                                         </tr>
                                     </c:if>

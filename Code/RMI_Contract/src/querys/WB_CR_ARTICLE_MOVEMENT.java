@@ -29,40 +29,33 @@ public class WB_CR_ARTICLE_MOVEMENT extends CR_WB_Model implements Serializable
         this.state = "PERSISTED";
     }
 
-    public String getArticle_name()
-    {
+    public String getArticle_name() {
         return article_name;
     }
 
-    public void setArticle_name(String article_name)
-    {
+    public void setArticle_name(String article_name) {
         this.article_name = article_name;
     }
 
-    public Integer getArticle_ammount()
-    {
+    public Integer getArticle_ammount() {
         return article_ammount;
     }
 
-    public void setArticle_ammount(Integer article_ammount)
-    {
+    public void setArticle_ammount(Integer article_ammount) {
         this.article_ammount = article_ammount;
     }
 
-    public String getArticle_price()
-    {
+    public String getMovement_name() {
         return movement_name;
     }
 
-    public void setArticle_price(String article_price)
-    {
-        this.movement_name = article_price;
+    public void setMovement_name(String movement_name) {
+        this.movement_name = movement_name;
     }
 
     @Override
-    public int hashCode()
-    {
-        int hash = 7;
+    public int hashCode() {
+        int hash = 5;
         hash = 29 * hash + Objects.hashCode(this.article_name);
         hash = 29 * hash + Objects.hashCode(this.article_ammount);
         hash = 29 * hash + Objects.hashCode(this.movement_name);
@@ -70,32 +63,29 @@ public class WB_CR_ARTICLE_MOVEMENT extends CR_WB_Model implements Serializable
     }
 
     @Override
-    public boolean equals(Object obj)
-    {
-        if (this == obj)
-        {
+    public boolean equals(Object obj) {
+        if (this == obj) {
             return true;
         }
-        if (obj == null)
-        {
+        if (obj == null) {
             return false;
         }
-        if (getClass() != obj.getClass())
-        {
+        if (getClass() != obj.getClass()) {
             return false;
         }
         final WB_CR_ARTICLE_MOVEMENT other = (WB_CR_ARTICLE_MOVEMENT) obj;
-        if (!Objects.equals(this.article_name, other.article_name))
-        {
+        if (!Objects.equals(this.article_name, other.article_name)) {
             return false;
         }
-        if (!Objects.equals(this.movement_name, other.movement_name))
-        {
+        if (!Objects.equals(this.movement_name, other.movement_name)) {
             return false;
         }
-        return Objects.equals(this.article_ammount, other.article_ammount);
+        if (!Objects.equals(this.article_ammount, other.article_ammount)) {
+            return false;
+        }
+        return true;
     }
-
+    
     @Override
     public String toString()
     {

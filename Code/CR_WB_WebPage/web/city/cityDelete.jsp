@@ -18,7 +18,7 @@
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script src="http://localhost:8080/CR_WB_WebPage/js/script.js" type="text/javascript"></script>
         <style type="text/css">
-            .wrapper{
+            .wrapper2{
                 width: 500px;
                 margin: 0 auto;
             }
@@ -76,6 +76,11 @@
                     </c:if>
                 </ul>
             </c:forEach>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/CR_WB_DatabaseMessages-war/MessageServlet">Petition</a>
+                </li>
+            </ul>
             <navbar-nav class="ml-md-auto d-md-flex">
                 <ul class="navbar-nav">
                     <li class="nav-item" id="logout">
@@ -84,7 +89,7 @@
                 </ul>
             </navbar-nav>
         </nav>
-        <div class="wrapper">
+        <div class="wrapper2">
             <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-12">

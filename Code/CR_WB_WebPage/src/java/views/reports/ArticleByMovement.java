@@ -7,6 +7,7 @@ package views.reports;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Arrays;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -17,6 +18,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logic.TempArrays;
 import model.WB_CR_USER;
+import querys.WB_CR_ARTICLE_MOVEMENT;
 
 /**
  *
@@ -42,7 +44,7 @@ public class ArticleByMovement extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ArticleByMovement</title>");            
+            out.println("<title>Servlet ArticleByMovement</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet ArticleByMovement at " + request.getContextPath() + "</h1>");
@@ -65,6 +67,41 @@ public class ArticleByMovement extends HttpServlet {
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/reports/articleByMovement.jsp");
+        ArrayList<String> articles = new ArrayList<>();
+        ArrayList<String> movements = new ArrayList<>();
+        for (WB_CR_ARTICLE_MOVEMENT wb_cr_article_movement : reports.QueyPersistance.getInstance().getArticleByMovement()) {
+            if (movements.isEmpty()) {
+                movements.add(wb_cr_article_movement.getMovement_name());
+            } else {
+                int i;
+                for (i = 0; i < movements.size(); i++) {
+                    if (movements.get(i).equals(wb_cr_article_movement.getMovement_name())) {
+                        break;
+                    }
+                }
+                if (i >= movements.size()) {
+                    movements.add(wb_cr_article_movement.getMovement_name());
+                }
+            }
+        }
+        for (WB_CR_ARTICLE_MOVEMENT wb_cr_article_movement : reports.QueyPersistance.getInstance().getArticleByMovement()) {
+            if (articles.isEmpty()) {
+                articles.add(wb_cr_article_movement.getArticle_name());
+            } else {
+                int i;
+                for (i = 0; i < articles.size(); i++) {
+                    if (articles.get(i).equals(wb_cr_article_movement.getArticle_name())) {
+                        break;
+                    }
+                }
+                if (i >= articles.size()) {
+                    articles.add(wb_cr_article_movement.getArticle_name());
+                }
+            }
+        }
+        request.setAttribute("articles", articles);
+        request.setAttribute("movements", movements);
+        request.setAttribute("objList", reports.QueyPersistance.getInstance().getArticleByMovement());
         if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
             Arrays.sort(permission);
@@ -88,7 +125,13 @@ public class ArticleByMovement extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+            Arrays.sort(permission);
+            request.setAttribute("permission", permission);
+        } else {
+            request.setAttribute("permission", new String[]{});
+        }
     }
 
     /**

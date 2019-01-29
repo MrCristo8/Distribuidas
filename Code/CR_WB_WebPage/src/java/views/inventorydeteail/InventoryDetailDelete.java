@@ -3,27 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.reports;
+package views.inventorydeteail;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.TempArrays;
-import model.WB_CR_USER;
+import model.WB_CR_INVENTORY_DETAIL;
 
 /**
  *
  * @author csrm1
  */
-@WebServlet(name = "ArticleByClient", urlPatterns = {"/ArticleByClient"})
-public class ArticleByClient extends HttpServlet {
+@WebServlet(name = "InventoryDetailDelete", urlPatterns = {"/InventoryDetailDelete"})
+public class InventoryDetailDelete extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -42,10 +38,10 @@ public class ArticleByClient extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ArticleByClient</title>");            
+            out.println("<title>Servlet InventoryDetailDelete</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ArticleByClient at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet InventoryDetailDelete at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -63,19 +59,25 @@ public class ArticleByClient extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/reports/articleByClient.jsp");
-        request.setAttribute("objList", reports.QueyPersistance.getInstance().getArticleSalesByClient());
-        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
-            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
-            Arrays.sort(permission);
-            request.setAttribute("permission", permission);
-        } else {
-            request.setAttribute("permission", new String[]{});
+        Integer article_id = Integer.parseInt(request.getParameter("article_id"));
+        Integer inventory_id = Integer.parseInt(request.getParameter("inventory_id"));
+        WB_CR_INVENTORY_DETAIL selected_detail = new WB_CR_INVENTORY_DETAIL(inventory_id, article_id);
+        
+        String op = request.getParameter("op");
+        if (op.equals("insert"))
+        {
+            op = "InventoryInsert";
+            logic.TempArrays.getInstance().getTempInventoryDetailArr().remove(selected_detail);
+        } else if (op.equals("update"))
+        {
+            op = "InventoryUpdate?inventory_id=" + inventory_id;
+            int pos = persistance.InventoryDetailPersistance.getInstance().getObjectList().indexOf(selected_detail);
+            persistance.InventoryDetailPersistance.getInstance().getObjectList().get(pos).setState("DELETED");
+            pos = logic.TempArrays.getInstance().getTempInventoryDetailArr().indexOf(selected_detail);
+            logic.TempArrays.getInstance().getTempInventoryDetailArr().get(pos).setState("DELETED");
         }
-        if (dispatcher != null) {
-            dispatcher.forward(request, response);
-        }
+        
+        response.sendRedirect("/CR_WB_WebPage/" + op);
     }
 
     /**
@@ -89,13 +91,7 @@ public class ArticleByClient extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
-            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
-            Arrays.sort(permission);
-            request.setAttribute("permission", permission);
-        } else {
-            request.setAttribute("permission", new String[]{});
-        }
+        processRequest(request, response);
     }
 
     /**

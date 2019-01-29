@@ -8,6 +8,8 @@ package views.inventory;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import logic.TempArrays;
 import model.WB_CR_INVENTORY;
+import model.WB_CR_INVENTORY_DETAIL;
 import model.WB_CR_USER;
 
 /**
@@ -43,7 +46,7 @@ public class InventoryUpdate extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet InventoryUpdate</title>");            
+            out.println("<title>Servlet InventoryUpdate</title>");
             out.println("</head>");
             out.println("<body>");
             out.println("<h1>Servlet InventoryUpdate at " + request.getContextPath() + "</h1>");
@@ -101,7 +104,51 @@ public class InventoryUpdate extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        try {
+            if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
+                String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
+                Arrays.sort(permission);
+                request.setAttribute("permission", permission);
+                request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
+
+            } else {
+                request.setAttribute("permission", new String[]{});
+                request.setAttribute("user_name", "temp_user");
+
+            }
+            Integer inventory_id = Integer.parseInt(request.getParameter("inventory_id"));
+
+            HashMap<Integer, model.WB_CR_INVENTORY_DETAIL> detail_list = new HashMap<>();
+            for (WB_CR_INVENTORY_DETAIL x : logic.TempArrays.getInstance().getTempInventoryDetailArr()) {
+                if (!detail_list.containsKey(x.getArticle_id())) {
+                    detail_list.put(x.getArticle_id(), x);
+                } else {
+                    model.WB_CR_INVENTORY_DETAIL temp = detail_list.get(x.getArticle_id());
+                    temp.setArticle_ammount(temp.getArticle_ammount()+ x.getArticle_ammount());
+                    detail_list.replace(x.getArticle_id(), temp);
+                }
+            }
+            int size = persistance.BillDetailPersistance.getInstance().getObjectList().size();
+
+            detail_list.entrySet().forEach((Map.Entry<Integer, WB_CR_INVENTORY_DETAIL> me)
+                    -> {
+                WB_CR_INVENTORY_DETAIL detail_item = me.getValue();
+                if (detail_item.getState().equals("PERSISTED")) {
+                    detail_item.setState("UPDATED");
+                }
+                int pos = persistance.InventoryDetailPersistance.getInstance().getObjectList().indexOf(detail_item);
+                persistance.InventoryDetailPersistance.getInstance().getObjectList().remove(pos);
+                persistance.InventoryDetailPersistance.getInstance().getObjectList().add(pos,
+                        detail_item);
+
+            });
+
+            logic.TempArrays.getInstance().getTempInventoryDetailArr().clear();
+            response.sendRedirect("/CR_WB_WebPage/InventoryServlet");
+
+        } catch (IOException | NumberFormatException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     /**
@@ -110,7 +157,7 @@ public class InventoryUpdate extends HttpServlet {
      * @return a String containing servlet description
      */
     @Override
-    public String getServletInfo() {
+    public String getServletInfo() { 
         return "Short description";
     }// </editor-fold>
 

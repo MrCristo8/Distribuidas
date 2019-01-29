@@ -89,6 +89,11 @@
                     </c:if>
                 </ul>
             </c:forEach>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://localhost:8080/CR_WB_DatabaseMessages-war/MessageServlet">Petition</a>
+                </li>
+            </ul>
             <navbar-nav class="ml-md-auto d-md-flex">
                 <ul class="navbar-nav">
                     <li class="nav-item" id="logout">
@@ -144,7 +149,7 @@
                                             <td> ${y.article.article_name} </td>
                                             <td> ${y.article_ammount} </td>
                                             <td>
-                                                <a href='/CR_WB_WebPage/InventoryDetailDelete?article_id=${y.article_id}' title='Delete Record' 
+                                                <a href='/CR_WB_WebPage/BillDetailDelete?article_id=${y.article_id}&inventory_id=${inventory_id}&op=insert' title='Delete Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
                                             </td>
                                         </tr>

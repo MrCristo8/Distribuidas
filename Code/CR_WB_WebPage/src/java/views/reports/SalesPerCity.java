@@ -65,7 +65,7 @@ public class SalesPerCity extends HttpServlet {
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
         RequestDispatcher dispatcher = sc.getRequestDispatcher("/reports/salesPerCity.jsp");
-        request.setAttribute("objList", persistance.ReportPersistance.getInstance().getSalesCity());
+        request.setAttribute("objList", reports.QueyPersistance.getInstance().getSalesByCity());
         if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
             Arrays.sort(permission);
