@@ -3,12 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.article;
+package views.reports;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
@@ -24,21 +22,8 @@ import model.WB_CR_USER;
  *
  * @author csrm1
  */
-@WebServlet(name = "ArticleServlet", urlPatterns
-        = {
-            "/ArticleServlet"
-        })
-public class ArticleServlet extends HttpServlet {
-
-    public ArticleServlet() {
-        if (persistance.ArticlePersistance.getInstance().getObjectList().isEmpty()) {
-            try {
-                persistance.ArticlePersistance.getInstance().loadObjectList();
-            } catch (RemoteException ex) {
-                System.out.println(ex.getMessage());
-            }
-        }
-    }
+@WebServlet(name = "SalesPerCity", urlPatterns = {"/SalesPerCity"})
+public class SalesPerCity extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -57,10 +42,10 @@ public class ArticleServlet extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet ArticleServlet</title>");
+            out.println("<title>Servlet SalesPerCity</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet ArticleServlet at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet SalesPerCity at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -79,18 +64,14 @@ public class ArticleServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/article/articleList.jsp");
-        request.setAttribute("objList",
-                persistance.ArticlePersistance.getInstance().getObjectList());
+        RequestDispatcher dispatcher = sc.getRequestDispatcher("/reports/salesPerCity.jsp");
+        request.setAttribute("objList", persistance.ReportPersistance.getInstance().getSalesCity());
         if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
             Arrays.sort(permission);
             request.setAttribute("permission", permission);
-            request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
-
         } else {
             request.setAttribute("permission", new String[]{});
-            request.setAttribute("user_name", "temp_user");
         }
         if (dispatcher != null) {
             dispatcher.forward(request, response);
@@ -108,29 +89,12 @@ public class ArticleServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/article/articleList.jsp");
-        ArrayList<model.WB_CR_ARTICLE> filtered_list = new ArrayList<>();
-        persistance.ArticlePersistance.getInstance().getObjectList().forEach(x
-                -> {
-            if (x.getArticle_name().toUpperCase().contains(request.getParameter("search_string").toUpperCase())) {
-                filtered_list.add(x);
-            }
-        });
-        request.setAttribute("objSearchList", filtered_list);
-        request.setAttribute("objList", persistance.ArticlePersistance.getInstance().getObjectList());
         if (!TempArrays.getInstance().getUser().equals(new WB_CR_USER())) {
             String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
             Arrays.sort(permission);
             request.setAttribute("permission", permission);
-            request.setAttribute("user_name", TempArrays.getInstance().getUser().getUser_name());
-
         } else {
             request.setAttribute("permission", new String[]{});
-            request.setAttribute("user_name", "temp_user");
-        }
-        if (dispatcher != null) {
-            dispatcher.forward(request, response);
         }
     }
 

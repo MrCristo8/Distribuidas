@@ -62,10 +62,10 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="" id="navbardrop" data-toggle="dropdown">Reports</a>
                             <div class="dropdown-menu">
-                                <a class="dropdown-item" href="/CR_WB_WebPage/ArticleByClient.jsp">Article By Client</a>
-                                <a class="dropdown-item" href="/CR_WB_WebPage/ArticleByMovement.jsp">Article By Movement</a>
-                                <a class="dropdown-item" href="/CR_WB_WebPage/BalancePerArticle.jsp">Balance Per Article</a>
-                                <a class="dropdown-item" href="/CR_WB_WebPage/SalesPerCity.jsp">Sales Per City</a>
+                                <a class="dropdown-item" href="/CR_WB_WebPage/ArticleByClient">Article By Client</a>
+                                <a class="dropdown-item" href="/CR_WB_WebPage/ArticleByMovement">Article By Movement</a>
+                                <a class="dropdown-item" href="/CR_WB_WebPage/BalancePerArticle">Balance Per Article</a>
+                                <a class="dropdown-item" href="/CR_WB_WebPage/SalesPerCity">Sales Per City</a>
                             </div>
                         </li>
                     </c:if>

@@ -1,6 +1,6 @@
 <%-- 
-    Document   : inventoryView
-    Created on : Jan 27, 2019, 10:46:37 AM
+    Document   : salesPerCity
+    Created on : Jan 29, 2019, 7:04:25 AM
     Author     : csrm1
 --%>
 
@@ -10,20 +10,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Inventory</title>
-        <style type=text/css>
-            .wrapper{
-                width: auto;
-                padding: 4em 16em 1em 16em;
-                margin: 0 auto;
-            }
-            .page-header h2{
-                margin-top: 0;
-            }
-            table tr td:last-child a{
-                margin-right: 15px;
-            }
-        </style>
+        <title>Sales Per City</title>
         <link rel="stylesheet" type="text/css" href="http://localhost:8080/CR_WB_WebPage/css/style.css">
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous"/>
         <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons"/>
@@ -31,11 +18,6 @@
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
         <script src="http://localhost:8080/CR_WB_WebPage/js/script.js" type="text/javascript"></script>
-        <script type=text/javascript>
-            $(document).ready(function () {
-                $('[data-toggle=tooltip]').tooltip();
-            });
-        </script>
     </head>
     <body>
         <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
@@ -102,80 +84,27 @@
                 <div class=row>
                     <div class=col-md-12>
                         <div class=page-header clearfix>
-                            <h2 class="pull-left">Inventory Details</h2>                            
+                            <h2 class=pull-left>Sale Details</h2>
                         </div>
                         <br><br>
-                        <form>
-                            <div class="form-row">
-                                <div class="col">
-                                    <label for="inventory_id">Inventory ID</label>
-                                    <input  id="inventory_id" type="text" readonly class="form-control" value="${inventory.inventory_id}">
-                                </div>
-                                <div class="col">
-                                    <label for="inventory_date">Inventory Date</label>
-                                    <input id="inventory_date" type="text" readonly class="form-control" value="${inventory.inventory_date}">
-                                </div>
-                                <div class="col">
-                                    <label for="movement_name">Movement Name</label>
-                                    <input id="movement_name" type="text" readonly class="form-control" value="${inventory.movement.movement_name}">
-                                </div>
-                            </div>
-                        </form>
-                        <br>
                         <table class='table table-bordered table-striped'>
                             <thead>
                                 <tr>
-                                    <th>Article Name</th>
-                                    <th>Article Ammount</th>   
-                                    <th>Article Price</th>                                    
+                                    <th>City Name</th>
+                                    <th>Total Sold</th>
                                 </tr>
                             </thead>   
-                            <c:forEach items="${inventory_arr}" var="y">
-                                <c:if test="${y.state!='DELETED'}">
-                                    <tr>      
-                                        <td> ${y.article.article_name} </td>
-                                        <td> ${y.article_ammount} </td>
-                                        <td> ${y.article.article_price} </td>                                                                                  
+                            <c:forEach items="${objList}" var="x">
+                                <c:if test="${x.state!='DELETED'}">
+                                    <tr> 
+                                        <td>  ${x.city_name}  </td>
+                                        <td>  ${x.spent_ammount}</td>
                                     </tr>
                                 </c:if>
-                            </c:forEach>
-                        </table>
+                            </c:forEach>   
+                        </table>  
                     </div>
-                </div>
-            </div>
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="chatbox chatbox22 chatbox--tray">
-                    <div class="chatbox__title">
-                        <h5><a href="">Support</a></h5>
-                        <!--<button class="chatbox__title__tray">
-                            <span></span>
-                        </button>-->
-                        <button class="chatbox__title__close">
-                            <span>
-                                <svg viewBox="0 0 12 12" width="12px" height="12px">
-                                <line stroke="#FFFFFF" x1="11.75" y1="0.25" x2="0.25" y2="11.75"></line>
-                                <line stroke="#FFFFFF" x1="11.75" y1="11.75" x2="0.25" y2="0.25"></line>
-                                </svg>
-                            </span>
-                        </button>
-                    </div>
-                    <div class="chatbox__body">
-                        <input type="hidden" id="user_name" value="${user_name}"/>
-                        <div class="chatbox__body__message chatbox__body__message--right" id="msg">
-                        </div>
-                    </div>
-                    <div class="panel-footer">
-                        <div class="input-group">
-                            <input id="msg_input" type="text" class="form-control input-sm chat_set_height" placeholder="Type your message here..." tabindex="0" dir="ltr" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off" contenteditable="true" />
-                            <span class="input-group-btn">
-                                <button class="btn bt_bg btn-sm" id="btn_chat">
-                                    Send</button>
-                            </span>
-                        </div>
-                    </div>
-                </div>
+                </div>        
             </div>
         </div>
     </body>

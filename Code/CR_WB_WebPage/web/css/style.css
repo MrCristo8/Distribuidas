@@ -133,9 +133,6 @@ table tr td:last-child a{
 
 .chatbox__title__close svg {
     vertical-align: middle;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    stroke-width: 1.2px;
 }
 
 .chatbox__body,
@@ -346,4 +343,7 @@ table tr td:last-child a{
 }
 .col-lg-3.control-label {
     text-align: left;
+}
+chatbox_timing{
+    float: right;
 }
