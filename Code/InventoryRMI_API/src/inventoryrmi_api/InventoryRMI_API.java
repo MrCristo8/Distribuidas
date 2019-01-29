@@ -27,22 +27,24 @@ import java.rmi.registry.Registry;
 public class InventoryRMI_API
 {
 
+    private static final String IP = "localhost";
+
     public InventoryRMI_API() throws RemoteException
     {
         try
         {
             Registry reg = LocateRegistry.createRegistry(1099);
-            reg.rebind("rmi://localhost:1099/ArticleAPI", new ArticleApi());
-            reg.rebind("rmi://localhost:1099/CityAPI", new CityApi());
-            reg.rebind("rmi://localhost:1099/ClientAPI", new ClientApi());
-            reg.rebind("rmi://localhost:1099/MovementAPI", new MovementApi());
-            reg.rebind("rmi://localhost:1099/BillAPI", new BillApi());
-            reg.rebind("rmi://localhost:1099/InventoryAPI", new InventoryApi());
-            reg.rebind("rmi://localhost:1099/InventoryDetailAPI", new InventoryDetailApi());
-            reg.rebind("rmi://localhost:1099/BillDetailAPI", new BillDetailApi());
-            reg.rebind("rmi://localhost:1099/UserAPI", new UserApi());
-            reg.rebind("rmi://localhost:1099/QueryAPI", new QueryApi());
-            reg.rebind("rmi://localhost:1099/MessagesAPI", new MessageApi());
+            reg.rebind("rmi://" + IP + ":1099/ArticleAPI", new ArticleApi());
+            reg.rebind("rmi://" + IP + ":1099/CityAPI", new CityApi());
+            reg.rebind("rmi://" + IP + ":1099/ClientAPI", new ClientApi());
+            reg.rebind("rmi://" + IP + ":1099/MovementAPI", new MovementApi());
+            reg.rebind("rmi://" + IP + ":1099/BillAPI", new BillApi());
+            reg.rebind("rmi://" + IP + ":1099/InventoryAPI", new InventoryApi());
+            reg.rebind("rmi://" + IP + ":1099/InventoryDetailAPI", new InventoryDetailApi());
+            reg.rebind("rmi://" + IP + ":1099/BillDetailAPI", new BillDetailApi());
+            reg.rebind("rmi://" + IP + ":1099/UserAPI", new UserApi());
+            reg.rebind("rmi://" + IP + ":1099/QueryAPI", new QueryApi());
+            reg.rebind("rmi://" + IP + ":1099/MessagesAPI", new MessageApi());
             System.out.println("Active Server");
         } catch (RemoteException e)
         {
