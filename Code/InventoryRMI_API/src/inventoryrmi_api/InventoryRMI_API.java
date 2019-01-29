@@ -12,6 +12,7 @@ import api.CityApi;
 import api.ClientApi;
 import api.InventoryApi;
 import api.InventoryDetailApi;
+import api.MessageApi;
 import api.MovementApi;
 import api.QueryApi;
 import api.UserApi;
@@ -41,6 +42,7 @@ public class InventoryRMI_API
             reg.rebind("rmi://localhost:1099/BillDetailAPI", new BillDetailApi());
             reg.rebind("rmi://localhost:1099/UserAPI", new UserApi());
             reg.rebind("rmi://localhost:1099/QueryAPI", new QueryApi());
+            reg.rebind("rmi://localhost:1099/MessagesAPI", new MessageApi());
             System.out.println("Active Server");
         } catch (RemoteException e)
         {
