@@ -3,34 +3,26 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package views.bill;
+package views.billdetail;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import logic.TempArrays;
-import model.WB_CR_BILL;
 import model.WB_CR_BILLDETAIL;
-import model.WB_CR_USER;
 
 /**
  *
  * @author wason
  */
-@WebServlet(name = "BillView", urlPatterns
-        =
-        {
-            "/BillView"
-        })
-public class BillView extends HttpServlet
+@WebServlet(name = "BillDetailDelete", urlPatterns =
+{
+    "/BillDetailDelete"
+})
+public class BillDetailDelete extends HttpServlet
 {
 
     /**
@@ -52,10 +44,10 @@ public class BillView extends HttpServlet
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>Servlet BillView</title>");
+            out.println("<title>Servlet BillDetailDelete</title>");
             out.println("</head>");
             out.println("<body>");
-            out.println("<h1>Servlet BillView at " + request.getContextPath() + "</h1>");
+            out.println("<h1>Servlet BillDetailDelete at " + request.getContextPath() + "</h1>");
             out.println("</body>");
             out.println("</html>");
         }
@@ -74,36 +66,26 @@ public class BillView extends HttpServlet
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException
     {
-        Integer id = Integer.parseInt(request.getParameter("bill_id"));
-        int pos = persistance.BillPersistance.getInstance().getObjectList().indexOf(new WB_CR_BILL(id));
-        ServletContext sc = getServletContext();
-        RequestDispatcher dispatcher = sc.getRequestDispatcher("/bill/billView.jsp");
-        request.setAttribute("bill", persistance.BillPersistance.getInstance().getObjectList().get(pos));
-        ArrayList<WB_CR_BILLDETAIL> detail_arr = new ArrayList<>();
-
-        persistance.BillDetailPersistance.getInstance().getObjectList().forEach(x ->
+        Integer article_id = Integer.parseInt(request.getParameter("article_id"));
+        Integer bill_id = Integer.parseInt(request.getParameter("bill_id"));
+        WB_CR_BILLDETAIL selected_detail = new WB_CR_BILLDETAIL(bill_id, article_id);
+        
+        String op = request.getParameter("op");
+        if (op.equals("insert"))
         {
-            if (x.getBill_id().equals(id))
-            {
-                detail_arr.add(x);
-            }
-        });
-        request.setAttribute("detail_arr", detail_arr);
-        if ((!TempArrays.getInstance().getUser().equals(new WB_CR_USER())))
+            op = "BillInsert";
+            logic.TempArrays.getInstance().getTempBillDetailArr().remove(selected_detail);
+        } else if (op.equals("update"))
         {
-            String[] permission = TempArrays.getInstance().getUser().getUser_permission().split(",");
-            Arrays.sort(permission);
-            request.setAttribute("permission", permission);
-        } else
-        {
-            request.setAttribute("permission", new String[]
-            {
-            });
+            op = "BillUpdate?bill_id=" + bill_id;
+            int pos = persistance.BillDetailPersistance.getInstance().getObjectList().indexOf(selected_detail);
+            persistance.BillDetailPersistance.getInstance().getObjectList().get(pos).setState("DELETED");
+            pos = logic.TempArrays.getInstance().getTempBillDetailArr().indexOf(selected_detail);
+            logic.TempArrays.getInstance().getTempBillDetailArr().get(pos).setState("DELETED");
         }
-        if (dispatcher != null)
-        {
-            dispatcher.forward(request, response);
-        }
+        
+        response.sendRedirect("/CR_WB_WebPage/" + op);
+        
     }
 
     /**

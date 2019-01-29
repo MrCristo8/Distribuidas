@@ -108,41 +108,19 @@
                             <div class="form-row">                                
                                 <div class="col">
                                     <label for="bill_date">Bill Date</label>
-                                    <input id="bill_date" name ="bill_date" type="date" class="form-control" value="${bill.bill_date}">
+                                    <input id="bill_date" readonly name ="bill_date" type="date" class="form-control" value="${bill.bill_date}">
                                 </div>
                                 <div class="col">
                                     <label for="client">Client DNI</label>
-                                    <select class="form-control" name="client">
-                                        <c:forEach items="${client_arr}" var="x">
-                                            <c:choose>
-                                                <c:when test="${bill.client_id==x.client_id}">
-                                                    <option selected value="${x.client_id}"> ${x.client_dni}</option>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <option value="${x.client_id}"> ${x.client_dni}</option>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </select>
+                                    <input id="client_dni" readonly name ="client" type="text" class="form-control" value="${bill.client.client_dni}">
                                 </div>
                                 <div class="col">
                                     <label for="city">City</label>
-                                    <select class="form-control" name="city">
-                                        <c:forEach items="${city_arr}" var="x">
-                                            <c:choose>
-                                                <c:when test="${bill.city_id==x.city_id}">
-                                                    <option selected value="${x.city_id}"> ${x.city_name}</option>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <option value="${x.city_id}"> ${x.city_name}</option>
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </c:forEach>
-                                    </select>
+                                    <input id="city" readonly name ="city" type="text" class="form-control" value="${bill.city.city_name}">
                                 </div>
                                 <div class = "col-md-2">
                                     <label for="submit_bill">Actions</label>
-                                    <input id="submit_bill" type="submit" class="form-control btn-success" value="Submit Bill">
+                                    <input id="submit_bill" type="submit" class="form-control btn-success" value="Update Bill">
                                 </div>
                             </div>
                         </form>
@@ -164,10 +142,8 @@
                                             <td> ${y.article.article_name} </td>
                                             <td> ${y.detail_ammount} </td>
                                             <td>
-                                                <a href='/CR_WB_WebPage/BillDetailDelete?article_id=${y.article_id}' title='Delete Record' 
+                                                <a href='/CR_WB_WebPage/BillDetailDelete?article_id=${y.article_id}&bill_id=${bill.bill_id}&op=update' title='Delete Record' 
                                                    data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">delete</i></a>
-                                                <a href='/CR_WB_WebPage/BillDetailUpdate?article_id=${y.article_id}' title='Update Record' 
-                                                   data-toggle='tooltip'><i class="material-icons" data-toggle="tooltip">edit</i></a>
                                             </td>
                                         </tr>
                                     </c:if>
